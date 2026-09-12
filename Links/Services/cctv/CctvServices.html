@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نصب و راه‌اندازی سیستم‌های نظارت تصویری | دیتاپردازش خلیج فارس</title>
+<style>
+  @import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+  :root{
+    --bg-1:#011324;
+    --bg-2:#0c1c33;
+    --navy-900:#0c1c33;
+    --navy-800:#16324c;
+    --navy-700:#1c3a58;
+    --glass:rgba(255,255,255,.055);
+    --glass-strong:rgba(255,255,255,.09);
+    --glass-border:rgba(255,255,255,.14);
+    --glass-border-soft:rgba(255,255,255,.07);
+    --text:#f5f8fa;
+    --text-dim:#b7c6d4;
+    --text-dimmer:#7c8ba0;
+    --teal:#2fb8c9;
+    --teal-soft:rgba(47,184,201,.35);
+    --teal-600:#16788f;
+    --teal-800:#0a3c5c;
+    --radius-lg:28px;
+    --radius-md:18px;
+    --radius-sm:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Vazirmatn', sans-serif;
+    background:
+      radial-gradient(1100px 700px at 82% -8%, rgba(47,184,201,.14), transparent 60%),
+      radial-gradient(900px 650px at -8% 108%, rgba(22,50,76,.5), transparent 60%),
+      linear-gradient(160deg, var(--bg-1), var(--bg-2) 60%, var(--bg-1));
+    color:var(--text);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+  .blueprint{
+    position:fixed;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(1200px 800px at 50% 20%, black, transparent 75%);
+    mask-image:radial-gradient(1200px 800px at 50% 20%, black, transparent 75%);
+    z-index:0;
+  }
+  .orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;transition:transform .6s ease-out;}
+  .orb-amber{width:420px;height:420px;background:rgba(47,184,201,.22);top:-120px;left:62%;}
+  .orb-teal{width:380px;height:380px;background:rgba(0,224,208,.16);bottom:-140px;left:4%;}
+
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 32px 60px;}
+
+  /* ---------- header ---------- */
+  header{position:relative;z-index:20;padding:28px 0 60px;}
+  .nav-capsule{
+    position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:8px 10px;border-radius:999px;
+    background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
+    border:1px solid var(--glass-border-soft);
+    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    box-shadow:0 24px 55px -22px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
+    overflow:hidden;
+  }
+  .nav-capsule::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%), rgba(255,255,255,.14), transparent 65%);
+    opacity:0;transition:opacity .4s ease;pointer-events:none;
+  }
+  .nav-capsule:hover::before{opacity:1;}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);font-weight:800;font-size:15.5px;letter-spacing:.2px;padding-left:8px;white-space:nowrap;}
+  .brand-badge{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 5px rgba(47,184,201,.08), 0 8px 18px rgba(0,0,0,.4);overflow:hidden;}
+  .brand-badge img{width:58%;height:58%;object-fit:contain;}
+  .nav-links{position:relative;display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:999px;padding:5px;}
+  .nav-links a{position:relative;z-index:2;display:inline-block;padding:9px 20px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--text-dim);text-decoration:none;white-space:nowrap;transition:color .3s ease;}
+  .nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--text);}
+  .nav-indicator{position:absolute;top:5px;bottom:5px;left:0;width:0;border-radius:999px;background:linear-gradient(135deg, rgba(47,184,201,.4), rgba(0,124,240,.28));border:1px solid rgba(47,184,201,.45);box-shadow:0 0 18px rgba(47,184,201,.4);transition:transform .4s cubic-bezier(.4,0,.2,1), width .4s cubic-bezier(.4,0,.2,1), opacity .25s ease;z-index:1;pointer-events:none;opacity:0;}
+  .nav-links.ready .nav-indicator{opacity:1;}
+  .nav-cta{display:flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 0 20px rgba(0,224,255,.45);transition:transform .25s ease, box-shadow .25s ease;flex-shrink:0;}
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(0,224,255,.6);}
+  .nav-cta svg{width:13px;height:13px;transition:transform .3s ease;}
+  .nav-cta:hover svg{transform:translateX(-3px);}
+  @media (max-width:860px){.nav-links{display:none;}}
+  @media (max-width:520px){
+    header{padding:22px 0 46px;}
+    .nav-capsule{border-radius:26px;padding:14px;flex-wrap:wrap;justify-content:center;gap:14px;}
+    .brand{padding-left:0;}
+    .nav-cta{width:100%;justify-content:center;}
+  }
+
+  /* ---------- breadcrumb ---------- */
+  .breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:30px;font-size:12.5px;color:rgba(255,255,255,.45);}
+  .breadcrumb a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s ease;}
+  .breadcrumb a:hover{color:var(--teal);}
+  .breadcrumb span.current{color:var(--teal);}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--teal);letter-spacing:.5px;font-weight:600;margin-bottom:18px;}
+  .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px 2px var(--teal-soft);}
+
+  h1{font-size:clamp(30px, 3.6vw, 46px);font-weight:800;line-height:1.4;letter-spacing:-.5px;margin-bottom:20px;}
+  h1 span{color:#00e0d0;text-shadow:0 0 40px rgba(5,226,200,.8);}
+  h2{font-size:clamp(21px,2.4vw,28px);font-weight:700;margin-bottom:14px;}
+  h2 span{color:#00e0d0;}
+  .lead{font-size:15.5px;line-height:2.1;color:var(--text-dim);}
+
+  /* ---------- spotlight ---------- */
+  .spot{position:relative;overflow:hidden;}
+  .spot::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.14), transparent 62%);
+    opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1;
+  }
+  .spot.spot-on::before{opacity:1;}
+  .spot > *{position:relative;z-index:2;}
+
+  /* ---------- hero split ---------- */
+  .hero-split{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;margin-bottom:70px;}
+  .hero-pills{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 32px;}
+  .hero-pills span{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;font-size:12.5px;color:var(--text-dim);background:rgba(255,255,255,.04);border:1px solid var(--glass-border-soft);}
+  .hero-pills span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px rgba(47,184,201,.7);}
+  .hero-buttons{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:0 26px;height:52px;border-radius:999px;text-decoration:none;font-size:14.5px;font-weight:600;transition:transform .25s ease, box-shadow .25s ease;}
+  .btn-primary{background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;box-shadow:0 0 20px rgba(0,224,255,.5);}
+  .btn-secondary{border:1px solid var(--glass-border);color:var(--text);background:rgba(255,255,255,.03);}
+  .btn:hover{transform:translateY(-3px);}
+
+  .hero-media{position:relative;}
+  .hero-media .media-frame{position:relative;border-radius:28px;overflow:hidden;border:1px solid var(--glass-border);box-shadow:0 30px 70px -25px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12);}
+  .hero-media img{width:100%;display:block;aspect-ratio:4/3.4;object-fit:cover;}
+  .hero-media .media-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 55%, rgba(1,19,36,.75) 100%);}
+  .floating-chip{position:absolute;display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:18px;background:linear-gradient(180deg, rgba(22,50,76,.85), rgba(12,30,51,.85));border:1px solid var(--glass-border);backdrop-filter:blur(14px);box-shadow:0 16px 34px rgba(0,0,0,.45);z-index:3;}
+  .floating-chip .chip-icon{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));}
+  .floating-chip .chip-icon svg{width:16px;height:16px;stroke:#fff;}
+  .floating-chip b{display:block;font-size:14px;}
+  .floating-chip span{display:block;font-size:10.5px;color:var(--text-dimmer);}
+  .chip-1{bottom:-18px;right:24px;}
+  .chip-2{top:-18px;left:20px;}
+  @media (max-width:920px){
+    .hero-split{grid-template-columns:1fr;gap:60px;}
+    .hero-media{order:-1;}
+    .floating-chip{position:static;margin-top:14px;display:inline-flex;}
+    .chip-1,.chip-2{margin-left:8px;}
+  }
+
+  /* ---------- stats bar ---------- */
+  .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:80px;}
+  .stat-card{text-align:center;padding:26px 16px;border-radius:22px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015));border:1px solid var(--glass-border-soft);backdrop-filter:blur(14px);}
+  .stat-card b{display:block;font-size:clamp(22px,2.8vw,30px);font-weight:800;color:#00e0d0;text-shadow:0 0 24px rgba(5,226,200,.5);margin-bottom:6px;}
+  .stat-card span{font-size:11.5px;color:var(--text-dim);line-height:1.6;}
+  .stat-card .stat-icon{width:36px;height:36px;margin:0 auto 10px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));}
+  .stat-card .stat-icon svg{width:16px;height:16px;stroke:#fff;}
+  @media (max-width:720px){.stats-bar{grid-template-columns:1fr 1fr;}}
+
+  section.block{margin-top:90px;}
+  .section-head{text-align:center;max-width:680px;margin:0 auto 44px;}
+  .section-head .eyebrow{justify-content:center;}
+
+  /* ---------- reason rows (چرا دیتاپردازش) ---------- */
+  .reason-list{display:flex;flex-direction:column;gap:16px;}
+  .reason-row{
+    position:relative;display:flex;align-items:flex-start;gap:26px;
+    padding:28px 30px;border-radius:26px;
+    background:linear-gradient(120deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
+    border:1px solid var(--glass-border-soft);
+    backdrop-filter:blur(16px);
+    transition:transform .35s ease, border-color .35s ease, background .35s ease;
+  }
+  .reason-row:hover{transform:translateX(-6px);border-color:rgba(47,184,201,.4);background:linear-gradient(120deg, rgba(255,255,255,.08), rgba(255,255,255,.02));}
+  .reason-badge{
+    flex-shrink:0;width:60px;height:60px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, var(--teal-600), var(--teal-800));
+    border:1px solid rgba(255,255,255,.2);
+    box-shadow:0 0 0 6px rgba(47,184,201,.08), 0 10px 24px rgba(0,0,0,.4);
+  }
+  .reason-badge svg{width:24px;height:24px;stroke:#fff;}
+  .reason-body h3{font-size:17px;font-weight:700;margin-bottom:9px;}
+  .reason-body p{font-size:13.5px;line-height:2;color:var(--text-dim);}
+  @media (max-width:640px){
+    .reason-row{flex-direction:column;text-align:center;align-items:center;}
+  }
+
+  /* ---------- callout ---------- */
+  .callout{
+    position:relative;margin-top:90px;padding:40px 44px;border-radius:26px;
+    background:linear-gradient(135deg, rgba(22,50,76,.5), rgba(12,30,51,.3));
+    border:1px solid var(--glass-border);
+    text-align:center;
+  }
+  .callout .quote-mark{font-size:52px;font-weight:800;color:var(--teal);line-height:1;margin-bottom:10px;font-family:Georgia, serif;}
+  .callout p{font-size:16px;line-height:1.9;color:var(--text);max-width:60ch;margin:0 auto;}
+
+  /* ---------- project timeline (سوابق پروژه‌ها) ---------- */
+  .project-track{position:relative;display:flex;justify-content:space-between;gap:10px;padding-top:26px;}
+  .project-track::before{content:"";position:absolute;top:5px;left:2%;right:2%;height:2px;background:linear-gradient(90deg, #00e0d0, rgba(0,124,240,.4));}
+  .project-node{position:relative;flex:1;text-align:center;padding:0 8px;}
+  .project-node::before{content:"";position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:#00e0d0;box-shadow:0 0 0 5px var(--bg-1), 0 0 14px rgba(0,224,208,.8);}
+  .project-node b{display:block;margin-top:20px;font-size:13.5px;color:var(--teal);font-weight:700;}
+  .project-node .project-card{
+    margin-top:10px;padding:16px;border-radius:16px;
+    background:rgba(255,255,255,.05);
+    border:1px solid var(--glass-border-soft);
+    font-size:12px;line-height:1.85;color:var(--text-dim);
+    min-height:110px;
+  }
+  @media (max-width:900px){
+    .project-track{flex-direction:column;gap:26px;padding-top:0;}
+    .project-track::before{display:none;}
+    .project-node{text-align:right;padding:0;}
+    .project-node::before{top:6px;right:auto;left:0;transform:none;}
+    .project-node{padding-right:22px;position:relative;}
+    .project-node b{margin-top:0;}
+  }
+
+  /* ---------- cta banner ---------- */
+  .cta-banner{position:relative;text-align:center;padding:60px 30px;border-radius:28px;background:linear-gradient(160deg, rgba(22,50,76,.65), rgba(10,15,30,.55));border:1px solid var(--glass-border);backdrop-filter:blur(18px);overflow:hidden;}
+  .cta-banner::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);background-size:42px 42px;-webkit-mask-image:radial-gradient(500px 260px at 50% 30%, black, transparent 75%);mask-image:radial-gradient(500px 260px at 50% 30%, black, transparent 75%);pointer-events:none;}
+  .cta-badge{width:58px;height:58px;margin:0 auto 20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#00e0c6,#007cf0);box-shadow:0 0 0 8px rgba(47,184,201,.08), 0 12px 30px rgba(0,124,240,.4);position:relative;z-index:2;}
+  .cta-badge svg{width:24px;height:24px;stroke:#fff;}
+  .cta-banner h2{position:relative;z-index:2;margin-bottom:14px;}
+  .cta-banner p{position:relative;z-index:2;color:rgba(255,255,255,.65);font-size:14.5px;margin-bottom:30px;max-width:56ch;margin-inline:auto;}
+  .cta-buttons{position:relative;z-index:2;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
+  .cta-phones{position:relative;z-index:2;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+  .cta-phones a{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-size:13px;color:var(--text-dim);background:rgba(255,255,255,.04);border:1px solid var(--glass-border-soft);text-decoration:none;direction:ltr;transition:color .25s ease, border-color .25s ease;}
+  .cta-phones a:hover{color:var(--text);border-color:rgba(47,184,201,.4);}
+  .cta-phones a svg{width:14px;height:14px;stroke:var(--teal);}
+
+  /* ---------- footer ---------- */
+  .footer{margin-top:90px;width:100%;background:none;border-top:1px solid rgba(255,255,255,.08);color:#fff;}
+  .footer-container{width:90%;max-width:1300px;margin:auto;padding:38px 30px 28px;display:grid;grid-template-columns:1.25fr 1fr 1fr 1.35fr;gap:50px;direction:rtl;border:1px solid rgba(255,255,255,.10);border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));backdrop-filter:blur(15px);}
+  .footer-column{min-width:0;}
+  .footer-column h3{margin:0 0 18px;font-size:15px;font-weight:600;color:#fff;position:relative;}
+  .footer-column h3::after{content:"";display:block;width:28px;height:2px;margin-top:8px;border-radius:10px;background:#00dcd0;box-shadow:0 0 8px rgba(0,224,208,.5);}
+  .footer-links{list-style:none;padding:0;margin:0;}
+  .footer-links li{margin-bottom:11px;}
+  .footer-links a{text-decoration:none;color:rgba(255,255,255,.58);font-size:12px;transition:color .25s ease, padding-right .25s ease;}
+  .footer-links a:hover{color:#00dcd0;padding-right:5px;}
+  .footer-contact{display:flex;flex-direction:column;gap:12px;}
+  .contact-item{display:flex;align-items:flex-start;gap:9px;}
+  .contact-icon{flex-shrink:0;width:20px;color:#00dcd0;font-size:17px;text-align:center;}
+  .contact-item p,.contact-item a{margin:0;color:rgba(255,255,255,.58);text-decoration:none;font-size:11px;line-height:1.9;transition:color .25s ease;}
+  .contact-item a:hover{color:#00dcd0;}
+  .newsletter-text{margin:0 0 15px;color:rgba(255,255,255,.55);font-size:11px;line-height:2;}
+  .newsletter-form{width:100%;height:42px;display:flex;align-items:center;overflow:hidden;border-radius:12px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);}
+  .newsletter-form input{flex:1;min-width:0;height:100%;border:none;outline:none;background:transparent;color:#fff;padding:0 13px;font-family:"Vazirmatn",sans-serif;font-size:11px;direction:rtl;}
+  .newsletter-form input::placeholder{color:rgba(255,255,255,.35);}
+  .newsletter-form button{width:48px;height:100%;border:none;cursor:pointer;background:linear-gradient(135deg,#00aeb0,#087e99);color:#fff;font-size:17px;}
+  .social-links{display:flex;align-items:center;gap:10px;margin-top:16px;}
+  .social-links a{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));box-shadow:0 5px 15px rgba(0,0,0,.15);transition:transform .25s ease, background .25s ease;}
+  .social-links a:hover{transform:translateY(-4px);background:rgba(0,224,208,.10);}
+  .social-links a img{width:18px;height:18px;object-fit:contain;filter:brightness(0) invert(1);}
+  .footer-bottom{width:90%;max-width:1300px;margin:auto;min-height:70px;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);direction:rtl;}
+  .footer-bottom p{margin:0;color:rgba(255,255,255,.45);font-size:10px;}
+  .footer-logo img{height:48px;width:auto;object-fit:contain;}
+
+  @media (max-width:960px){.footer-container{grid-template-columns:repeat(2,1fr);gap:35px;}}
+  @media (max-width:600px){
+    .footer{margin-top:60px;}
+    .footer-container{width:94%;padding:30px 22px;grid-template-columns:1fr;gap:30px;}
+    .footer-bottom{width:94%;padding:15px 10px;flex-direction:column;gap:12px;text-align:center;}
+    .footer-logo{order:-1;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+    .orb{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="blueprint"></div>
+<div class="orb orb-amber" id="orbAmber"></div>
+<div class="orb orb-teal" id="orbTeal"></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="nav-capsule" id="navCapsule">
+        <a href="../index.html" class="brand">
+            <span class="brand-badge"><img src="../../../img/Logo.png" alt="Logo"></span>
+            دیتاپردازش خلیج فارس
+        </a>
+        <nav class="nav-links" id="navLinks">
+            <span class="nav-indicator" id="navIndicator"></span>
+            <a href="../../../index.html">صفحه اصلی</a>
+            <a href="../../aboutUs.html">درباره ما</a>
+            <a href="#" aria-current="page">خدمات</a>
+            <a href="../../contactUs.html">تماس با ما</a>
+        </nav>
+        <a href="../../contactUs.html" class="nav-cta">
+            مشاوره رایگان
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="breadcrumb">
+        <a href="../../../index.html">خانه</a>
+        <span>❯</span>
+        <a href="#">خدمات</a>
+        <span>❯</span>
+        <span class="current">نظارت تصویری</span>
+    </div>
+
+    <!-- ================= HERO ================= -->
+    <div class="hero-split">
+        <div class="hero-text">
+            <div class="eyebrow">نصب و راه‌اندازی سیستم‌های نظارت تصویری</div>
+            <h1>امنیتی که به آن <span>اطمینان</span> دارید</h1>
+            <p class="lead">
+                در دنیای امروز، امنیت یک اولویت غیرقابل‌چشم‌پوشی برای سازمان‌ها و شرکت‌هاست. سیستم‌های نظارت
+                تصویری نه‌تنها به افزایش امنیت کمک می‌کنند، بلکه ابزاری قدرتمند برای مدیریت و نظارت بر عملکرد
+                محیط‌های کاری هستند.
+            </p>
+            <div class="hero-pills">
+                <span>دوربین مداربسته HD و تحت شبکه</span>
+                <span>ذخیره‌سازی مطمئن</span>
+                <span>مشاوره و طراحی سفارشی</span>
+            </div>
+            <div class="hero-buttons">
+                <a href="../../contactUs.html" class="btn btn-primary">درخواست مشاوره رایگان <span>❯</span></a>
+                <a href="tel:02122841589" class="btn btn-secondary">تماس مستقیم <span>❯</span></a>
+            </div>
+        </div>
+
+        <div class="hero-media">
+            <div class="media-frame spot">
+                <img src="../../../img/suporcctv.png" alt="نصب و راه‌اندازی سیستم‌های نظارت تصویری دیتاپردازش">
+            </div>
+            <div class="floating-chip chip-2">
+                <span class="chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg></span>
+                <div><b>تجربه‌ی اجرایی بالا</b><span>پروژه‌های صنعتی و شهری</span></div>
+            </div>
+            <div class="floating-chip chip-1">
+                <span class="chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+                <div><b>پشتیبانی مستمر</b><span>خدمات پس از فروش</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= STATS ================= -->
+    <div class="stats-bar">
+        <div class="stat-card"><b class="stat-number" data-target="5">0</b><span>پروژه صنعتی و شهری</span></div>
+        <div class="stat-card"><b class="stat-number" data-target="10">0</b><span>سال سابقه اجرایی (۹۲ تا ۱۴۰۲)</span></div>
+        <div class="stat-card"><b>۱۳۸۷</b><span>سال تاسیس شرکت</span></div>
+        <div class="stat-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg></div>
+            <span>پشتیبانی و خدمات پس از فروش</span>
+        </div>
+    </div>
+
+    <!-- ================= چرا دیتاپردازش ================= -->
+    <section class="block">
+        <div class="section-head">
+            <div class="eyebrow">چرا دیتاپردازش؟</div>
+            <h2>سیستم نظارتی خود را به چه کسی بسپاریم؟</h2>
+        </div>
+
+        <div class="reason-list">
+
+            <div class="reason-row spot">
+                <div class="reason-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg></div>
+                <div class="reason-body">
+                    <h3>تجربه و تخصص بالا</h3>
+                    <p>دیتاپردازش با سال‌ها تجربه در زمینه راه‌اندازی سیستم‌های نظارت تصویری، راهکارهایی به‌روز و متناسب با نیازهای شما ارائه می‌دهد. تیم متخصص ما از آخرین فناوری‌های روز دنیا استفاده می‌کند تا امنیت شما را تضمین کند.</p>
+                </div>
+            </div>
+
+            <div class="reason-row spot">
+                <div class="reason-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m22 8-6 4 6 4V8Z"/></svg></div>
+                <div class="reason-body">
+                    <h3>به‌کارگیری تجهیزات پیشرفته</h3>
+                    <p>ما از دوربین‌های مداربسته با کیفیت بالا، نرم‌افزارهای مدیریت تصویر پیشرفته و سیستم‌های ذخیره‌سازی مطمئن استفاده می‌کنیم تا یک راهکار جامع و کارآمد در اختیار شما قرار دهیم.</p>
+                </div>
+            </div>
+
+            <div class="reason-row spot">
+                <div class="reason-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+                <div class="reason-body">
+                    <h3>مشاوره و طراحی سفارشی</h3>
+                    <p>هر سازمانی نیازهای خاص خود را دارد. ما ابتدا نیازهای شما را بررسی کرده، سپس یک راهکار سفارشی و بهینه برایتان طراحی و اجرا می‌کنیم تا بهترین بازدهی را از سیستم نظارتی خود داشته باشید.</p>
+                </div>
+            </div>
+
+            <div class="reason-row spot">
+                <div class="reason-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+                <div class="reason-body">
+                    <h3>پشتیبانی و خدمات پس از فروش</h3>
+                    <p>نصب و راه‌اندازی سیستم نظارتی فقط بخشی از کار است! ما با پشتیبانی حرفه‌ای و خدمات پس از فروش، در کنار شما هستیم تا همیشه بهترین عملکرد را از سیستم‌های خود داشته باشید.</p>
+                </div>
+            </div>
+
+            <div class="reason-row spot">
+                <div class="reason-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+                <div class="reason-body">
+                    <h3>افزایش بهره‌وری و کاهش ریسک‌ها</h3>
+                    <p>با استفاده از سیستم‌های نظارتی هوشمند، می‌توانید نظارت دقیق‌تری بر محیط کار داشته باشید، از بروز مشکلات جلوگیری کنید و بهره‌وری کارکنان را افزایش دهید.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="callout">
+            <div class="quote-mark">"</div>
+            <p>دیتاپردازش آماده است تا با راهکارهای نوین و تجهیزات پیشرفته، امنیت مجموعه‌ی شما را تضمین کند.</p>
+        </div>
+    </section>
+
+    <!-- ================= سوابق پروژه‌ها ================= -->
+    <section class="block">
+        <div class="section-head">
+            <div class="eyebrow">افتخارات اجرایی</div>
+            <h2>گوشه‌ای از سوابق شرکت در پروژه‌های نظارت تصویری</h2>
+            <p class="lead" style="margin-top:10px;">بخشی از پروژه‌های تامین، طراحی و اجرای دوربین مداربسته که توسط تیم دیتاپردازش انجام شده است</p>
+        </div>
+
+        <div class="project-track">
+            <div class="project-node">
+                <b>۱۳۹۲</b>
+                <div class="project-card spot">تامین، طراحی و اجرای دوربین‌های مداربسته انبارهای مرکزی مجتمع گاز پارس جنوبی</div>
+            </div>
+            <div class="project-node">
+                <b>۱۳۹۳</b>
+                <div class="project-card spot">تامین، طراحی و اجرای دوربین‌های مداربسته پالایشگاه سوم مجتمع گاز پارس جنوبی</div>
+            </div>
+            <div class="project-node">
+                <b>۱۳۹۵</b>
+                <div class="project-card spot">تامین و اجرای دوربین‌های مداربسته پالایشگاه پنجم مجتمع گاز پارس جنوبی</div>
+            </div>
+            <div class="project-node">
+                <b>۱۳۹۸</b>
+                <div class="project-card spot">تامین، طراحی و اجرای دوربین‌های مداربسته محوطه داخلی و خارجی شهرک صنعتی ماموت</div>
+            </div>
+            <div class="project-node">
+                <b>۱۴۰۲</b>
+                <div class="project-card spot">تامین، طراحی و اجرای دوربین‌های مداربسته معاونت فرهنگی شهرداری منطقه یک تهران</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="block">
+        <div class="cta-banner spot">
+            <div class="cta-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m22 8-6 4 6 4V8Z"/></svg>
+            </div>
+            <h2>سیستم نظارتی مطمئن و حرفه‌ای می‌خواهید؟</h2>
+            <p>دیتاپردازش آماده است تا با راهکارهای نوین و تجهیزات پیشرفته، امنیت مجموعه‌ی شما را تضمین کند. هم‌اکنون با ما تماس بگیرید تا بهترین پیشنهاد را دریافت کنید.</p>
+            <div class="cta-buttons">
+                <a href="../../contactUs.html" class="btn btn-primary">درخواست مشاوره رایگان <span>❯</span></a>
+            </div>
+            <div class="cta-phones">
+                <a href="tel:02122841589"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>021-22841589</a>
+                <a href="tel:02122891940"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>021-22891940</a>
+                <a href="tel:02122896293"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>021-22896293</a>
+            </div>
+        </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column contact-column">
+            <h3>اطلاعات تماس</h3>
+            <div class="footer-contact">
+                <div class="contact-item"><span class="contact-icon">⌖</span><p>تهران . پاسداران . نگارستان چهارم . پلاک 4</p></div>
+                <div class="contact-item"><span class="contact-icon">⌕</span><a href="tel:02122891940">021-22891940</a></div>
+                <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:info@datapd.ir">info@datapd.ir</a></div>
+                <div class="contact-item"><span class="contact-icon">◎</span><a href="#">ساعت کاری 8 صبح تا 4 بعدازظهر</a></div>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>خدمات</h3>
+            <ul class="footer-links">
+                <li><a href="../../articles/active.html">اکتیو شبکه</a></li>
+                <li><a href="#">پسیو شبکه</a></li>
+                <li><a href="./cctv-services.html">نظارت تصویری</a></li>
+                <li><a href="../ElectronicArchive/archive-project.html">آرشیو الکترونیک</a></li>
+                <li><a href="#">دیتاسنتر</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>لینک‌های مفید</h3>
+            <ul class="footer-links">
+                <li><a href="#">مقالات منتخب</a></li>
+                <li><a href="#">شرایط و قوانین</a></li>
+                <li><a href="#">حریم خصوصی</a></li>
+                <li><a href="#">گواهینامه‌ها</a></li>
+                <li><a href="#">مستندات</a></li>
+            </ul>
+        </div>
+        <div class="footer-column newsletter-column">
+            <h3>خبرنامه</h3>
+            <p class="newsletter-text">برای دریافت آخرین اخبار و پیشنهادات در خبرنامه ما عضو شوید.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="ایمیل خود را وارد کنید">
+                <button type="submit">➤</button>
+            </form>
+            <div class="social-links">
+                <a href="#" aria-label="Telegram"><img src="../../../img/Telegram2.svg" alt="Telegram"></a>
+                <a href="#" aria-label="Instagram"><img src="../../../img/instagram2.svg" alt="Instagram"></a>
+                <a href="#" aria-label="Bale"><img src="../../../img/Bale2.svg" alt="Bale"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-logo"><img src="../../../img/Logo.png" alt="دیتاپردازش خلیج فارس"></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const navLinks = document.getElementById('navLinks');
+  const indicator = document.getElementById('navIndicator');
+  function moveIndicator(el){
+    if(!el || !indicator) return;
+    indicator.style.width = el.offsetWidth + 'px';
+    indicator.style.transform = `translateX(${el.offsetLeft}px)`;
+  }
+  if(navLinks && indicator){
+    const navA = navLinks.querySelectorAll('a');
+    const activeLink = navLinks.querySelector('a[aria-current="page"]') || navA[0];
+    requestAnimationFrame(() => { moveIndicator(activeLink); navLinks.classList.add('ready'); });
+    navA.forEach(link => link.addEventListener('mouseenter', () => moveIndicator(link)));
+    navLinks.addEventListener('mouseleave', () => moveIndicator(activeLink));
+    window.addEventListener('resize', () => moveIndicator(navLinks.querySelector('a:hover') || activeLink));
+  }
+
+  const capsule = document.getElementById('navCapsule');
+  if(capsule){
+    capsule.addEventListener('mousemove', (e) => {
+      const rect = capsule.getBoundingClientRect();
+      capsule.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      capsule.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  }
+
+  document.querySelectorAll('.spot').forEach(card => {
+    card.addEventListener('mouseenter', () => card.classList.add('spot-on'));
+    card.addEventListener('mouseleave', () => card.classList.remove('spot-on'));
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  });
+
+  const statEls = document.querySelectorAll('.stat-number');
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 1200;
+        const start = performance.now();
+        function tick(now){
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(eased * target).toLocaleString('fa-IR');
+          if(progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        statObserver.unobserve(el);
+      }
+    });
+  }, {threshold:0.6});
+  statEls.forEach(el => statObserver.observe(el));
+
+  const orbAmber = document.getElementById('orbAmber');
+  const orbTeal = document.getElementById('orbTeal');
+  let rafId = null;
+  document.addEventListener('mousemove', (e) => {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      const px = (e.clientX / window.innerWidth - 0.5);
+      const py = (e.clientY / window.innerHeight - 0.5);
+      orbAmber.style.transform = `translate(${px * -30}px, ${py * -20}px)`;
+      orbTeal.style.transform = `translate(${px * 24}px, ${py * 18}px)`;
+      rafId = null;
+    });
+  });
+</script>
+
+</body>
+</html>

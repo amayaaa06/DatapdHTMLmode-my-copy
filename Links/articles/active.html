@@ -1,0 +1,4461 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>اکتیو شبکه چیست؟ | دیتاپردازش خلیج فارس</title>
+
+<meta name="description"
+content="اکتیو شبکه چیست؟ آشنایی با تجهیزات اکتیو شبکه، خدمات اکتیو، سرور، سوئیچ، روتر، فایروال، NAS و مراحل راه‌اندازی شبکه.">
+
+<style>
+
+@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root{
+
+    --navy-950:#020d19;
+    --navy-900:#061525;
+    --navy-850:#0a1b2d;
+    --navy-800:#102940;
+    --navy-700:#163a58;
+
+    --teal-400:#2fb8c9;
+    --teal-500:#00e0d0;
+    --teal-600:#16788f;
+
+    --blue:#007cf0;
+
+    --text-white:#f5f8fa;
+    --text-muted:#b7c6d4;
+    --text-soft:rgba(255,255,255,.66);
+
+    --border-soft:rgba(255,255,255,.12);
+
+    --glass:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.018)
+        );
+
+    --shadow:
+        0 25px 70px -30px rgba(0,0,0,.65);
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    direction:rtl;
+
+    font-family:"Vazirmatn",sans-serif;
+
+    background:
+        radial-gradient(
+            900px 600px at 90% -10%,
+            rgba(47,184,201,.10),
+            transparent 65%
+        ),
+        radial-gradient(
+            800px 600px at -10% 50%,
+            rgba(0,124,240,.08),
+            transparent 65%
+        ),
+        #011324;
+
+    color:white;
+
+    overflow-x:hidden;
+
+}
+
+a{
+    color:inherit;
+}
+
+button,
+input,
+textarea{
+    font-family:inherit;
+}
+
+.container{
+
+    width:90%;
+    max-width:1300px;
+
+    margin:auto;
+
+}
+
+
+/* =========================================================
+   PAGE BACKGROUND
+========================================================= */
+
+.page-wrap{
+
+    position:relative;
+
+    min-height:100vh;
+
+    overflow:hidden;
+
+}
+
+.page-wrap::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            650px 450px at 80% 10%,
+            rgba(47,184,201,.08),
+            transparent 70%
+        ),
+
+        radial-gradient(
+            700px 500px at 10% 80%,
+            rgba(0,124,240,.06),
+            transparent 70%
+        );
+
+    pointer-events:none;
+
+    z-index:-1;
+
+}
+
+
+/* =========================================================
+   READING PROGRESS
+========================================================= */
+
+.read-progress{
+
+    position:fixed;
+
+    top:0;
+    right:0;
+
+    height:3px;
+
+    width:0%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #007cf0,
+            #00e0c6,
+            #2fb8c9
+        );
+
+    box-shadow:
+        0 0 14px rgba(0,224,208,.8);
+
+    z-index:9999;
+
+    transition:width .08s linear;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+
+    position:relative;
+
+    z-index:100;
+
+    padding:
+        28px 0
+        70px;
+
+}
+
+.nav-capsule{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:18px;
+
+    padding:8px 10px;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.02)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.14);
+
+    backdrop-filter:blur(22px);
+
+    -webkit-backdrop-filter:blur(22px);
+
+    box-shadow:
+
+        0 24px 55px -22px rgba(0,0,0,.55),
+
+        inset 0 1px 0
+        rgba(255,255,255,.14);
+
+    overflow:hidden;
+
+}
+
+.nav-capsule::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:inherit;
+
+    background:
+
+        radial-gradient(
+            250px circle
+            at var(--mx,50%) var(--my,0%),
+            rgba(255,255,255,.14),
+            transparent 65%
+        );
+
+    opacity:0;
+
+    transition:opacity .4s ease;
+
+    pointer-events:none;
+
+}
+
+.nav-capsule:hover::before{
+
+    opacity:1;
+
+}
+
+
+/* BRAND */
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    text-decoration:none;
+
+    color:#f5f8fa;
+
+    font-weight:800;
+
+    font-size:15.5px;
+
+    padding-left:8px;
+
+    white-space:nowrap;
+
+}
+
+.brand-badge{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #16788f,
+            #0a3c5c
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.2);
+
+    box-shadow:
+
+        0 0 0 5px
+        rgba(47,184,201,.08),
+
+        0 8px 18px
+        rgba(0,0,0,.4);
+
+    overflow:hidden;
+
+}
+
+.brand-badge img{
+
+    width:58%;
+    height:58%;
+
+    object-fit:contain;
+
+}
+
+
+/* NAV */
+
+.nav-links{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:2px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    border-radius:999px;
+
+    padding:5px;
+
+}
+
+.nav-links a{
+
+    position:relative;
+
+    z-index:2;
+
+    display:inline-block;
+
+    padding:
+        9px 20px;
+
+    border-radius:999px;
+
+    font-size:13.5px;
+
+    font-weight:500;
+
+    color:
+        rgba(255,255,255,.58);
+
+    text-decoration:none;
+
+    white-space:nowrap;
+
+    transition:
+        color .3s ease;
+
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current="page"]{
+
+    color:white;
+
+}
+
+.nav-indicator{
+
+    position:absolute;
+
+    top:5px;
+    bottom:5px;
+
+    left:0;
+
+    width:0;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(47,184,201,.4),
+            rgba(0,124,240,.28)
+        );
+
+    border:
+        1px solid
+        rgba(47,184,201,.45);
+
+    box-shadow:
+        0 0 18px
+        rgba(47,184,201,.4);
+
+    transition:
+        transform .4s cubic-bezier(.4,0,.2,1),
+        width .4s cubic-bezier(.4,0,.2,1);
+
+    z-index:1;
+
+    pointer-events:none;
+
+    opacity:0;
+
+}
+
+.nav-links.ready .nav-indicator{
+
+    opacity:1;
+
+}
+
+
+/* CTA */
+
+.nav-cta{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:
+        11px 22px;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00e0c6,
+            #007cf0
+        );
+
+    color:white;
+
+    font-size:13.5px;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+    box-shadow:
+        0 0 20px
+        rgba(0,224,255,.45);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+.nav-cta:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 0 28px
+        rgba(0,224,255,.65);
+
+}
+
+.nav-cta svg{
+
+    width:14px;
+
+    transition:
+        transform .3s ease;
+
+}
+
+.nav-cta:hover svg{
+
+    transform:translateX(-4px);
+
+}
+
+
+/* =========================================================
+   ARTICLE HERO
+========================================================= */
+
+.article-hero{
+
+    position:relative;
+
+    max-width:1000px;
+
+    margin:
+        0 auto;
+
+    text-align:center;
+
+}
+
+.breadcrumb{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:9px;
+
+    margin-bottom:30px;
+
+    color:
+        rgba(255,255,255,.4);
+
+    font-size:12px;
+
+}
+
+.breadcrumb a{
+
+    text-decoration:none;
+
+    transition:
+        color .25s ease;
+
+}
+
+.breadcrumb a:hover{
+
+    color:
+        var(--teal-400);
+
+}
+
+.breadcrumb .current{
+
+    color:
+        var(--teal-400);
+
+}
+
+.article-category{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:
+        8px 15px;
+
+    border-radius:999px;
+
+    background:
+        rgba(47,184,201,.08);
+
+    border:
+        1px solid
+        rgba(47,184,201,.2);
+
+    color:
+        var(--teal-400);
+
+    font-size:12px;
+
+    margin-bottom:22px;
+
+}
+
+.article-category::before{
+
+    content:"";
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:
+        var(--teal-400);
+
+    box-shadow:
+        0 0 10px
+        var(--teal-400);
+
+}
+
+.article-hero h1{
+
+    font-size:
+        clamp(34px,5vw,66px);
+
+    line-height:1.35;
+
+    font-weight:800;
+
+    letter-spacing:-1px;
+
+    margin-bottom:22px;
+
+}
+
+.article-hero h1 span{
+
+    background:
+        linear-gradient(
+            90deg,
+            #00e0d0,
+            #2fb8c9,
+            #007cf0
+        );
+
+    -webkit-background-clip:text;
+
+    background-clip:text;
+
+    color:transparent;
+
+    text-shadow:
+        0 0 35px
+        rgba(0,224,208,.15);
+
+}
+
+.article-subtitle{
+
+    max-width:760px;
+
+    margin:auto;
+
+    color:
+        rgba(255,255,255,.62);
+
+    font-size:15px;
+
+    line-height:2.2;
+
+}
+
+
+/* META */
+
+.article-meta{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:30px;
+
+}
+
+.meta-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    padding:
+        9px 14px;
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    color:
+        rgba(255,255,255,.5);
+
+    font-size:11px;
+
+}
+
+.meta-item svg{
+
+    width:15px;
+
+    stroke:
+        var(--teal-400);
+
+}
+
+
+/* HERO DECORATION */
+
+.hero-glow{
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    left:50%;
+    top:40%;
+
+    transform:
+        translate(-50%,-50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,224,208,.10),
+            transparent 65%
+        );
+
+    filter:blur(15px);
+
+    pointer-events:none;
+
+    z-index:-1;
+
+}
+
+
+/* =========================================================
+   ARTICLE LAYOUT
+========================================================= */
+
+.article-layout{
+
+    display:grid;
+
+    grid-template-columns:
+        240px minmax(0,820px);
+
+    direction:ltr;
+
+    gap:50px;
+
+    align-items:start;
+
+    margin-top:100px;
+
+}
+
+.article-content{
+
+    direction:rtl;
+
+    min-width:0;
+
+}
+
+
+/* =========================================================
+   TABLE OF CONTENTS
+========================================================= */
+
+.article-sidebar{
+
+    position:sticky;
+
+    top:35px;
+
+    direction:rtl;
+
+}
+
+.toc{
+
+    position:relative;
+
+    padding:24px 20px;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.06),
+            rgba(255,255,255,.015)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 20px 50px -25px
+        rgba(0,0,0,.6);
+
+    overflow:hidden;
+
+}
+
+.toc::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    right:0;
+
+    width:3px;
+    height:100%;
+
+    background:
+        linear-gradient(
+            180deg,
+            #00e0d0,
+            #007cf0
+        );
+
+    box-shadow:
+        0 0 14px
+        rgba(0,224,208,.5);
+
+}
+
+.toc-title{
+
+    font-size:14px;
+
+    font-weight:700;
+
+    margin-bottom:18px;
+
+}
+
+.toc ul{
+
+    list-style:none;
+
+}
+
+.toc li{
+
+    margin-bottom:4px;
+
+}
+
+.toc a{
+
+    display:block;
+
+    padding:
+        9px 10px;
+
+    border-radius:9px;
+
+    color:
+        rgba(255,255,255,.45);
+
+    font-size:11px;
+
+    line-height:1.7;
+
+    text-decoration:none;
+
+    transition:
+        color .25s ease,
+        background .25s ease,
+        padding-right .25s ease;
+
+}
+
+.toc a:hover,
+.toc a.active{
+
+    color:
+        #00e0d0;
+
+    background:
+        rgba(0,224,208,.06);
+
+    padding-right:15px;
+
+}
+
+
+/* =========================================================
+   ARTICLE CARD
+========================================================= */
+
+.article-card{
+
+    position:relative;
+
+    padding:
+        48px;
+
+    border-radius:32px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.012)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
+    box-shadow:
+        0 30px 80px -35px
+        rgba(0,0,0,.7),
+
+        inset 0 1px 0
+        rgba(255,255,255,.09);
+
+    overflow:hidden;
+
+}
+
+
+/* =========================================================
+   🔦 TEXT FLASHLIGHT
+========================================================= */
+
+.text-light{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.text-light::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    opacity:0;
+
+    background:
+        radial-gradient(
+            180px circle
+            at var(--mx,50%) var(--my,50%),
+            rgba(0,224,208,.14),
+            rgba(47,184,201,.06) 30%,
+            transparent 70%
+        );
+
+    transition:
+        opacity .3s ease;
+
+    z-index:0;
+
+}
+
+.text-light.light-active::after{
+
+    opacity:1;
+
+}
+
+.text-light > *{
+
+    position:relative;
+
+    z-index:1;
+
+}
+
+
+/* =========================================================
+   ARTICLE TYPOGRAPHY
+========================================================= */
+
+.article-content h2{
+
+    position:relative;
+
+    font-size:
+        clamp(23px,3vw,31px);
+
+    line-height:1.6;
+
+    font-weight:800;
+
+    margin:
+        55px 0 22px;
+
+    padding-right:18px;
+
+}
+
+.article-content h2::before{
+
+    content:"";
+
+    position:absolute;
+
+    right:0;
+
+    top:9px;
+
+    width:4px;
+
+    height:32px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #00e0d0,
+            #007cf0
+        );
+
+    box-shadow:
+        0 0 14px
+        rgba(0,224,208,.5);
+
+}
+
+.article-content h3{
+
+    font-size:20px;
+
+    margin:
+        40px 0 18px;
+
+    font-weight:700;
+
+}
+
+.article-content p{
+
+    color:
+        rgba(255,255,255,.70);
+
+    font-size:
+        15px;
+
+    line-height:
+        2.35;
+
+    margin-bottom:24px;
+
+}
+
+.article-content strong{
+
+    color:#fff;
+
+    font-weight:700;
+
+}
+
+
+/* =========================================================
+   INTRO DEFINITION
+========================================================= */
+
+.definition-box{
+
+    position:relative;
+
+    margin:
+        20px 0 38px;
+
+    padding:
+        28px 30px;
+
+    border-radius:22px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(0,224,208,.10),
+            rgba(0,124,240,.06)
+        );
+
+    border:
+        1px solid
+        rgba(0,224,208,.20);
+
+    overflow:hidden;
+
+}
+
+.definition-box::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    left:-70px;
+    top:-80px;
+
+    border-radius:50%;
+
+    background:
+        rgba(0,224,208,.10);
+
+    filter:blur(25px);
+
+}
+
+.definition-label{
+
+    color:
+        #00e0d0;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.definition-box p{
+
+    margin:0;
+
+    color:
+        rgba(255,255,255,.78);
+
+}
+
+
+/* =========================================================
+   ARTICLE LIST
+========================================================= */
+
+.modern-list{
+
+    list-style:none;
+
+    margin:
+        20px 0 30px;
+
+    display:grid;
+
+    gap:10px;
+
+}
+
+.modern-list li{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:12px;
+
+    padding:
+        14px 17px;
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.065);
+
+    color:
+        rgba(255,255,255,.67);
+
+    font-size:13.5px;
+
+    line-height:1.9;
+
+    transition:
+        transform .3s ease,
+        border-color .3s ease,
+        background .3s ease;
+
+}
+
+.modern-list li:hover{
+
+    transform:
+        translateX(-5px);
+
+    border-color:
+        rgba(0,224,208,.3);
+
+    background:
+        rgba(0,224,208,.045);
+
+}
+
+.modern-list li::before{
+
+    content:"";
+
+    flex-shrink:0;
+
+    width:7px;
+    height:7px;
+
+    margin-top:9px;
+
+    border-radius:50%;
+
+    background:
+        #00e0d0;
+
+    box-shadow:
+        0 0 9px
+        rgba(0,224,208,.8);
+
+}
+
+
+/* =========================================================
+   ARTICLE LINKS
+========================================================= */
+
+.article-content a.article-link{
+
+    position:relative;
+
+    color:
+        #42d7df;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:
+        color .25s ease;
+
+}
+
+.article-content a.article-link::after{
+
+    content:"";
+
+    position:absolute;
+
+    right:0;
+
+    bottom:-2px;
+
+    width:100%;
+
+    height:1px;
+
+    transform:
+        scaleX(.35);
+
+    transform-origin:right;
+
+    background:
+        #00e0d0;
+
+    box-shadow:
+        0 0 8px
+        rgba(0,224,208,.5);
+
+    transition:
+        transform .3s ease;
+
+}
+
+.article-content a.article-link:hover{
+
+    color:#00e0d0;
+
+}
+
+.article-content a.article-link:hover::after{
+
+    transform:
+        scaleX(1);
+
+}
+
+
+/* =========================================================
+   EQUIPMENT GRID
+========================================================= */
+
+.equipment-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:14px;
+
+    margin-top:25px;
+
+}
+
+.equipment-card{
+
+    position:relative;
+
+    padding:
+        22px;
+
+    min-height:170px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.015)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    overflow:hidden;
+
+    transition:
+        transform .35s ease,
+        border-color .35s ease,
+        background .35s ease;
+
+}
+
+.equipment-card:hover{
+
+    transform:
+        translateY(-6px);
+
+    border-color:
+        rgba(47,184,201,.38);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(47,184,201,.08),
+            rgba(255,255,255,.02)
+        );
+
+}
+
+.equipment-number{
+
+    position:absolute;
+
+    left:16px;
+    top:10px;
+
+    font-size:55px;
+
+    line-height:1;
+
+    font-weight:900;
+
+    color:
+        rgba(255,255,255,.035);
+
+}
+
+.equipment-icon{
+
+    width:48px;
+    height:48px;
+
+    border-radius:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,224,208,.18),
+            rgba(0,124,240,.14)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    margin-bottom:15px;
+
+}
+
+.equipment-icon svg{
+
+    width:22px;
+
+    stroke:
+        #00e0d0;
+
+}
+
+.equipment-card h4{
+
+    font-size:15px;
+
+    margin-bottom:7px;
+
+}
+
+.equipment-card p{
+
+    font-size:11.5px;
+
+    line-height:1.9;
+
+    margin:0;
+
+    color:
+        rgba(255,255,255,.52);
+
+}
+
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.service-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:13px;
+
+    margin-top:25px;
+
+}
+
+.service-card{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:14px;
+
+    padding:
+        19px;
+
+    border-radius:17px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    transition:
+        transform .3s ease,
+        border-color .3s ease;
+
+}
+
+.service-card:hover{
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(0,224,208,.3);
+
+}
+
+.service-check{
+
+    width:34px;
+    height:34px;
+
+    flex-shrink:0;
+
+    border-radius:11px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+        rgba(0,224,208,.09);
+
+    color:
+        #00e0d0;
+
+}
+
+.service-card span{
+
+    color:
+        rgba(255,255,255,.65);
+
+    font-size:12px;
+
+    line-height:1.8;
+
+}
+
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.steps{
+
+    position:relative;
+
+    margin-top:30px;
+
+}
+
+.steps::before{
+
+    content:"";
+
+    position:absolute;
+
+    right:22px;
+
+    top:18px;
+
+    bottom:18px;
+
+    width:2px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #00e0d0,
+            rgba(0,124,240,.3),
+            transparent
+        );
+
+}
+
+.step{
+
+    position:relative;
+
+    display:flex;
+
+    gap:20px;
+
+    padding-bottom:28px;
+
+}
+
+.step:last-child{
+
+    padding-bottom:0;
+
+}
+
+.step-number{
+
+    position:relative;
+
+    z-index:2;
+
+    flex-shrink:0;
+
+    width:46px;
+    height:46px;
+
+    border-radius:15px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00e0c6,
+            #007cf0
+        );
+
+    border:
+        4px solid
+        #071827;
+
+    box-shadow:
+        0 0 18px
+        rgba(0,224,208,.3);
+
+    font-size:13px;
+
+    font-weight:800;
+
+}
+
+.step-content{
+
+    flex:1;
+
+    padding:
+        17px 20px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    transition:
+        border-color .3s ease,
+        transform .3s ease;
+
+}
+
+.step-content:hover{
+
+    transform:
+        translateX(-5px);
+
+    border-color:
+        rgba(0,224,208,.3);
+
+}
+
+.step-content h4{
+
+    font-size:15px;
+
+    margin-bottom:7px;
+
+}
+
+.step-content p{
+
+    font-size:12px;
+
+    margin:0;
+
+    line-height:1.9;
+
+    color:
+        rgba(255,255,255,.55);
+
+}
+
+
+/* =========================================================
+   INFO BOX
+========================================================= */
+
+.info-box{
+
+    margin:
+        35px 0;
+
+    padding:
+        24px 26px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,124,240,.08),
+            rgba(47,184,201,.05)
+        );
+
+    border:
+        1px solid
+        rgba(0,124,240,.18);
+
+}
+
+.info-box-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:
+        #42d7df;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    margin-bottom:9px;
+
+}
+
+.info-box p{
+
+    margin:0;
+
+    font-size:13px;
+
+}
+
+
+/* =========================================================
+   SHARE BAR
+========================================================= */
+
+.article-share{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-top:55px;
+
+    padding-top:25px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+.share-text{
+
+    color:
+        rgba(255,255,255,.45);
+
+    font-size:11px;
+
+}
+
+.share-buttons{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+.share-buttons button{
+
+    width:38px;
+    height:38px;
+
+    border-radius:11px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.04);
+
+    color:
+        rgba(255,255,255,.65);
+
+    cursor:pointer;
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        color .25s ease;
+
+}
+
+.share-buttons button:hover{
+
+    transform:
+        translateY(-3px);
+
+    color:
+        #00e0d0;
+
+    background:
+        rgba(0,224,208,.08);
+
+}
+
+
+/* =========================================================
+   COMMENTS
+========================================================= */
+
+.comments-section{
+
+    margin-top:90px;
+
+}
+
+.comments-header{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+}
+
+.comments-header .small-title{
+
+    display:inline-block;
+
+    color:
+        #00e0d0;
+
+    font-size:11px;
+
+    margin-bottom:10px;
+
+}
+
+.comments-header h2{
+
+    font-size:27px;
+
+    margin-bottom:10px;
+
+}
+
+.comments-header p{
+
+    color:
+        rgba(255,255,255,.5);
+
+    font-size:12px;
+
+}
+
+.comment-box{
+
+    padding:
+        28px;
+
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.015)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+}
+
+.form-row{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:13px;
+
+}
+
+.field{
+
+    margin-bottom:14px;
+
+}
+
+.field label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-size:11px;
+
+    color:
+        rgba(255,255,255,.48);
+
+}
+
+.field input,
+.field textarea{
+
+    width:100%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    outline:none;
+
+    border-radius:13px;
+
+    background:
+        rgba(0,0,0,.14);
+
+    color:white;
+
+    padding:
+        12px 14px;
+
+    font-size:12px;
+
+    transition:
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+
+}
+
+.field textarea{
+
+    min-height:130px;
+
+    resize:vertical;
+
+}
+
+.field input:focus,
+.field textarea:focus{
+
+    border-color:
+        rgba(0,224,208,.45);
+
+    background:
+        rgba(0,224,208,.025);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(0,224,208,.05);
+
+}
+
+.comment-submit{
+
+    border:none;
+
+    padding:
+        12px 25px;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00e0c6,
+            #007cf0
+        );
+
+    color:white;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 20px
+        rgba(0,224,255,.25);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+.comment-submit:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 0 28px
+        rgba(0,224,255,.45);
+
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.article-cta{
+
+    position:relative;
+
+    margin-top:70px;
+
+    padding:
+        55px 35px;
+
+    border-radius:28px;
+
+    text-align:center;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(22,50,76,.6),
+            rgba(5,15,27,.55)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+}
+
+.article-cta::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:400px;
+    height:400px;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,224,208,.12),
+            transparent 65%
+        );
+
+}
+
+.article-cta h2{
+
+    position:relative;
+
+    font-size:
+        clamp(21px,3vw,29px);
+
+    margin-bottom:12px;
+
+}
+
+.article-cta p{
+
+    position:relative;
+
+    color:
+        rgba(255,255,255,.55);
+
+    font-size:13px;
+
+    margin-bottom:25px;
+
+}
+
+.cta-btn{
+
+    position:relative;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:
+        13px 25px;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00e0c6,
+            #007cf0
+        );
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:12px;
+
+    box-shadow:
+        0 0 24px
+        rgba(0,224,255,.35);
+
+    transition:
+        transform .25s ease;
+
+}
+
+.cta-btn:hover{
+
+    transform:
+        translateY(-4px);
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+
+    margin-top:100px;
+
+    width:100%;
+
+    background:#011324;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+.footer-container{
+
+    width:90%;
+
+    max-width:1300px;
+
+    margin:auto;
+
+    padding:
+        38px 30px 28px;
+
+    display:grid;
+
+    grid-template-columns:
+        1.25fr 1fr 1fr 1.35fr;
+
+    gap:50px;
+
+    direction:rtl;
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    border-bottom:none;
+
+    border-radius:
+        18px 18px 0 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.025),
+            rgba(255,255,255,.01)
+        );
+
+}
+
+.footer-column h3{
+
+    margin-bottom:18px;
+
+    font-size:15px;
+
+}
+
+.footer-column h3::after{
+
+    content:"";
+
+    display:block;
+
+    width:28px;
+
+    height:2px;
+
+    margin-top:8px;
+
+    border-radius:10px;
+
+    background:#00dcd0;
+
+    box-shadow:
+        0 0 8px
+        rgba(0,224,208,.5);
+
+}
+
+.footer-column p{
+
+    color:
+        rgba(255,255,255,.5);
+
+    font-size:11px;
+
+    line-height:2;
+
+}
+
+.footer-links{
+
+    list-style:none;
+
+}
+
+.footer-links li{
+
+    margin-bottom:11px;
+
+}
+
+.footer-links a{
+
+    text-decoration:none;
+
+    color:
+        rgba(255,255,255,.55);
+
+    font-size:12px;
+
+    transition:
+        color .25s ease,
+        padding-right .25s ease;
+
+}
+
+.footer-links a:hover{
+
+    color:#00dcd0;
+
+    padding-right:5px;
+
+}
+
+.footer-contact{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.contact-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:9px;
+
+}
+
+.contact-icon{
+
+    color:
+        #00dcd0;
+
+}
+
+.contact-item a,
+.contact-item p{
+
+    text-decoration:none;
+
+    color:
+        rgba(255,255,255,.55);
+
+    font-size:11px;
+
+}
+
+.social-links{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:16px;
+
+}
+
+.social-links a{
+
+    width:38px;
+    height:38px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:11px;
+
+    text-decoration:none;
+
+    color:white;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.04);
+
+    transition:
+        transform .25s ease,
+        color .25s ease;
+
+}
+
+.social-links a:hover{
+
+    transform:
+        translateY(-4px);
+
+    color:
+        #00dcd0;
+
+}
+
+.footer-bottom{
+
+    width:90%;
+
+    max-width:1300px;
+
+    margin:auto;
+
+    min-height:70px;
+
+    padding:
+        15px 30px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+.footer-bottom p{
+
+    color:
+        rgba(255,255,255,.4);
+
+    font-size:10px;
+
+}
+
+.footer-logo img{
+
+    height:48px;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1050px){
+
+    .article-layout{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .article-sidebar{
+
+        position:relative;
+
+        top:auto;
+
+        order:-1;
+
+    }
+
+    .toc{
+
+        max-width:820px;
+
+        margin:auto;
+
+    }
+
+    .toc ul{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:4px;
+
+    }
+
+}
+
+
+@media(max-width:860px){
+
+    .nav-links{
+
+        display:none;
+
+    }
+
+    .article-layout{
+
+        margin-top:65px;
+
+    }
+
+    .article-card{
+
+        padding:
+            35px 28px;
+
+    }
+
+}
+
+
+@media(max-width:700px){
+
+    header{
+
+        padding-bottom:50px;
+
+    }
+
+    .nav-capsule{
+
+        border-radius:25px;
+
+        padding:12px;
+
+    }
+
+    .nav-cta{
+
+        padding:
+            10px 17px;
+
+    }
+
+    .article-hero h1{
+
+        font-size:34px;
+
+    }
+
+    .article-subtitle{
+
+        font-size:13px;
+
+    }
+
+    .article-card{
+
+        padding:
+            27px 20px;
+
+        border-radius:23px;
+
+    }
+
+    .equipment-grid,
+    .service-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-row{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .article-content p{
+
+        font-size:14px;
+
+        line-height:2.25;
+
+    }
+
+    .toc ul{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .footer-container{
+
+        grid-template-columns:1fr;
+
+        gap:30px;
+
+        width:94%;
+
+        padding:
+            30px 22px;
+
+    }
+
+    .footer-bottom{
+
+        width:94%;
+
+        flex-direction:column;
+
+        gap:12px;
+
+        text-align:center;
+
+    }
+
+}
+
+
+@media(max-width:480px){
+
+    .brand{
+
+        font-size:12px;
+
+    }
+
+    .brand-badge{
+
+        width:40px;
+        height:40px;
+
+    }
+
+    .nav-cta{
+
+        font-size:11px;
+
+    }
+
+    .article-meta{
+
+        gap:6px;
+
+    }
+
+    .meta-item{
+
+        font-size:10px;
+
+    }
+
+    .article-content h2{
+
+        font-size:22px;
+
+    }
+
+    .article-share{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     READING PROGRESS
+========================================================= -->
+
+<div class="read-progress" id="readProgress"></div>
+
+
+<div class="page-wrap">
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<div class="container">
+
+<header>
+
+<div class="nav-capsule" id="navCapsule">
+
+
+<a href="../index.html" class="brand">
+
+<span class="brand-badge">
+
+<img src="../img/Logo.png" alt="Logo">
+
+</span>
+
+دیتاپردازش خلیج فارس
+
+</a>
+
+
+<nav class="nav-links" id="navLinks">
+
+<span class="nav-indicator" id="navIndicator"></span>
+
+<a href="../../index.html">
+صفحه اصلی
+</a>
+
+<a href="../aboutUs.html">
+درباره ما
+</a>
+
+<a href="#" aria-current="page">
+مقالات
+</a>
+
+</nav>
+
+
+<a href="../contactUs.html" class="nav-cta">
+
+تماس با ما
+
+<svg
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2"
+stroke-linecap="round"
+stroke-linejoin="round">
+
+<path d="M5 12h14"/>
+<path d="m13 6 6 6-6 6"/>
+
+</svg>
+
+</a>
+
+
+</div>
+
+</header>
+
+</div>
+
+
+
+<!-- =========================================================
+     ARTICLE HERO
+========================================================= -->
+
+<main>
+
+
+<section class="article-hero container">
+
+
+<div class="hero-glow"></div>
+
+
+<div class="breadcrumb">
+
+<a href="../../index.html">
+صفحه اصلی
+</a>
+
+<span>❮</span>
+
+<a href="#">
+مقالات
+</a>
+
+<span>‹</span>
+
+<span class="current">
+اکتیو شبکه
+</span>
+
+</div>
+
+
+<div class="article-category">
+
+مقالات تخصصی شبکه
+
+</div>
+
+
+<h1>
+
+<span>اکتیو شبکه</span>
+چیست؟
+
+</h1>
+
+
+<p class="article-subtitle">
+
+با تجهیزات اکتیو شبکه، خدمات راه‌اندازی، سرویس‌های سرور
+و مراحل استاندارد پیاده‌سازی شبکه آشنا شوید.
+
+</p>
+
+
+<div class="article-meta">
+
+
+<div class="meta-item">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+
+<circle cx="12" cy="12" r="9"/>
+<path d="M12 7v5l3 2"/>
+
+</svg>
+
+زمان مطالعه: ۸ دقیقه
+
+</div>
+
+
+<div class="meta-item">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+
+<rect x="3" y="4" width="18" height="18" rx="2"/>
+<path d="M16 2v4M8 2v4M3 10h18"/>
+
+</svg>
+
+مقاله تخصصی شبکه
+
+</div>
+
+
+<div class="meta-item">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+
+<path d="M12 3a9 9 0 1 0 9 9"/>
+<path d="M12 7v5l3 2"/>
+
+</svg>
+
+به‌روزرسانی شده
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- =========================================================
+     ARTICLE LAYOUT
+========================================================= -->
+
+<div class="container article-layout">
+
+
+<!-- =====================================================
+     SIDEBAR / TOC
+===================================================== -->
+
+<aside class="article-sidebar">
+
+
+<div class="toc">
+
+<div class="toc-title">
+
+در این مقاله می‌خوانید
+
+</div>
+
+
+<ul>
+
+<li>
+<a href="#what-is-active">
+اکتیو شبکه چیست؟
+</a>
+</li>
+
+<li>
+<a href="#equipment">
+تجهیزات اکتیو شبکه
+</a>
+</li>
+
+<li>
+<a href="#services">
+خدمات اکتیو شبکه
+</a>
+</li>
+
+<li>
+<a href="#server-services">
+سرویس‌های مختلف سرور
+</a>
+</li>
+
+<li>
+<a href="#installation">
+مراحل راه‌اندازی
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+</aside>
+
+
+
+<!-- =====================================================
+     ARTICLE
+===================================================== -->
+
+<article class="article-content">
+
+
+<div class="article-card text-light" id="articleText">
+
+
+
+<!-- INTRO -->
+
+<section id="what-is-active">
+
+<h2>
+اکتیو شبکه چیست؟
+</h2>
+
+
+<div class="definition-box">
+
+<div class="definition-label">
+تعریف ساده
+</div>
+
+<p>
+
+اکتیو به معنی <strong>فعال</strong> است و در حوزه شبکه به
+معنی تأثیرگذار بودن روی جریان الکتریکی است.
+
+</p>
+
+</div>
+
+
+<p>
+
+تجهیزات اکتیو شبکه به تجهیزاتی گفته می‌شود که بر روی جریان
+الکتریکی تأثیرگذارند و می‌توانند آن را قطع و وصل کنند.
+به عبارتی دیگر، تمامی تجهیزاتی که بر روی آن‌ها نرم‌افزاری
+وجود دارد و نیاز به تنظیم شدن دارند را می‌توان زیرمجموعه
+تجهیزات اکتیو شبکه قرار داد.
+
+</p>
+
+
+<p>
+
+اگر بخواهیم چند نمونه از تجهیزات اکتیو شبکه را نام ببریم،
+می‌توانیم به سرور، سوئیچ، روتر، مودم اینترنت، دستگاه‌های
+ذخیره‌سازی اطلاعات مانند NAS، کامپیوتر، پرینتر و اکسس‌پوینت
+اشاره کنیم.
+
+</p>
+
+
+<div class="info-box">
+
+<div class="info-box-title">
+
+<span>●</span>
+
+نکته مهم
+
+</div>
+
+<p>
+
+هر کدام از تجهیزات اکتیو شبکه می‌توانند به انواع بسیار
+گسترده‌ای تقسیم‌بندی شوند و انتخاب صحیح آن‌ها باید بر اساس
+نیاز، ظرفیت و معماری شبکه انجام شود.
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- EQUIPMENT -->
+
+<section id="equipment">
+
+<h2>
+تجهیزات اکتیو شبکه
+</h2>
+
+
+<p>
+
+تجهیزات اکتیو بخش هوشمند و قابل تنظیم زیرساخت شبکه را تشکیل
+می‌دهند. این تجهیزات معمولاً برای عملکرد خود به انرژی
+الکتریکی نیاز دارند و می‌توان تنظیمات و رفتار آن‌ها را
+متناسب با نیاز شبکه تغییر داد.
+
+</p>
+
+
+<div class="equipment-grid">
+
+
+<div class="equipment-card">
+
+<div class="equipment-number">01</div>
+
+<div class="equipment-icon">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7">
+
+<rect x="4" y="3" width="16" height="18" rx="2"/>
+<path d="M8 7h8M8 11h8M8 15h5"/>
+
+</svg>
+
+</div>
+
+<h4>
+سرور
+</h4>
+
+<p>
+مرکز پردازش و ارائه سرویس‌های مختلف در شبکه.
+</p>
+
+</div>
+
+
+
+<div class="equipment-card">
+
+<div class="equipment-number">02</div>
+
+<div class="equipment-icon">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7">
+
+<rect x="3" y="5" width="18" height="14" rx="2"/>
+<path d="M7 9h10M7 13h6"/>
+
+</svg>
+
+</div>
+
+<h4>
+سوئیچ
+</h4>
+
+<p>
+برای اتصال تجهیزات مختلف و مدیریت ارتباطات شبکه استفاده می‌شود.
+</p>
+
+</div>
+
+
+
+<div class="equipment-card">
+
+<div class="equipment-number">03</div>
+
+<div class="equipment-icon">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7">
+
+<circle cx="12" cy="12" r="3"/>
+<path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+<path d="m5 5 3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/>
+
+</svg>
+
+</div>
+
+<h4>
+روتر
+</h4>
+
+<p>
+برای مسیریابی و انتقال داده بین شبکه‌های مختلف استفاده می‌شود.
+</p>
+
+</div>
+
+
+
+<div class="equipment-card">
+
+<div class="equipment-number">04</div>
+
+<div class="equipment-icon">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7">
+
+<path d="M5 12h14"/>
+<path d="M8 8h8"/>
+<path d="M8 16h8"/>
+<circle cx="5" cy="12" r="2"/>
+
+</svg>
+
+</div>
+
+<h4>
+مودم اینترنت
+</h4>
+
+<p>
+رابط اتصال شبکه داخلی به سرویس ارائه‌دهنده اینترنت.
+</p>
+
+</div>
+
+
+
+<div class="equipment-card">
+
+<div class="equipment-number">05</div>
+
+<div class="equipment-icon">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7">
+
+<rect x="3" y="5" width="18" height="14" rx="2"/>
+<path d="M7 9h10M7 13h5"/>
+
+</svg>
+
+</div>
+
+<h4>
+NAS
+</h4>
+
+<p>
+راهکاری برای ذخیره‌سازی و اشتراک‌گذاری اطلاعات در شبکه.
+</p>
+
+</div>
+
+
+
+<div class="equipment-card">
+
+<div class="equipment-number">06</div>
+
+<div class="equipment-icon">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7">
+
+<rect x="3" y="4" width="18" height="13" rx="2"/>
+<path d="M8 21h8M12 17v4"/>
+
+</svg>
+
+</div>
+
+<h4>
+کامپیوتر
+</h4>
+
+<p>
+یکی از نقاط پایانی شبکه که به منابع و سرویس‌ها دسترسی دارد.
+</p>
+
+</div>
+
+
+
+<div class="equipment-card">
+
+<div class="equipment-number">07</div>
+
+<div class="equipment-icon">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7">
+
+<path d="M6 18h12"/>
+<path d="M8 18V7h8v11"/>
+<path d="M10 4h4v3h-4z"/>
+
+</svg>
+
+</div>
+
+<h4>
+پرینتر
+</h4>
+
+<p>
+برای چاپ و اشتراک منابع چاپی در شبکه استفاده می‌شود.
+</p>
+
+</div>
+
+
+
+<div class="equipment-card">
+
+<div class="equipment-number">08</div>
+
+<div class="equipment-icon">
+
+<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7">
+
+<path d="M4 12a8 8 0 0 1 16 0"/>
+<path d="M7 15a5 5 0 0 1 10 0"/>
+<circle cx="12" cy="18" r="1"/>
+
+</svg>
+
+</div>
+
+<h4>
+اکسس‌پوینت
+</h4>
+
+<p>
+برای ایجاد و توسعه ارتباطات بی‌سیم در شبکه استفاده می‌شود.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- SERVICES -->
+
+<section id="services">
+
+<h2>
+خدمات اکتیو شبکه
+</h2>
+
+
+<p>
+
+خدمات اکتیو شبکه به مجموعه فعالیت‌هایی گفته می‌شود که با هدف
+نصب، راه‌اندازی، پیکربندی، مدیریت و نگهداری تجهیزات اکتیو
+شبکه انجام می‌شوند.
+
+</p>
+
+
+<p>
+
+هر یک از تجهیزات اکتیو، دانش و تخصص خاص خود را برای نصب و
+راه‌اندازی نیاز دارد. به عنوان نمونه، روی هر سرور می‌تواند
+سرویس‌های تخصصی مختلفی نصب شود که هر کدام نیازمند دانش فنی
+مناسب خود هستند.
+
+</p>
+
+
+<div class="service-grid">
+
+
+<div class="service-card">
+
+<div class="service-check">✓</div>
+
+<span>
+نصب و راه‌اندازی روتر میکروتیک
+</span>
+
+</div>
+
+
+<div class="service-card">
+
+<div class="service-check">✓</div>
+
+<span>
+نصب و راه‌اندازی مودم اینترنت
+</span>
+
+</div>
+
+
+<div class="service-card">
+
+<div class="service-check">✓</div>
+
+<span>
+نصب و راه‌اندازی سرور
+</span>
+
+</div>
+
+
+<div class="service-card">
+
+<div class="service-check">✓</div>
+
+<span>
+نصب و راه‌اندازی دیواره آتش Firewall
+</span>
+
+</div>
+
+
+<div class="service-card">
+
+<div class="service-check">✓</div>
+
+<span>
+نصب و راه‌اندازی NAS
+</span>
+
+</div>
+
+
+<div class="service-card">
+
+<div class="service-check">✓</div>
+
+<span>
+پیکربندی و مدیریت تجهیزات شبکه
+</span>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- SERVER -->
+
+<section id="server-services">
+
+<h2>
+سرویس‌های مختلف سرور
+</h2>
+
+
+<p>
+
+یکی از مهم‌ترین بخش‌های خدمات اکتیو شبکه، راه‌اندازی و
+پیکربندی سرویس‌های مختلف روی سرورها است. این سرویس‌ها می‌توانند
+بخش‌های مختلف یک سازمان را پوشش دهند.
+
+</p>
+
+
+<ul class="modern-list">
+
+<li>
+سرویس اکتیو دیرکتوری
+<strong>(Active Directory)</strong>
+</li>
+
+<li>
+سرویس اشتراک‌گذاری فایل‌ها
+</li>
+
+<li>
+سرویس آنتی‌ویروس
+</li>
+
+<li>
+سرویس نرم‌افزارهای مالی
+</li>
+
+<li>
+سرویس اتوماسیون‌های مالی
+</li>
+
+<li>
+سرویس CRM
+</li>
+
+<li>
+سرویس بکاپ‌گیری
+</li>
+
+<li>
+سرویس تلفن VOIP
+</li>
+
+</ul>
+
+
+<div class="info-box">
+
+<div class="info-box-title">
+
+<span>⚡</span>
+
+چرا پیکربندی سرور مهم است؟
+
+</div>
+
+<p>
+
+یک سرور تنها با نصب سیستم‌عامل آماده ارائه سرویس نیست.
+امنیت، دسترسی کاربران، سرویس‌های شبکه، Backup، مانیتورینگ
+و سیاست‌های دسترسی باید متناسب با نیاز سازمان پیکربندی شوند.
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- INSTALLATION -->
+
+<section id="installation">
+
+<h2>
+مراحل راه‌اندازی خدمات اکتیو شبکه
+</h2>
+
+
+<p>
+
+راه‌اندازی خدمات اکتیو شبکه به صورت استاندارد باید با توجه
+به اهمیت و وابستگی تجهیزات انجام شود. معمولاً تجهیزات کلیدی‌تر
+در اولویت قرار می‌گیرند و سپس تجهیزات کم‌اهمیت‌تر راه‌اندازی
+می‌شوند.
+
+</p>
+
+
+<div class="steps">
+
+
+<div class="step">
+
+<div class="step-number">
+01
+</div>
+
+<div class="step-content">
+
+<h4>
+بررسی زیرساخت
+</h4>
+
+<p>
+
+در ابتدا وضعیت شبکه، تجهیزات موجود، نیازهای سازمان و وابستگی
+سرویس‌ها بررسی می‌شود تا ترتیب صحیح اجرای پروژه مشخص شود.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="step">
+
+<div class="step-number">
+02
+</div>
+
+<div class="step-content">
+
+<h4>
+راه‌اندازی تجهیزات کلیدی
+</h4>
+
+<p>
+
+تجهیزاتی مانند روتر، فایروال، سوئیچ‌های اصلی و سرورها بر اساس
+معماری شبکه نصب و پیکربندی می‌شوند.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="step">
+
+<div class="step-number">
+03
+</div>
+
+<div class="step-content">
+
+<h4>
+پیکربندی سرویس‌ها
+</h4>
+
+<p>
+
+سرویس‌های مورد نیاز مانند Active Directory، اشتراک فایل،
+Backup، CRM و سایر سرویس‌های سازمانی راه‌اندازی می‌شوند.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="step">
+
+<div class="step-number">
+04
+</div>
+
+<div class="step-content">
+
+<h4>
+راه‌اندازی تجهیزات کاربران
+</h4>
+
+<p>
+
+در این مرحله تجهیزاتی مانند کامپیوترها، پرینترها و سایر
+نقاط پایانی شبکه به زیرساخت متصل و تنظیم می‌شوند.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="step">
+
+<div class="step-number">
+05
+</div>
+
+<div class="step-content">
+
+<h4>
+تست و تحویل شبکه
+</h4>
+
+<p>
+
+در پایان ارتباطات، سرویس‌ها، دسترسی کاربران و عملکرد تجهیزات
+بررسی شده و شبکه برای بهره‌برداری آماده می‌شود.
+
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- FINAL SUMMARY -->
+
+<section>
+
+<h2>
+جمع‌بندی
+</h2>
+
+
+<p>
+
+اکتیو شبکه بخش مهمی از زیرساخت فناوری اطلاعات هر سازمان است.
+تجهیزاتی مانند سرور، سوئیچ، روتر، فایروال، NAS و اکسس‌پوینت
+با ایجاد قابلیت پردازش، مدیریت و کنترل جریان داده، نقش مهمی
+در عملکرد صحیح شبکه دارند.
+
+</p>
+
+
+<p>
+
+اجرای صحیح خدمات اکتیو شبکه تنها به نصب تجهیزات محدود نمی‌شود؛
+بلکه پیکربندی صحیح، امنیت، مدیریت کاربران، سرویس‌های سازمانی،
+Backup و نگهداری مستمر نیز بخش مهمی از این فرآیند هستند.
+
+</p>
+
+
+</section>
+
+
+
+<!-- SHARE -->
+
+<div class="article-share">
+
+<span class="share-text">
+
+این مقاله را با دیگران به اشتراک بگذارید
+
+</span>
+
+
+<div class="share-buttons">
+
+<button
+onclick="shareArticle('telegram')"
+title="تلگرام">
+
+TG
+
+</button>
+
+<button
+onclick="shareArticle('linkedin')"
+title="لینکدین">
+
+in
+
+</button>
+
+<button
+onclick="copyArticleLink()"
+title="کپی لینک">
+
+↗
+
+</button>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     COMMENTS
+===================================================== -->
+
+<section class="comments-section">
+
+
+<div class="comments-header">
+
+<span class="small-title">
+نظر شما چیست؟
+</span>
+
+<h2>
+دیدگاه خود را با ما به اشتراک بگذارید
+</h2>
+
+<p>
+تجربه یا سوالی درباره اکتیو شبکه دارید؟ برای ما بنویسید.
+</p>
+
+</div>
+
+
+<div class="comment-box">
+
+
+<form
+id="commentForm">
+
+
+<div class="form-row">
+
+
+<div class="field">
+
+<label>
+نام و نام خانوادگی
+</label>
+
+<input
+type="text"
+id="commentName"
+placeholder="نام شما"
+required>
+
+</div>
+
+
+<div class="field">
+
+<label>
+ایمیل
+</label>
+
+<input
+type="email"
+id="commentEmail"
+placeholder="example@email.com"
+required>
+
+</div>
+
+
+</div>
+
+
+<div class="field">
+
+<label>
+دیدگاه شما
+</label>
+
+<textarea
+id="commentText"
+placeholder="نظر، سوال یا تجربه خود را درباره این مقاله بنویسید..."
+required></textarea>
+
+</div>
+
+
+<button
+class="comment-submit"
+type="submit">
+
+ارسال دیدگاه
+
+</button>
+
+
+</form>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section class="article-cta">
+
+
+<h2>
+برای زیرساخت شبکه سازمانتان برنامه دارید؟
+</h2>
+
+
+<p>
+
+تیم متخصص دیتاپردازش خلیج فارس آماده بررسی و طراحی
+راهکار مناسب شبکه شماست.
+
+</p>
+
+
+<a
+href="../contactUs.html"
+class="cta-btn">
+
+درخواست مشاوره
+
+<span> ❯ </span>
+
+</a>
+
+
+</section>
+
+
+</article>
+
+
+</div>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+
+<div class="footer-container">
+
+
+<div class="footer-column">
+
+<h3>
+دیتا پردازش خلیج فارس
+</h3>
+
+<p>
+
+ارائه‌دهنده خدمات شبکه، نظارت تصویری، آرشیو الکترونیک
+و زیرساخت‌های فناوری اطلاعات از سال ۱۳۸۷.
+
+</p>
+
+
+<div class="social-links">
+
+<a href="#" aria-label="اینستاگرام">
+IG
+</a>
+
+<a href="#" aria-label="لینکدین">
+in
+</a>
+
+<a href="#" aria-label="تلگرام">
+TG
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="footer-column">
+
+<h3>
+دسترسی سریع
+</h3>
+
+<ul class="footer-links">
+
+<li>
+<a href="../index.html">
+صفحه اصلی
+</a>
+</li>
+
+<li>
+<a href="#">
+خدمات ما
+</a>
+</li>
+
+<li>
+<a href="#">
+محصولات
+</a>
+</li>
+
+<li>
+<a href="#">
+پروژه‌ها
+</a>
+</li>
+
+<li>
+<a href="./contactUs.html">
+تماس با ما
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+
+<div class="footer-column">
+
+<h3>
+خدمات
+</h3>
+
+<ul class="footer-links">
+
+<li>
+<a href="#">
+خدمات شبکه
+</a>
+</li>
+
+<li>
+<a href="#">
+نظارت تصویری
+</a>
+</li>
+
+<li>
+<a href="#">
+آرشیو الکترونیک
+</a>
+</li>
+
+<li>
+<a href="#">
+هاستینگ و دیتاسنتر
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+
+<div class="footer-column">
+
+<h3>
+تماس با ما
+</h3>
+
+
+<div class="footer-contact">
+
+
+<div class="contact-item">
+
+<span class="contact-icon">
+☏
+</span>
+
+<a href="tel:+982122891940">
+021-22891940
+</a>
+
+</div>
+
+
+<div class="contact-item">
+
+<span class="contact-icon">
+✉
+</span>
+
+<a href="mailto:info@datapd.ir">
+info@datapd.ir
+</a>
+
+</div>
+
+
+<div class="contact-item">
+
+<span class="contact-icon">
+⚑
+</span>
+
+<p>
+تهران . پاسداران . نگارستان چهارم . پلاک 4
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="footer-bottom">
+
+<p>
+© ۱۴۰۴ دیتا پردازش خلیج فارس. تمامی حقوق محفوظ است.
+</p>
+
+
+<div class="footer-logo">
+
+<img
+src="../img/Logo.png"
+alt="Datapd">
+
+</div>
+
+</div>
+
+
+</footer>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   NAVBAR INDICATOR
+========================================================= */
+
+const navLinks =
+document.getElementById("navLinks");
+
+const indicator =
+document.getElementById("navIndicator");
+
+
+function moveIndicator(el){
+
+    if(!el || !indicator) return;
+
+    indicator.style.width =
+        el.offsetWidth + "px";
+
+    indicator.style.transform =
+        `translateX(${el.offsetLeft}px)`;
+
+}
+
+
+if(navLinks && indicator){
+
+    const links =
+        navLinks.querySelectorAll("a");
+
+    const active =
+        navLinks.querySelector(
+            'a[aria-current="page"]'
+        ) || links[0];
+
+
+    requestAnimationFrame(() => {
+
+        moveIndicator(active);
+
+        navLinks.classList.add("ready");
+
+    });
+
+
+    links.forEach(link => {
+
+        link.addEventListener(
+            "mouseenter",
+            () => moveIndicator(link)
+        );
+
+    });
+
+
+    navLinks.addEventListener(
+        "mouseleave",
+        () => moveIndicator(active)
+    );
+
+
+    window.addEventListener(
+        "resize",
+        () => moveIndicator(active)
+    );
+
+}
+
+
+
+/* =========================================================
+   NAVBAR MOUSE LIGHT
+========================================================= */
+
+const capsule =
+document.getElementById("navCapsule");
+
+
+if(capsule){
+
+    capsule.addEventListener(
+        "mousemove",
+        e => {
+
+            const rect =
+                capsule.getBoundingClientRect();
+
+            capsule.style.setProperty(
+                "--mx",
+                ((e.clientX - rect.left) /
+                rect.width * 100) + "%"
+            );
+
+            capsule.style.setProperty(
+                "--my",
+                ((e.clientY - rect.top) /
+                rect.height * 100) + "%"
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   🔦 ARTICLE TEXT FLASHLIGHT
+========================================================= */
+
+const article =
+document.getElementById("articleText");
+
+
+if(article){
+
+    article.addEventListener(
+        "mouseenter",
+        () => {
+
+            article.classList.add(
+                "light-active"
+            );
+
+        }
+    );
+
+
+    article.addEventListener(
+        "mouseleave",
+        () => {
+
+            article.classList.remove(
+                "light-active"
+            );
+
+        }
+    );
+
+
+    article.addEventListener(
+        "mousemove",
+        e => {
+
+            const rect =
+                article.getBoundingClientRect();
+
+
+            const x =
+                ((e.clientX - rect.left) /
+                rect.width) * 100;
+
+
+            const y =
+                ((e.clientY - rect.top) /
+                rect.height) * 100;
+
+
+            article.style.setProperty(
+                "--mx",
+                x + "%"
+            );
+
+
+            article.style.setProperty(
+                "--my",
+                y + "%"
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   READING PROGRESS
+========================================================= */
+
+const progress =
+document.getElementById("readProgress");
+
+
+function updateProgress(){
+
+    const scrollTop =
+        window.scrollY;
+
+    const documentHeight =
+        document.documentElement.scrollHeight
+        - window.innerHeight;
+
+
+    const percentage =
+        documentHeight > 0
+        ? (scrollTop / documentHeight) * 100
+        : 0;
+
+
+    progress.style.width =
+        Math.min(
+            100,
+            Math.max(0, percentage)
+        ) + "%";
+
+}
+
+
+window.addEventListener(
+    "scroll",
+    updateProgress,
+    {passive:true}
+);
+
+updateProgress();
+
+
+
+/* =========================================================
+   TABLE OF CONTENTS ACTIVE STATE
+========================================================= */
+
+const tocLinks =
+document.querySelectorAll(".toc a");
+
+const sections =
+document.querySelectorAll(
+    ".article-content section[id]"
+);
+
+
+const observer =
+new IntersectionObserver(
+    entries => {
+
+        entries.forEach(entry => {
+
+            if(entry.isIntersecting){
+
+                tocLinks.forEach(link => {
+
+                    link.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+                const activeLink =
+                    document.querySelector(
+                        `.toc a[href="#${entry.target.id}"]`
+                    );
+
+
+                if(activeLink){
+
+                    activeLink.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+
+        });
+
+    },
+
+    {
+        rootMargin:
+            "-20% 0px -65% 0px"
+    }
+
+);
+
+
+sections.forEach(section => {
+
+    observer.observe(section);
+
+});
+
+
+
+/* =========================================================
+   SHARE
+========================================================= */
+
+function shareArticle(type){
+
+    const url =
+        window.location.href;
+
+    const title =
+        document.title;
+
+
+    if(type === "telegram"){
+
+        const telegramUrl =
+            "https://t.me/share/url?url="
+            + encodeURIComponent(url)
+            + "&text="
+            + encodeURIComponent(title);
+
+        window.open(
+            telegramUrl,
+            "_blank"
+        );
+
+    }
+
+
+    if(type === "linkedin"){
+
+        const linkedinUrl =
+            "https://www.linkedin.com/sharing/share-offsite/?url="
+            + encodeURIComponent(url);
+
+        window.open(
+            linkedinUrl,
+            "_blank"
+        );
+
+    }
+
+}
+
+
+
+function copyArticleLink(){
+
+    navigator.clipboard
+    .writeText(
+        window.location.href
+    )
+    .then(() => {
+
+        alert(
+            "لینک مقاله با موفقیت کپی شد."
+        );
+
+    });
+
+}
+
+
+
+/* =========================================================
+   COMMENTS DEMO
+========================================================= */
+
+const commentForm =
+document.getElementById(
+    "commentForm"
+);
+
+
+commentForm.addEventListener(
+    "submit",
+    function(e){
+
+        e.preventDefault();
+
+
+        const name =
+            document.getElementById(
+                "commentName"
+            ).value.trim();
+
+
+        const text =
+            document.getElementById(
+                "commentText"
+            ).value.trim();
+
+
+        if(!name || !text){
+
+            alert(
+                "لطفاً نام و دیدگاه خود را وارد کنید."
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "دیدگاه شما با موفقیت ثبت شد."
+        );
+
+
+        commentForm.reset();
+
+    }
+);
+
+
+
+/* =========================================================
+   SMOOTH TOC
+========================================================= */
+
+document.querySelectorAll(
+    '.toc a[href^="#"]'
+).forEach(link => {
+
+    link.addEventListener(
+        "click",
+        function(e){
+
+            const target =
+                document.querySelector(
+                    this.getAttribute("href")
+                );
+
+
+            if(target){
+
+                e.preventDefault();
+
+                target.scrollIntoView({
+                    behavior:"smooth",
+                    block:"start"
+                });
+
+            }
+
+        }
+    );
+
+});
+
+
+</script>
+
+
+</body>
+</html>

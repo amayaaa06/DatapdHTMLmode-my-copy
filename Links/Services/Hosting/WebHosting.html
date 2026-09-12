@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وب هاستینگ | دیتاپردازش خلیج فارس</title>
+<style>
+  @import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+  :root{
+    --bg-1:#011324;
+    --bg-2:#0c1c33;
+    --navy-900:#0c1c33;
+    --navy-800:#16324c;
+    --navy-700:#1c3a58;
+    --glass:rgba(255,255,255,.055);
+    --glass-strong:rgba(255,255,255,.09);
+    --glass-border:rgba(255,255,255,.14);
+    --glass-border-soft:rgba(255,255,255,.07);
+    --text:#f5f8fa;
+    --text-dim:#b7c6d4;
+    --text-dimmer:#7c8ba0;
+    --teal:#2fb8c9;
+    --teal-soft:rgba(47,184,201,.35);
+    --teal-600:#16788f;
+    --teal-800:#0a3c5c;
+    --radius-lg:28px;
+    --radius-md:18px;
+    --radius-sm:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Vazirmatn', sans-serif;
+    background:
+      radial-gradient(1100px 700px at 82% -8%, rgba(47,184,201,.14), transparent 60%),
+      radial-gradient(900px 650px at -8% 108%, rgba(22,50,76,.5), transparent 60%),
+      linear-gradient(160deg, var(--bg-1), var(--bg-2) 60%, var(--bg-1));
+    color:var(--text);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+  .blueprint{
+    position:fixed;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(1200px 800px at 50% 20%, black, transparent 75%);
+    mask-image:radial-gradient(1200px 800px at 50% 20%, black, transparent 75%);
+    z-index:0;
+  }
+  .orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;transition:transform .6s ease-out;}
+  .orb-amber{width:420px;height:420px;background:rgba(47,184,201,.22);top:-120px;left:62%;}
+  .orb-teal{width:380px;height:380px;background:rgba(0,224,208,.16);bottom:-140px;left:4%;}
+
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 32px 60px;}
+
+  /* ---------- header ---------- */
+  header{position:relative;z-index:20;padding:28px 0 60px;}
+  .nav-capsule{
+    position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:8px 10px;border-radius:999px;
+    background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
+    border:1px solid var(--glass-border-soft);
+    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    box-shadow:0 24px 55px -22px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
+    overflow:hidden;
+  }
+  .nav-capsule::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%), rgba(255,255,255,.14), transparent 65%);
+    opacity:0;transition:opacity .4s ease;pointer-events:none;
+  }
+  .nav-capsule:hover::before{opacity:1;}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);font-weight:800;font-size:15.5px;letter-spacing:.2px;padding-left:8px;white-space:nowrap;}
+  .brand-badge{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 5px rgba(47,184,201,.08), 0 8px 18px rgba(0,0,0,.4);overflow:hidden;}
+  .brand-badge img{width:58%;height:58%;object-fit:contain;}
+  .nav-links{position:relative;display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:999px;padding:5px;}
+  .nav-links a{position:relative;z-index:2;display:inline-block;padding:9px 20px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--text-dim);text-decoration:none;white-space:nowrap;transition:color .3s ease;}
+  .nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--text);}
+  .nav-indicator{position:absolute;top:5px;bottom:5px;left:0;width:0;border-radius:999px;background:linear-gradient(135deg, rgba(47,184,201,.4), rgba(0,124,240,.28));border:1px solid rgba(47,184,201,.45);box-shadow:0 0 18px rgba(47,184,201,.4);transition:transform .4s cubic-bezier(.4,0,.2,1), width .4s cubic-bezier(.4,0,.2,1), opacity .25s ease;z-index:1;pointer-events:none;opacity:0;}
+  .nav-links.ready .nav-indicator{opacity:1;}
+  .nav-cta{display:flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 0 20px rgba(0,224,255,.45);transition:transform .25s ease, box-shadow .25s ease;flex-shrink:0;}
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(0,224,255,.6);}
+  .nav-cta svg{width:13px;height:13px;transition:transform .3s ease;}
+  .nav-cta:hover svg{transform:translateX(-3px);}
+  @media (max-width:860px){.nav-links{display:none;}}
+  @media (max-width:520px){
+    header{padding:22px 0 46px;}
+    .nav-capsule{border-radius:26px;padding:14px;flex-wrap:wrap;justify-content:center;gap:14px;}
+    .brand{padding-left:0;}
+    .nav-cta{width:100%;justify-content:center;}
+  }
+
+  /* ---------- breadcrumb ---------- */
+  .breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:30px;font-size:12.5px;color:rgba(255,255,255,.45);}
+  .breadcrumb a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s ease;}
+  .breadcrumb a:hover{color:var(--teal);}
+  .breadcrumb span.current{color:var(--teal);}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--teal);letter-spacing:.5px;font-weight:600;margin-bottom:18px;}
+  .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px 2px var(--teal-soft);}
+
+  h1{font-size:clamp(30px, 3.6vw, 46px);font-weight:800;line-height:1.4;letter-spacing:-.5px;margin-bottom:20px;}
+  h1 span{color:#00e0d0;text-shadow:0 0 40px rgba(5,226,200,.8);}
+  h2{font-size:clamp(21px,2.4vw,28px);font-weight:700;margin-bottom:14px;}
+  h2 span{color:#00e0d0;}
+  .lead{font-size:15.5px;line-height:2.1;color:var(--text-dim);}
+
+  /* ---------- spotlight ---------- */
+  .spot{position:relative;overflow:hidden;}
+  .spot::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.14), transparent 62%);
+    opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1;
+  }
+  .spot.spot-on::before{opacity:1;}
+  .spot > *{position:relative;z-index:2;}
+
+  /* ---------- hero split ---------- */
+  .hero-split{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;margin-bottom:56px;}
+  .hero-pills{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 32px;}
+  .hero-pills span{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;font-size:12.5px;color:var(--text-dim);background:rgba(255,255,255,.04);border:1px solid var(--glass-border-soft);}
+  .hero-pills span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px rgba(47,184,201,.7);}
+  .hero-buttons{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:0 26px;height:52px;border-radius:999px;text-decoration:none;font-size:14.5px;font-weight:600;transition:transform .25s ease, box-shadow .25s ease;}
+  .btn-primary{background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;box-shadow:0 0 20px rgba(0,224,255,.5);}
+  .btn-secondary{border:1px solid var(--glass-border);color:var(--text);background:rgba(255,255,255,.03);}
+  .btn:hover{transform:translateY(-3px);}
+
+  /* ---------- hosting status mock (جایگزین خلاقانه‌ی عکس) ---------- */
+  .hero-media{position:relative;}
+  .host-mock{
+    position:relative;border-radius:26px;overflow:hidden;
+    background:linear-gradient(180deg, rgba(22,50,76,.62), rgba(12,30,51,.5));
+    border:1px solid var(--glass-border);
+    box-shadow:0 30px 70px -25px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  }
+  .host-mock-bar{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--glass-border-soft);}
+  .host-dot{width:10px;height:10px;border-radius:50%;}
+  .host-dot.r{background:#ff6b6b;opacity:.75;}
+  .host-dot.y{background:#ffd166;opacity:.75;}
+  .host-dot.g{background:#06d6a0;opacity:.75;}
+  .host-mock-url{
+    flex:1;direction:ltr;font-family:'Courier New',monospace;font-size:12px;color:var(--text-dim);
+    display:flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.04);border-radius:999px;padding:6px 14px;margin-right:4px;
+  }
+  .host-mock-url svg{width:12px;height:12px;stroke:var(--teal);flex-shrink:0;}
+  .host-live{display:flex;align-items:center;gap:6px;font-size:10.5px;color:#06d6a0;flex-shrink:0;}
+
+  .host-mock-body{padding:30px 26px 32px;}
+  .host-speed{display:flex;align-items:center;gap:18px;padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid var(--glass-border-soft);}
+  .host-speed-ring{
+    width:72px;height:72px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;flex-direction:column;
+    background:conic-gradient(#00e0c6 0deg, #007cf0 300deg, rgba(255,255,255,.08) 300deg);
+    position:relative;
+  }
+  .host-speed-ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--bg-1);}
+  .host-speed-ring b{position:relative;z-index:2;font-size:15px;font-weight:800;color:var(--text);direction:ltr;}
+  .host-speed-ring span{position:relative;z-index:2;font-size:8px;color:var(--text-dimmer);}
+  .host-speed-text b{display:block;font-size:14px;margin-bottom:4px;}
+  .host-speed-text span{font-size:11.5px;color:var(--text-dimmer);}
+
+  .host-checklist{display:flex;flex-direction:column;gap:12px;}
+  .host-check-row{
+    display:flex;align-items:center;gap:12px;
+    opacity:0;transform:translateY(6px);
+    animation:hostFadeIn .5s ease forwards;
+  }
+  .host-check-row:nth-child(1){animation-delay:.2s;}
+  .host-check-row:nth-child(2){animation-delay:.45s;}
+  .host-check-row:nth-child(3){animation-delay:.7s;}
+  .host-check-row:nth-child(4){animation-delay:.95s;}
+  @keyframes hostFadeIn{to{opacity:1;transform:translateY(0);}}
+  .host-check-icon{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#06d6a0,#00b894);display:flex;align-items:center;justify-content:center;}
+  .host-check-icon svg{width:12px;height:12px;stroke:#fff;}
+  .host-check-row span{font-size:12.8px;color:var(--text-dim);}
+
+  .floating-chip{position:absolute;display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:18px;background:linear-gradient(180deg, rgba(22,50,76,.9), rgba(12,30,51,.9));border:1px solid var(--glass-border);backdrop-filter:blur(14px);box-shadow:0 16px 34px rgba(0,0,0,.45);z-index:3;}
+  .floating-chip .chip-icon{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));}
+  .floating-chip .chip-icon svg{width:16px;height:16px;stroke:#fff;}
+  .floating-chip b{display:block;font-size:14px;}
+  .floating-chip span{display:block;font-size:10.5px;color:var(--text-dimmer);}
+  .chip-1{bottom:-18px;right:24px;}
+  .chip-2{top:-18px;left:20px;}
+  @media (max-width:920px){
+    .hero-split{grid-template-columns:1fr;gap:60px;}
+    .hero-media{order:-1;}
+    .floating-chip{position:static;margin-top:14px;display:inline-flex;}
+    .chip-1,.chip-2{margin-left:8px;}
+  }
+
+  /* ---------- trust strip ---------- */
+  .trust-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:80px;}
+  .trust-card{text-align:center;padding:24px 14px;border-radius:22px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015));border:1px solid var(--glass-border-soft);backdrop-filter:blur(14px);}
+  .trust-card .stat-icon{width:38px;height:38px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));}
+  .trust-card .stat-icon svg{width:17px;height:17px;stroke:#fff;}
+  .trust-card span{font-size:12px;color:var(--text-dim);line-height:1.7;}
+  @media (max-width:720px){.trust-strip{grid-template-columns:1fr 1fr;}}
+
+  section.block{margin-top:90px;}
+  .section-head{text-align:center;max-width:680px;margin:0 auto 44px;}
+  .section-head .eyebrow{justify-content:center;}
+
+  /* ---------- mini feature grid ---------- */
+  .mini-feature-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(230px,1fr));gap:16px;}
+  .mini-feature{padding:24px 22px;border-radius:20px;background:rgba(255,255,255,.045);border:1px solid var(--glass-border-soft);backdrop-filter:blur(12px);transition:transform .3s ease, border-color .3s ease;position:relative;}
+  .mini-feature:hover{transform:translateY(-5px);border-color:rgba(47,184,201,.4);}
+  .mini-feature .mf-num{position:absolute;top:18px;left:20px;font-size:11px;font-weight:700;color:var(--text-dimmer);}
+  .mini-feature .mf-icon{width:44px;height:44px;border-radius:13px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(47,184,201,.22), rgba(22,50,76,.4));border:1px solid rgba(255,255,255,.1);}
+  .mini-feature .mf-icon svg{width:20px;height:20px;stroke:var(--teal);}
+  .mini-feature h4{font-size:15px;font-weight:700;margin-bottom:8px;}
+  .mini-feature p{font-size:12.8px;line-height:1.9;color:var(--text-dimmer);}
+
+  /* ---------- flow scroll ---------- */
+  .flow-wrap{position:relative;}
+  .flow-scroll{
+    display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:8px 4px 18px;
+    -webkit-mask-image:linear-gradient(90deg, transparent, black 3%, black 97%, transparent);
+    mask-image:linear-gradient(90deg, transparent, black 3%, black 97%, transparent);
+    scrollbar-width:thin;scrollbar-color:var(--teal) transparent;
+  }
+  .flow-scroll::-webkit-scrollbar{height:6px;}
+  .flow-scroll::-webkit-scrollbar-thumb{background:var(--teal-soft);border-radius:999px;}
+  .flow-card{
+    flex:0 0 280px;scroll-snap-align:start;position:relative;
+    padding:28px 24px;border-radius:24px;
+    background:linear-gradient(160deg, rgba(255,255,255,.065), rgba(255,255,255,.015));
+    border:1px solid var(--glass-border-soft);
+    backdrop-filter:blur(16px);
+    transition:transform .3s ease, border-color .3s ease;
+  }
+  .flow-card:hover{transform:translateY(-6px);border-color:rgba(47,184,201,.4);}
+  .flow-step{font-size:11.5px;font-weight:700;color:var(--teal);letter-spacing:.4px;margin-bottom:16px;}
+  .flow-icon{width:48px;height:48px;border-radius:14px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.2);}
+  .flow-icon svg{width:21px;height:21px;stroke:#fff;}
+  .flow-card h4{font-size:15.5px;font-weight:700;margin-bottom:10px;}
+  .flow-card p{font-size:12.8px;line-height:1.9;color:var(--text-dim);}
+  .flow-nav{display:flex;justify-content:center;gap:10px;margin-top:6px;}
+  .flow-nav button{
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(255,255,255,.05);border:1px solid var(--glass-border-soft);
+    color:var(--text-dim);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .25s ease, color .25s ease;
+  }
+  .flow-nav button:hover{border-color:rgba(47,184,201,.5);color:var(--text);}
+  .flow-nav button svg{width:16px;height:16px;}
+
+  /* ---------- callout ---------- */
+  .callout{position:relative;margin-top:90px;padding:40px 44px;border-radius:26px;background:linear-gradient(135deg, rgba(22,50,76,.5), rgba(12,30,51,.3));border:1px solid var(--glass-border);text-align:center;}
+  .callout .quote-mark{font-size:52px;font-weight:800;color:var(--teal);line-height:1;margin-bottom:10px;font-family:Georgia, serif;}
+  .callout p{font-size:16px;line-height:1.95;color:var(--text);max-width:62ch;margin:0 auto;}
+
+  /* ---------- cta banner ---------- */
+  .cta-banner{position:relative;text-align:center;padding:60px 30px;border-radius:28px;background:linear-gradient(160deg, rgba(22,50,76,.65), rgba(10,15,30,.55));border:1px solid var(--glass-border);backdrop-filter:blur(18px);overflow:hidden;}
+  .cta-banner::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);background-size:42px 42px;-webkit-mask-image:radial-gradient(500px 260px at 50% 30%, black, transparent 75%);mask-image:radial-gradient(500px 260px at 50% 30%, black, transparent 75%);pointer-events:none;}
+  .cta-badge{width:58px;height:58px;margin:0 auto 20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#00e0c6,#007cf0);box-shadow:0 0 0 8px rgba(47,184,201,.08), 0 12px 30px rgba(0,124,240,.4);position:relative;z-index:2;}
+  .cta-badge svg{width:24px;height:24px;stroke:#fff;}
+  .cta-banner h2{position:relative;z-index:2;margin-bottom:14px;}
+  .cta-banner p{position:relative;z-index:2;color:rgba(255,255,255,.65);font-size:14.5px;margin-bottom:30px;max-width:56ch;margin-inline:auto;}
+  .cta-buttons{position:relative;z-index:2;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
+  .cta-phones{position:relative;z-index:2;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+  .cta-phones a{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-size:13px;color:var(--text-dim);background:rgba(255,255,255,.04);border:1px solid var(--glass-border-soft);text-decoration:none;direction:ltr;transition:color .25s ease, border-color .25s ease;}
+  .cta-phones a:hover{color:var(--text);border-color:rgba(47,184,201,.4);}
+  .cta-phones a svg{width:14px;height:14px;stroke:var(--teal);}
+
+  /* ---------- footer ---------- */
+  .footer{margin-top:90px;width:100%;background:none;border-top:1px solid rgba(255,255,255,.08);color:#fff;}
+  .footer-container{width:90%;max-width:1300px;margin:auto;padding:38px 30px 28px;display:grid;grid-template-columns:1.25fr 1fr 1fr 1.35fr;gap:50px;direction:rtl;border:1px solid rgba(255,255,255,.10);border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));backdrop-filter:blur(15px);}
+  .footer-column{min-width:0;}
+  .footer-column h3{margin:0 0 18px;font-size:15px;font-weight:600;color:#fff;position:relative;}
+  .footer-column h3::after{content:"";display:block;width:28px;height:2px;margin-top:8px;border-radius:10px;background:#00dcd0;box-shadow:0 0 8px rgba(0,224,208,.5);}
+  .footer-links{list-style:none;padding:0;margin:0;}
+  .footer-links li{margin-bottom:11px;}
+  .footer-links a{text-decoration:none;color:rgba(255,255,255,.58);font-size:12px;transition:color .25s ease, padding-right .25s ease;}
+  .footer-links a:hover{color:#00dcd0;padding-right:5px;}
+  .footer-contact{display:flex;flex-direction:column;gap:12px;}
+  .contact-item{display:flex;align-items:flex-start;gap:9px;}
+  .contact-icon{flex-shrink:0;width:20px;color:#00dcd0;font-size:17px;text-align:center;}
+  .contact-item p,.contact-item a{margin:0;color:rgba(255,255,255,.58);text-decoration:none;font-size:11px;line-height:1.9;transition:color .25s ease;}
+  .contact-item a:hover{color:#00dcd0;}
+  .newsletter-text{margin:0 0 15px;color:rgba(255,255,255,.55);font-size:11px;line-height:2;}
+  .newsletter-form{width:100%;height:42px;display:flex;align-items:center;overflow:hidden;border-radius:12px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);}
+  .newsletter-form input{flex:1;min-width:0;height:100%;border:none;outline:none;background:transparent;color:#fff;padding:0 13px;font-family:"Vazirmatn",sans-serif;font-size:11px;direction:rtl;}
+  .newsletter-form input::placeholder{color:rgba(255,255,255,.35);}
+  .newsletter-form button{width:48px;height:100%;border:none;cursor:pointer;background:linear-gradient(135deg,#00aeb0,#087e99);color:#fff;font-size:17px;}
+  .social-links{display:flex;align-items:center;gap:10px;margin-top:16px;}
+  .social-links a{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));box-shadow:0 5px 15px rgba(0,0,0,.15);transition:transform .25s ease, background .25s ease;}
+  .social-links a:hover{transform:translateY(-4px);background:rgba(0,224,208,.10);}
+  .social-links a img{width:18px;height:18px;object-fit:contain;filter:brightness(0) invert(1);}
+  .footer-bottom{width:90%;max-width:1300px;margin:auto;min-height:70px;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);direction:rtl;}
+  .footer-bottom p{margin:0;color:rgba(255,255,255,.45);font-size:10px;}
+  .footer-logo img{height:48px;width:auto;object-fit:contain;}
+
+  @media (max-width:960px){.footer-container{grid-template-columns:repeat(2,1fr);gap:35px;}}
+  @media (max-width:600px){
+    .footer{margin-top:60px;}
+    .footer-container{width:94%;padding:30px 22px;grid-template-columns:1fr;gap:30px;}
+    .footer-bottom{width:94%;padding:15px 10px;flex-direction:column;gap:12px;text-align:center;}
+    .footer-logo{order:-1;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+    .orb{transition:none;}
+    .host-check-row{animation:none;opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="blueprint"></div>
+<div class="orb orb-amber" id="orbAmber"></div>
+<div class="orb orb-teal" id="orbTeal"></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="nav-capsule" id="navCapsule">
+        <a href="../../../index.html" class="brand">
+            <span class="brand-badge"><img src="../../../img/Logo.png" alt="Logo"></span>
+            دیتاپردازش خلیج فارس
+        </a>
+        <nav class="nav-links" id="navLinks">
+            <span class="nav-indicator" id="navIndicator"></span>
+            <a href="../../../index.html">صفحه اصلی</a>
+            <a href="../../aboutUs.html">درباره ما</a>
+            <a href="#" aria-current="page">خدمات</a>
+            <a href="../../contactUs.html">تماس با ما</a>
+        </nav>
+        <a href="../../contactUs.html" class="nav-cta">
+            مشاوره رایگان
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="breadcrumb">
+        <a href="../../../index.html">خانه</a>
+        <span>/</span>
+        <a href="#">خدمات</a>
+        <span>/</span>
+        <span class="current">وب هاستینگ</span>
+    </div>
+
+    <!-- ================= HERO ================= -->
+    <div class="hero-split">
+        <div class="hero-text">
+            <div class="eyebrow">وب هاستینگ</div>
+            <h1>ستون فقرات <span>حضور آنلاین</span> کسب‌وکار شما</h1>
+            <p class="lead">
+                داشتن یک وب‌سایت حرفه‌ای دیگر یک گزینه نیست، بلکه ضرورت است. اما برای اینکه وب‌سایت شما همیشه
+                در دسترس باشد، با سرعت بالا بارگذاری شود و امنیت آن تضمین شود، به یک سرویس هاستینگ قابل‌اعتماد
+                نیاز دارید — اینجاست که دیتاپردازش وارد میدان می‌شود.
+            </p>
+            <div class="hero-pills">
+                <span>دسترسی ۲۴/۷</span>
+                <span>سرعت بارگذاری بالا</span>
+                <span>بکاپ‌گیری منظم</span>
+                <span>قیمت رقابتی</span>
+            </div>
+            <div class="hero-buttons">
+                <a href="../../contactUs.html" class="btn btn-primary">مشاوره رایگان هاستینگ <span>❯</span></a>
+                <a href="tel:02123841589" class="btn btn-secondary">تماس مستقیم <span>❯</span></a>
+            </div>
+        </div>
+
+        <div class="hero-media">
+            <div class="host-mock spot">
+                <div class="host-mock-bar">
+                    <span class="host-dot r"></span>
+                    <span class="host-dot y"></span>
+                    <span class="host-dot g"></span>
+                    <div class="host-mock-url">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        yourwebsite.ir
+                    </div>
+                    <span class="host-live"><span class="pulse-dot" style="width:7px;height:7px;border-radius:50%;background:#06d6a0;box-shadow:0 0 0 0 rgba(6,214,160,.6);animation:pulse 1.8s ease-out infinite;"></span>آنلاین</span>
+                </div>
+                <div class="host-mock-body">
+                    <div class="host-speed">
+                        <div class="host-speed-ring"><b>0.8s</b><span>LOAD</span></div>
+                        <div class="host-speed-text">
+                            <b>زمان بارگذاری صفحه</b>
+                            <span>سریع‌تر از ۸۹٪ وب‌سایت‌های مشابه</span>
+                        </div>
+                    </div>
+                    <div class="host-checklist">
+                        <div class="host-check-row">
+                            <span class="host-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                            <span>گواهی SSL فعال و معتبر</span>
+                        </div>
+                        <div class="host-check-row">
+                            <span class="host-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                            <span>بکاپ‌گیری خودکار روزانه</span>
+                        </div>
+                        <div class="host-check-row">
+                            <span class="host-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+                            <span>پایش و مانیتورینگ ۲۴/۷</span>
+                        </div>
+                        <div class="host-check-row">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="floating-chip chip-2">
+                <span class="chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+                <div><b>دسترسی ۲۴/۷</b><span>همیشه آنلاین و در دسترس</span></div>
+            </div>
+            <div class="floating-chip chip-1">
+                <span class="chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg></span>
+                <div><b>امنیت پیشرفته</b><span>فایروال و مانیتورینگ دائمی</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= TRUST STRIP ================= -->
+    <div class="trust-strip">
+        <div class="trust-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+            <span>دسترسی ۲۴/۷</span>
+        </div>
+        <div class="trust-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/></svg></div>
+            <span>سرعت بارگذاری بالا</span>
+        </div>
+        <div class="trust-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg></div>
+            <span>امنیت و حفاظت داده</span>
+        </div>
+        <div class="trust-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v9"/><path d="m3 19 4-4h13a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg></div>
+            <span>بکاپ‌گیری منظم</span>
+        </div>
+    </div>
+
+    <!-- ================= چرا وب هاستینگ اهمیت دارد ================= -->
+    <section class="block">
+        <div class="section-head">
+            <div class="eyebrow">اهمیت هاستینگ</div>
+            <h2>چرا وب هاستینگ اهمیت دارد؟</h2>
+        </div>
+
+        <div class="mini-feature-grid">
+            <div class="mini-feature spot">
+                <span class="mf-num">۰۱</span>
+                <div class="mf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+                <h4>دسترسی ۲۴/۷</h4>
+                <p>وب‌سایت شما همیشه باید آنلاین و در دسترس باشد؛ حتی در روزهای تعطیل.</p>
+            </div>
+            <div class="mini-feature spot">
+                <span class="mf-num">۰۲</span>
+                <div class="mf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/></svg></div>
+                <h4>سرعت بارگذاری بالا</h4>
+                <p>اگر سایت شما کند باشد، بازدیدکنندگان خیلی زود منصرف می‌شوند.</p>
+            </div>
+            <div class="mini-feature spot">
+                <span class="mf-num">۰۳</span>
+                <div class="mf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg></div>
+                <h4>امنیت و حفاظت از داده‌ها</h4>
+                <p>حملات سایبری هر روز بیشتر می‌شوند و سایت شما نیاز به امنیت قوی دارد.</p>
+            </div>
+            <div class="mini-feature spot">
+                <span class="mf-num">۰۴</span>
+                <div class="mf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg></div>
+                <h4>پشتیبانی حرفه‌ای</h4>
+                <p>وقتی مشکلی پیش بیاید، نیاز به تیمی دارید که سریع و دقیق مشکل را حل کند.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= چرا دیتاپردازش (اسکرول افقی) ================= -->
+    <section class="block">
+        <div class="section-head">
+            <div class="eyebrow">مزیت رقابتی</div>
+            <h2>چرا شرکت دیتاپردازش بهترین انتخاب است؟</h2>
+            <p class="lead" style="margin-top:10px;">برای مرور، کارت‌ها را به چپ و راست بکشید یا از دکمه‌های زیر استفاده کنید</p>
+        </div>
+
+        <div class="flow-wrap">
+            <div class="flow-scroll" id="flowScroll">
+
+                <div class="flow-card spot">
+                    <div class="flow-step">۰۱</div>
+                    <div class="flow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01"/><path d="M7 17h.01"/></svg></div>
+                    <h4>زیرساخت قدرتمند و به‌روز</h4>
+                    <p>با استفاده از سرورهای پرقدرت و تکنولوژی‌های روز، سرعت و پایداری وب‌سایت شما تضمین می‌شود.</p>
+                </div>
+
+                <div class="flow-card spot">
+                    <div class="flow-step">۰۲</div>
+                    <div class="flow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+                    <h4>پشتیبانی ۲۴ ساعته</h4>
+                    <p>تیم فنی ما همیشه آماده پاسخ‌گویی و حل مشکلات احتمالی است، حتی در نیمه‌شب!</p>
+                </div>
+
+                <div class="flow-card spot">
+                    <div class="flow-step">۰۳</div>
+                    <div class="flow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg></div>
+                    <h4>امنیت پیشرفته</h4>
+                    <p>پروتکل‌های امنیتی پیشرفته، فایروال‌های قوی و مانیتورینگ دائمی، داده‌های شما را همیشه محفوظ نگه می‌دارد.</p>
+                </div>
+
+                <div class="flow-card spot">
+                    <div class="flow-step">۰۴</div>
+                    <div class="flow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v9"/><path d="m3 19 4-4h13a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg></div>
+                    <h4>بکاپ‌گیری منظم</h4>
+                    <p>نگران از دست‌رفتن اطلاعات نباشید؛ به‌صورت منظم از وب‌سایت شما بکاپ می‌گیریم.</p>
+                </div>
+
+                <div class="flow-card spot">
+                    <div class="flow-step">۰۵</div>
+                    <div class="flow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6m11-11h-6M7 12H1m17.36-6.36-4.24 4.24m-6.24 6.24-4.24 4.24m14.72 0-4.24-4.24M8.88 8.88 4.64 4.64"/></svg></div>
+                    <h4>قیمت‌های رقابتی</h4>
+                    <p>خدمات حرفه‌ای نباید گران باشد. بهترین کیفیت را با مناسب‌ترین قیمت ارائه می‌دهیم.</p>
+                </div>
+
+            </div>
+
+            <div class="flow-nav">
+                <button type="button" id="flowNext" aria-label="بعدی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+                <button type="button" id="flowPrev" aria-label="قبلی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+            </div>
+        </div>
+
+        <div class="callout">
+            <div class="quote-mark">"</div>
+            <p>برای موفقیت در دنیای آنلاین، داشتن یک وب‌سایت عالی به‌تنهایی کافی نیست. هاستینگ حرفه‌ای و مطمئن راز موفقیت شماست — با انتخاب دیتاپردازش، وب‌سایت شما همیشه در دسترس، سریع و امن خواهد بود.</p>
+        </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="block">
+        <div class="cta-banner spot">
+            <div class="cta-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h2>یک گام جلوتر از رقبا باشید</h2>
+            <p>اگر می‌خواهید همیشه در دسترس، سریع و امن باشید، همین حالا با ما تماس بگیرید و وب‌سایت‌تان را به دست متخصصان دیتاپردازش بسپارید.</p>
+            <div class="cta-buttons">
+                <a href="../../contactUs.html" class="btn btn-primary">مشاوره رایگان هاستینگ <span>❯</span></a>
+            </div>
+            <div class="cta-phones">
+                <a href="tel:02123841589"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>021-23841589</a>
+                <a href="tel:02123891940"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>021-23891940</a>
+                <a href="tel:02123896293"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>021-23896293</a>
+            </div>
+        </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column contact-column">
+            <h3>اطلاعات تماس</h3>
+            <div class="footer-contact">
+                <div class="contact-item"><span class="contact-icon">⌖</span><p>تهران . پاسداران . نگارستان چهارم . پلاک 4</p></div>
+                <div class="contact-item"><span class="contact-icon">⌕</span><a href="tel:02122891940">021-22891940</a></div>
+                <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:info@datapd.ir">info@datapd.ir</a></div>
+                <div class="contact-item"><span class="contact-icon">◎</span><a href="#">ساعت کاری 8 صبح تا 4 بعدازظهر</a></div>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>خدمات</h3>
+            <ul class="footer-links">
+                <li><a href="../network/ActiveServices.html">اکتیو شبکه</a></li>
+                <li><a href="../cctv/cctv-support.html">نظارت تصویری</a></li>
+                <li><a href="../ElectronicArchive/archive-project.html">آرشیو الکترونیک</a></li>
+                <li><a href="./serverServices.html">ثبت و مدیریت دامنه</a></li>
+                <li><a href="./serverServices.html">سرور اختصاصی و مجازی</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>لینک‌های مفید</h3>
+            <ul class="footer-links">
+                <li><a href="#">مقالات منتخب</a></li>
+                <li><a href="#">شرایط و قوانین</a></li>
+                <li><a href="#">حریم خصوصی</a></li>
+                <li><a href="#">گواهینامه‌ها</a></li>
+                <li><a href="#">مستندات</a></li>
+            </ul>
+        </div>
+        <div class="footer-column newsletter-column">
+            <h3>خبرنامه</h3>
+            <p class="newsletter-text">برای دریافت آخرین اخبار و پیشنهادات در خبرنامه ما عضو شوید.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="ایمیل خود را وارد کنید">
+                <button type="submit">➤</button>
+            </form>
+            <div class="social-links">
+                <a href="#" aria-label="Telegram"><img src="../../../img/Telegram2.svg" alt="Telegram"></a>
+                <a href="#" aria-label="Instagram"><img src="../../../img/instagram2.svg" alt="Instagram"></a>
+                <a href="#" aria-label="Bale"><img src="../../../img/Bale2.svg" alt="Bale"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-logo"><img src="../../../img/Logo.png" alt="دیتاپردازش خلیج فارس"></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const navLinks = document.getElementById('navLinks');
+  const indicator = document.getElementById('navIndicator');
+  function moveIndicator(el){
+    if(!el || !indicator) return;
+    indicator.style.width = el.offsetWidth + 'px';
+    indicator.style.transform = `translateX(${el.offsetLeft}px)`;
+  }
+  if(navLinks && indicator){
+    const navA = navLinks.querySelectorAll('a');
+    const activeLink = navLinks.querySelector('a[aria-current="page"]') || navA[0];
+    requestAnimationFrame(() => { moveIndicator(activeLink); navLinks.classList.add('ready'); });
+    navA.forEach(link => link.addEventListener('mouseenter', () => moveIndicator(link)));
+    navLinks.addEventListener('mouseleave', () => moveIndicator(activeLink));
+    window.addEventListener('resize', () => moveIndicator(navLinks.querySelector('a:hover') || activeLink));
+  }
+
+  const capsule = document.getElementById('navCapsule');
+  if(capsule){
+    capsule.addEventListener('mousemove', (e) => {
+      const rect = capsule.getBoundingClientRect();
+      capsule.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      capsule.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  }
+
+  document.querySelectorAll('.spot').forEach(card => {
+    card.addEventListener('mouseenter', () => card.classList.add('spot-on'));
+    card.addEventListener('mouseleave', () => card.classList.remove('spot-on'));
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  });
+
+  const flowScroll = document.getElementById('flowScroll');
+  const flowNext = document.getElementById('flowNext');
+  const flowPrev = document.getElementById('flowPrev');
+  if(flowScroll && flowNext && flowPrev){
+    const scrollAmount = 300;
+    flowNext.addEventListener('click', () => flowScroll.scrollBy({left: -scrollAmount, behavior:'smooth'}));
+    flowPrev.addEventListener('click', () => flowScroll.scrollBy({left: scrollAmount, behavior:'smooth'}));
+  }
+
+  const orbAmber = document.getElementById('orbAmber');
+  const orbTeal = document.getElementById('orbTeal');
+  let rafId = null;
+  document.addEventListener('mousemove', (e) => {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      const px = (e.clientX / window.innerWidth - 0.5);
+      const py = (e.clientY / window.innerHeight - 0.5);
+      orbAmber.style.transform = `translate(${px * -30}px, ${py * -20}px)`;
+      orbTeal.style.transform = `translate(${px * 24}px, ${py * 18}px)`;
+      rafId = null;
+    });
+  });
+</script>
+
+</body>
+</html>

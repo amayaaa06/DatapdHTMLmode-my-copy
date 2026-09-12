@@ -1,0 +1,4109 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>فرصت‌های همکاری | دیتاپردازش خلیج فارس</title>
+
+<style>
+
+@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root{
+
+    --bg-1:#011324;
+    --bg-2:#0c1c33;
+
+    --navy-900:#0c1c33;
+    --navy-800:#16324c;
+    --navy-700:#1c3a58;
+
+    --glass:rgba(255,255,255,.055);
+    --glass-strong:rgba(255,255,255,.09);
+
+    --border:rgba(255,255,255,.12);
+    --border-soft:rgba(255,255,255,.07);
+
+    --text:#f5f8fa;
+    --text-dim:#b7c6d4;
+    --text-dimmer:#718196;
+
+    --teal:#2fb8c9;
+    --cyan:#00e0c6;
+    --blue:#007cf0;
+
+    --radius-xl:32px;
+    --radius-lg:24px;
+    --radius-md:18px;
+    --radius-sm:13px;
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:"Vazirmatn",sans-serif;
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    background:
+        radial-gradient(
+            1000px 700px at 80% -10%,
+            rgba(0,224,198,.14),
+            transparent 60%
+        ),
+        radial-gradient(
+            900px 650px at -10% 100%,
+            rgba(0,124,240,.15),
+            transparent 60%
+        ),
+        linear-gradient(
+            150deg,
+            var(--bg-1),
+            var(--bg-2) 60%,
+            #031525
+        );
+
+    overflow-x:hidden;
+
+}
+
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
+
+.blueprint{
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:0;
+
+    background-image:
+
+        linear-gradient(
+            rgba(255,255,255,.028) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.028) 1px,
+            transparent 1px
+        );
+
+    background-size:64px 64px;
+
+    mask-image:
+        radial-gradient(
+            1100px 800px at 50% 20%,
+            black,
+            transparent 80%
+        );
+
+}
+
+
+/* =========================================================
+   AMBIENT LIGHTS
+========================================================= */
+
+.orb{
+
+    position:fixed;
+
+    border-radius:50%;
+
+    filter:blur(100px);
+
+    pointer-events:none;
+
+    z-index:0;
+
+    transition:transform .7s ease-out;
+
+}
+
+.orb-1{
+
+    width:420px;
+    height:420px;
+
+    background:rgba(0,224,198,.16);
+
+    top:-150px;
+    left:65%;
+
+}
+
+.orb-2{
+
+    width:400px;
+    height:400px;
+
+    background:rgba(0,124,240,.13);
+
+    bottom:-160px;
+    left:0;
+
+}
+
+
+/* =========================================================
+   PAGE WRAPPER
+========================================================= */
+
+.page{
+
+    position:relative;
+
+    z-index:2;
+
+    width:min(1180px,92%);
+
+    margin:auto;
+
+    padding-bottom:80px;
+
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+header{
+
+    padding-top:28px;
+
+    margin-bottom:65px;
+
+}
+
+.nav{
+
+    height:68px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:8px 10px;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.02)
+        );
+
+    border:1px solid var(--border-soft);
+
+    backdrop-filter:blur(22px);
+
+    box-shadow:
+
+        0 25px 60px rgba(0,0,0,.35),
+
+        inset 0 1px 0
+        rgba(255,255,255,.12);
+
+}
+
+
+/* BRAND */
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    white-space:nowrap;
+
+}
+
+.brand-logo{
+
+    width:47px;
+
+    height:47px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #087e99,
+            #063b5b
+        );
+
+    border:1px solid rgba(255,255,255,.16);
+
+    box-shadow:
+
+        0 0 0 5px
+        rgba(0,224,198,.06),
+
+        0 8px 22px
+        rgba(0,0,0,.35);
+
+    overflow:hidden;
+
+}
+
+.brand-logo img{
+
+    width:65%;
+    height:65%;
+
+    object-fit:contain;
+
+}
+
+
+/* NAV LINKS */
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:3px;
+
+    padding:5px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.035);
+
+}
+
+.nav-links a{
+
+    color:var(--text-dim);
+
+    text-decoration:none;
+
+    font-size:12.5px;
+
+    padding:9px 17px;
+
+    border-radius:999px;
+
+    transition:.25s;
+
+}
+
+.nav-links a:hover{
+
+    color:white;
+
+    background:rgba(255,255,255,.08);
+
+}
+
+
+/* CTA */
+
+.nav-button{
+
+    text-decoration:none;
+
+    color:white;
+
+    font-size:12.5px;
+
+    padding:12px 20px;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--cyan),
+            var(--blue)
+        );
+
+    box-shadow:
+        0 0 22px
+        rgba(0,224,255,.35);
+
+    transition:.25s;
+
+}
+
+.nav-button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 0 30px
+        rgba(0,224,255,.55);
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+    text-align:center;
+
+    max-width:850px;
+
+    margin:0 auto 55px;
+
+}
+
+.hero-label{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    color:var(--cyan);
+
+    font-size:13px;
+
+    margin-bottom:20px;
+
+}
+
+.hero-label span{
+
+    width:7px;
+
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--cyan);
+
+    box-shadow:
+        0 0 15px
+        var(--cyan);
+
+}
+
+.hero h1{
+
+    font-size:
+        clamp(
+            36px,
+            6vw,
+            64px
+        );
+
+    line-height:1.3;
+
+    font-weight:850;
+
+    letter-spacing:-1px;
+
+    margin-bottom:22px;
+
+}
+
+.hero h1 strong{
+
+    color:var(--cyan);
+
+    text-shadow:
+        0 0 40px
+        rgba(0,224,198,.45);
+
+}
+
+.hero p{
+
+    color:var(--text-dim);
+
+    font-size:16px;
+
+    line-height:2.1;
+
+    max-width:650px;
+
+    margin:auto;
+
+}
+
+
+/* =========================================================
+   RECRUITMENT STATS
+========================================================= */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:14px;
+
+    margin-bottom:55px;
+
+}
+
+.stat{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:22px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.065),
+            rgba(255,255,255,.018)
+        );
+
+    border:1px solid var(--border-soft);
+
+    backdrop-filter:blur(18px);
+
+}
+
+.stat strong{
+
+    display:block;
+
+    font-size:25px;
+
+    color:var(--cyan);
+
+    margin-bottom:5px;
+
+}
+
+.stat span{
+
+    font-size:12px;
+
+    color:var(--text-dimmer);
+
+}
+
+
+/* =========================================================
+   MAIN APPLICATION CONTAINER
+========================================================= */
+
+.application{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:var(--radius-xl);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,50,75,.60),
+            rgba(5,20,35,.48)
+        );
+
+    border:1px solid var(--border);
+
+    backdrop-filter:blur(28px);
+
+    box-shadow:
+
+        0 40px 90px
+        rgba(0,0,0,.42),
+
+        inset 0 1px 0
+        rgba(255,255,255,.13);
+
+}
+
+
+/* =========================================================
+   MOUSE FLASHLIGHT
+========================================================= */
+
+.application::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            330px circle at
+            var(--mouse-x,50%)
+            var(--mouse-y,20%),
+
+            rgba(0,224,198,.13),
+
+            rgba(255,255,255,.055) 22%,
+
+            transparent 62%
+        );
+
+    opacity:0;
+
+    transition:opacity .25s;
+
+    pointer-events:none;
+
+    z-index:0;
+
+}
+
+.application:hover::before{
+
+    opacity:1;
+
+}
+
+
+/* =========================================================
+   FORM HEADER
+========================================================= */
+
+.form-header{
+
+    position:relative;
+
+    z-index:2;
+
+    padding:35px 38px 28px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.07);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+}
+
+.form-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.form-icon{
+
+    width:55px;
+
+    height:55px;
+
+    flex-shrink:0;
+
+    border-radius:17px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--cyan),
+            var(--blue)
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(0,224,198,.25);
+
+}
+
+.form-icon svg{
+
+    width:25px;
+
+    stroke:white;
+
+}
+
+.form-title h2{
+
+    font-size:20px;
+
+    margin-bottom:4px;
+
+}
+
+.form-title p{
+
+    font-size:12px;
+
+    color:var(--text-dimmer);
+
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-area{
+
+    padding:25px 38px 5px;
+
+}
+
+.progress-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:10px;
+
+    font-size:11px;
+
+    color:var(--text-dimmer);
+
+}
+
+.progress-bar{
+
+    height:5px;
+
+    border-radius:99px;
+
+    background:rgba(255,255,255,.06);
+
+    overflow:hidden;
+
+}
+
+.progress-fill{
+
+    width:25%;
+
+    height:100%;
+
+    border-radius:inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue),
+            var(--cyan)
+        );
+
+    box-shadow:
+        0 0 15px
+        rgba(0,224,198,.5);
+
+    transition:.45s ease;
+
+}
+
+
+/* =========================================================
+   FORM BODY
+========================================================= */
+
+.form-body{
+
+    position:relative;
+
+    z-index:2;
+
+    padding:35px 38px 42px;
+
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.form-section{
+
+    margin-bottom:35px;
+
+}
+
+.section-heading{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:22px;
+
+}
+
+.section-number{
+
+    width:31px;
+
+    height:31px;
+
+    border-radius:10px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        rgba(0,224,198,.10);
+
+    border:
+        1px solid
+        rgba(0,224,198,.22);
+
+    color:var(--cyan);
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+.section-heading h3{
+
+    font-size:15px;
+
+}
+
+.section-heading span{
+
+    color:var(--text-dimmer);
+
+    font-size:11px;
+
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.grid-2{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:16px;
+
+}
+
+.grid-3{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:16px;
+
+}
+
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.field{
+
+    margin-bottom:17px;
+
+}
+
+.field label{
+
+    display:block;
+
+    font-size:12px;
+
+    color:var(--text-dim);
+
+    margin-bottom:8px;
+
+}
+
+.required{
+
+    color:#ff7187;
+
+    margin-right:3px;
+
+}
+
+.field input,
+.field select,
+.field textarea{
+
+    width:100%;
+
+    border:none;
+
+    outline:none;
+
+    color:white;
+
+    font-family:inherit;
+
+    font-size:13px;
+
+    padding:14px 15px;
+
+    border-radius:13px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,.075);
+
+    transition:
+        .25s ease;
+
+}
+
+.field input::placeholder,
+.field textarea::placeholder{
+
+    color:#64758a;
+
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover{
+
+    background:
+        rgba(255,255,255,.065);
+
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+
+    border-color:
+        rgba(0,224,198,.65);
+
+    background:
+        rgba(255,255,255,.075);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(0,224,198,.08),
+
+        0 0 25px
+        rgba(0,224,198,.08);
+
+}
+
+.field textarea{
+
+    min-height:120px;
+
+    resize:vertical;
+
+    line-height:1.9;
+
+}
+
+.field select{
+
+    appearance:none;
+
+    cursor:pointer;
+
+}
+
+
+/* =========================================================
+   RADIO / CHECKBOX CARDS
+========================================================= */
+
+.choice-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:12px;
+
+}
+
+.choice{
+
+    position:relative;
+
+}
+
+.choice input{
+
+    position:absolute;
+
+    opacity:0;
+
+}
+
+.choice label{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-height:55px;
+
+    padding:12px;
+
+    text-align:center;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    color:var(--text-dim);
+
+    font-size:12px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.075);
+
+    transition:.25s;
+
+}
+
+.choice label:hover{
+
+    background:
+        rgba(255,255,255,.065);
+
+    transform:translateY(-2px);
+
+}
+
+.choice input:checked + label{
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,224,198,.16),
+            rgba(0,124,240,.12)
+        );
+
+    border-color:
+        rgba(0,224,198,.55);
+
+    box-shadow:
+        0 0 20px
+        rgba(0,224,198,.10);
+
+}
+
+
+/* =========================================================
+   SKILLS
+========================================================= */
+
+.skills{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:9px;
+
+}
+
+.skill{
+
+    position:relative;
+
+}
+
+.skill input{
+
+    position:absolute;
+
+    opacity:0;
+
+}
+
+.skill label{
+
+    display:block;
+
+    cursor:pointer;
+
+    padding:9px 14px;
+
+    border-radius:999px;
+
+    font-size:11px;
+
+    color:var(--text-dim);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.25s;
+
+}
+
+.skill label:hover{
+
+    border-color:
+        rgba(0,224,198,.35);
+
+}
+
+.skill input:checked + label{
+
+    color:white;
+
+    background:
+        rgba(0,224,198,.12);
+
+    border-color:
+        rgba(0,224,198,.5);
+
+}
+
+
+/* =========================================================
+   FILE UPLOAD
+========================================================= */
+
+.file-upload{
+
+    position:relative;
+
+    border:
+        1px dashed
+        rgba(0,224,198,.28);
+
+    border-radius:18px;
+
+    padding:30px;
+
+    text-align:center;
+
+    background:
+        rgba(0,224,198,.025);
+
+    transition:.3s;
+
+}
+
+.file-upload:hover{
+
+    background:
+        rgba(0,224,198,.06);
+
+    border-color:
+        rgba(0,224,198,.55);
+
+}
+
+.file-upload input{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    opacity:0;
+
+    cursor:pointer;
+
+}
+
+.upload-icon{
+
+    width:48px;
+
+    height:48px;
+
+    margin:0 auto 10px;
+
+    border-radius:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        rgba(0,224,198,.10);
+
+    color:var(--cyan);
+
+}
+
+.upload-icon svg{
+
+    width:21px;
+
+}
+
+.file-upload strong{
+
+    display:block;
+
+    font-size:13px;
+
+    margin-bottom:5px;
+
+}
+
+.file-upload span{
+
+    font-size:10px;
+
+    color:var(--text-dimmer);
+
+}
+
+
+/* =========================================================
+   CONSENT
+========================================================= */
+
+.consent{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    margin-top:25px;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.05);
+
+}
+
+.consent input{
+
+    margin-top:4px;
+
+    accent-color:var(--cyan);
+
+}
+
+.consent label{
+
+    font-size:11px;
+
+    color:var(--text-dim);
+
+    line-height:1.8;
+
+}
+
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.submit-wrapper{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+}
+
+.submit{
+
+    height:55px;
+
+    min-width:220px;
+
+    border:none;
+
+    border-radius:999px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--cyan),
+            var(--blue)
+        );
+
+    box-shadow:
+        0 0 30px
+        rgba(0,224,198,.28);
+
+    transition:.25s;
+
+}
+
+.submit:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 0 40px
+        rgba(0,224,198,.45);
+
+}
+
+.submit:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+}
+
+.submit svg{
+
+    width:18px;
+
+    transition:.3s;
+
+}
+
+.submit:hover svg{
+
+    transform:
+        translateX(-5px);
+
+}
+
+
+/* =========================================================
+   SUCCESS SCREEN
+========================================================= */
+
+.success{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:20;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:30px;
+
+    background:
+        linear-gradient(
+            150deg,
+            rgba(5,22,38,.97),
+            rgba(2,14,27,.98)
+        );
+
+    backdrop-filter:blur(25px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transform:scale(.98);
+
+    transition:.4s;
+
+}
+
+.success.show{
+
+    opacity:1;
+
+    pointer-events:auto;
+
+    transform:scale(1);
+
+}
+
+.success-content{
+
+    max-width:450px;
+
+}
+
+.success-icon{
+
+    width:80px;
+
+    height:80px;
+
+    margin:0 auto 22px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--cyan),
+            var(--blue)
+        );
+
+    box-shadow:
+        0 0 50px
+        rgba(0,224,198,.35);
+
+}
+
+.success-icon svg{
+
+    width:35px;
+
+    stroke:white;
+
+}
+
+.success h2{
+
+    font-size:24px;
+
+    margin-bottom:10px;
+
+}
+
+.success p{
+
+    color:var(--text-dim);
+
+    font-size:13px;
+
+    line-height:2;
+
+}
+
+.success button{
+
+    margin-top:22px;
+
+    border:1px solid
+        rgba(255,255,255,.12);
+
+    background:
+        rgba(255,255,255,.05);
+
+    color:white;
+
+    padding:11px 25px;
+
+    border-radius:999px;
+
+    font-family:inherit;
+
+    cursor:pointer;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+
+    margin-top:65px;
+
+    padding:25px 0;
+
+    text-align:center;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.07);
+
+}
+
+.footer p{
+
+    color:
+        rgba(255,255,255,.35);
+
+    font-size:10px;
+
+}
+
+/* رنگ متن فیلدهای انتخابی فرم استخدام */
+.field select {
+    color: #f5f8fa;
+    background: rgba(255,255,255,.045);
+}
+
+/* رنگ گزینه‌های داخل لیست */
+.field select option {
+    color: #0c1c33;
+    background: #ffffff;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+    .nav-links{
+
+        display:none;
+
+    }
+
+    .grid-3{
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+}
+
+
+@media(max-width:700px){
+
+    .page{
+
+        width:94%;
+
+    }
+
+    header{
+
+        margin-bottom:45px;
+
+    }
+
+    .nav{
+
+        border-radius:22px;
+
+        padding:10px;
+
+    }
+
+    .nav-button{
+
+        display:none;
+
+    }
+
+    .hero h1{
+
+        font-size:36px;
+
+    }
+
+    .hero p{
+
+        font-size:14px;
+
+    }
+
+    .stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-header{
+
+        padding:25px 20px;
+
+    }
+
+    .progress-area{
+
+        padding:
+            20px
+            20px
+            5px;
+
+    }
+
+    .form-body{
+
+        padding:
+            28px 20px 32px;
+
+    }
+
+    .grid-2,
+    .grid-3{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .choice-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .submit-wrapper{
+
+        justify-content:stretch;
+
+    }
+
+    .submit{
+
+        width:100%;
+
+    }
+
+}
+
+
+@media(max-width:450px){
+
+    .brand{
+
+        font-size:12px;
+
+    }
+
+    .brand-logo{
+
+        width:42px;
+        height:42px;
+
+    }
+
+    .hero h1{
+
+        font-size:31px;
+
+    }
+
+    .application{
+
+        border-radius:23px;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *{
+
+        transition:none !important;
+
+        scroll-behavior:auto !important;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="blueprint"></div>
+
+<div class="orb orb-1" id="orb1"></div>
+
+<div class="orb orb-2" id="orb2"></div>
+
+
+<div class="page">
+
+
+<!-- =====================================================
+     NAV
+===================================================== -->
+
+<header>
+
+<nav class="nav">
+
+<a href="../index.html" class="brand">
+
+<span class="brand-logo">
+
+<img
+src="../img/Logo.png"
+alt="دیتاپردازش خلیج فارس"
+>
+
+</span>
+
+دیتاپردازش خلیج فارس
+
+</a>
+
+
+<div class="nav-links">
+
+<a href="../index.html">
+صفحه اصلی
+</a>
+
+<a href="./aboutUs.html">
+درباره ما
+</a>
+
+<a href="#">
+خدمات
+</a>
+
+<a href="./contactUs.html">
+تماس با ما
+</a>
+
+</div>
+
+
+<a href="#application" class="nav-button">
+
+ارسال درخواست همکاری
+
+</a>
+
+</nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+<div class="hero-label">
+
+<span></span>
+
+فرصت‌های همکاری با دیتاپردازش
+
+</div>
+
+
+<h1>
+
+آینده را با
+
+<strong>تخصص شما</strong>
+
+می‌سازیم
+
+</h1>
+
+
+<p>
+
+اگر به دنبال محیطی حرفه‌ای برای رشد، یادگیری و ساختن
+راهکارهای واقعی در حوزه فناوری اطلاعات هستید،
+جای شما می‌تواند در کنار تیم دیتاپردازش باشد.
+
+</p>
+
+</section>
+
+
+
+<!-- =====================================================
+     STATS
+===================================================== -->
+
+<section class="stats">
+
+<div class="stat">
+
+<strong>01</strong>
+
+<span>
+رزومه شما بررسی می‌شود
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<strong>02</strong>
+
+<span>
+ارزیابی تخصص و تجربه
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<strong>03</strong>
+
+<span>
+شروع مسیر همکاری
+</span>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     APPLICATION
+===================================================== -->
+
+<section class="application" id="application">
+
+
+<!-- HEADER -->
+
+<div class="form-header">
+
+<div class="form-title">
+
+<div class="form-icon">
+
+<svg
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="1.8"
+stroke-linecap="round"
+stroke-linejoin="round"
+>
+
+<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+
+<circle cx="12" cy="7" r="4"/>
+
+</svg>
+
+</div>
+
+
+<div>
+
+<h2>
+فرم درخواست همکاری
+</h2>
+
+<p>
+اطلاعات زیر را با دقت تکمیل کنید.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- PROGRESS -->
+
+<div class="progress-area">
+
+<div class="progress-top">
+
+<span>
+میزان تکمیل فرم
+</span>
+
+<span id="progressText">
+25%
+</span>
+
+</div>
+
+<div class="progress-bar">
+
+<div
+class="progress-fill"
+id="progressFill"
+></div>
+
+</div>
+
+</div>
+
+
+
+<!-- FORM -->
+
+<div class="form-body">
+
+<form
+id="jobForm"
+novalidate
+enctype="multipart/form-data"
+>
+
+
+<input
+type="hidden"
+name="access_key"
+value="ddf7c832-cbb5-4c27-a8e8-369ced48acd7"
+>
+
+
+<input
+type="hidden"
+name="subject"
+value="درخواست استخدام جدید - دیتاپردازش"
+>
+
+
+<input
+type="hidden"
+name="from_name"
+value="فرم استخدام دیتاپردازش"
+>
+
+
+
+<!-- =================================================
+     SECTION 01
+================================================= -->
+
+<div class="form-section">
+
+<div class="section-heading">
+
+<div class="section-number">
+01
+</div>
+
+<div>
+
+<h3>
+اطلاعات شخصی
+</h3>
+
+<span>
+اطلاعات پایه متقاضی
+</span>
+
+</div>
+
+</div>
+
+
+<div class="grid-2">
+
+
+<div class="field">
+
+<label for="fullName">
+
+نام و نام خانوادگی
+
+<span class="required">*</span>
+
+</label>
+
+<input
+id="fullName"
+name="full_name"
+type="text"
+placeholder="مثلاً محمدرضا احمدی"
+required
+>
+
+</div>
+
+
+
+<div class="field">
+
+<label for="phone">
+
+شماره تماس
+
+<span class="required">*</span>
+
+</label>
+
+<input
+id="phone"
+name="phone"
+type="tel"
+placeholder="0912..."
+required
+>
+
+</div>
+
+
+
+<div class="field">
+
+<label for="email">
+
+ایمیل
+
+<span class="required">*</span>
+
+</label>
+
+<input
+id="email"
+name="email"
+type="email"
+placeholder="example@email.com"
+required
+>
+
+</div>
+
+
+
+<div class="field">
+
+<label for="city">
+
+شهر محل سکونت
+
+</label>
+
+<input
+id="city"
+name="city"
+type="text"
+placeholder="مثلاً تهران"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =================================================
+     SECTION 02
+================================================= -->
+
+<div class="form-section">
+
+<div class="section-heading">
+
+<div class="section-number">
+02
+</div>
+
+<div>
+
+<h3>
+مسیر شغلی
+</h3>
+
+<span>
+جایگاهی که به دنبال آن هستید
+</span>
+
+</div>
+
+</div>
+
+
+
+<div class="grid-2">
+
+
+<div class="field">
+
+<label for="position">
+
+موقعیت شغلی موردنظر
+
+<span class="required">*</span>
+
+</label>
+
+<select
+id="position"
+name="position"
+required
+>
+
+<option value="">
+انتخاب موقعیت شغلی
+</option>
+
+<option>
+برنامه‌نویس Backend
+</option>
+
+<option>
+برنامه‌نویس Frontend
+</option>
+
+<option>
+Full Stack Developer
+</option>
+
+<option>
+کارشناس شبکه
+</option>
+
+<option>
+کارشناس امنیت شبکه
+</option>
+
+<option>
+کارشناس پشتیبانی
+</option>
+
+<option>
+کارشناس هوش مصنوعی
+</option>
+
+<option>
+DevOps
+</option>
+
+<option>
+مدیر پروژه
+</option>
+
+<option>
+طراح UI/UX
+</option>
+
+<option>
+کارشناس فروش
+</option>
+
+<option>
+منابع انسانی
+</option>
+
+<option>
+سایر
+</option>
+
+</select>
+
+</div>
+
+
+
+<div class="field">
+
+<label for="experience">
+
+سابقه کاری
+
+<span class="required">*</span>
+
+</label>
+
+<select
+id="experience"
+name="experience"
+required
+>
+
+<option value="">
+انتخاب سابقه
+</option>
+
+<option>
+بدون سابقه
+</option>
+
+<option>
+کمتر از ۱ سال
+</option>
+
+<option>
+۱ تا ۳ سال
+</option>
+
+<option>
+۳ تا ۵ سال
+</option>
+
+<option>
+۵ تا ۱۰ سال
+</option>
+
+<option>
+بیشتر از ۱۰ سال
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+
+<div class="field">
+
+<label>
+نوع همکاری موردنظر
+</label>
+
+
+<div class="choice-grid">
+
+
+<div class="choice">
+
+<input
+type="radio"
+id="fulltime"
+name="employment_type"
+value="تمام وقت"
+>
+
+<label for="fulltime">
+تمام وقت
+</label>
+
+</div>
+
+
+<div class="choice">
+
+<input
+type="radio"
+id="parttime"
+name="employment_type"
+value="پاره وقت"
+>
+
+<label for="parttime">
+پاره وقت
+</label>
+
+</div>
+
+
+<div class="choice">
+
+<input
+type="radio"
+id="remote"
+name="employment_type"
+value="دورکاری"
+>
+
+<label for="remote">
+دورکاری
+</label>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =================================================
+     SECTION 03
+================================================= -->
+
+<div class="form-section">
+
+<div class="section-heading">
+
+<div class="section-number">
+03
+</div>
+
+<div>
+
+<h3>
+تحصیلات و تخصص
+</h3>
+
+<span>
+توانایی‌های حرفه‌ای شما
+</span>
+
+</div>
+
+</div>
+
+
+<div class="grid-2">
+
+
+<div class="field">
+
+<label for="education">
+
+آخرین مدرک تحصیلی
+
+</label>
+
+<select
+id="education"
+name="education"
+>
+
+<option value="">
+انتخاب مدرک
+</option>
+
+<option>
+دیپلم
+</option>
+
+<option>
+کاردانی
+</option>
+
+<option>
+کارشناسی
+</option>
+
+<option>
+کارشناسی ارشد
+</option>
+
+<option>
+دکتری
+</option>
+
+</select>
+
+</div>
+
+
+
+<div class="field">
+
+<label for="major">
+
+رشته تحصیلی
+
+</label>
+
+<input
+id="major"
+name="major"
+type="text"
+placeholder="مثلاً مهندسی کامپیوتر"
+>
+
+</div>
+
+
+</div>
+
+
+
+<div class="field">
+
+<label>
+مهارت‌های تخصصی
+</label>
+
+
+<div class="skills">
+
+
+<div class="skill">
+
+<input
+id="skill-network"
+type="checkbox"
+name="skills"
+value="Network"
+>
+
+<label for="skill-network">
+Network
+</label>
+
+</div>
+
+
+<div class="skill">
+
+<input
+id="skill-csharp"
+type="checkbox"
+name="skills"
+value="C# / .NET"
+>
+
+<label for="skill-csharp">
+C# / .NET
+</label>
+
+</div>
+
+
+<div class="skill">
+
+<input
+id="skill-python"
+type="checkbox"
+name="skills"
+value="Python"
+>
+
+<label for="skill-python">
+Python
+</label>
+
+</div>
+
+
+<div class="skill">
+
+<input
+id="skill-js"
+type="checkbox"
+name="skills"
+value="JavaScript"
+>
+
+<label for="skill-js">
+JavaScript
+</label>
+
+</div>
+
+
+<div class="skill">
+
+<input
+id="skill-ai"
+type="checkbox"
+name="skills"
+value="AI"
+>
+
+<label for="skill-ai">
+Artificial Intelligence
+</label>
+
+</div>
+
+
+<div class="skill">
+
+<input
+id="skill-linux"
+type="checkbox"
+name="skills"
+value="Linux"
+>
+
+<label for="skill-linux">
+Linux
+</label>
+
+</div>
+
+
+<div class="skill">
+
+<input
+id="skill-security"
+type="checkbox"
+name="skills"
+value="Cyber Security"
+>
+
+<label for="skill-security">
+Cyber Security
+</label>
+
+</div>
+
+
+<div class="skill">
+
+<input
+id="skill-database"
+type="checkbox"
+name="skills"
+value="Database"
+>
+
+<label for="skill-database">
+Database
+</label>
+
+</div>
+
+
+<div class="skill">
+
+<input
+id="skill-devops"
+type="checkbox"
+name="skills"
+value="DevOps"
+>
+
+<label for="skill-devops">
+DevOps
+</label>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =================================================
+     SECTION 04
+================================================= -->
+
+<div class="form-section">
+
+<div class="section-heading">
+
+<div class="section-number">
+04
+</div>
+
+<div>
+
+<h3>
+تجربه حرفه‌ای
+</h3>
+
+<span>
+بیشتر درباره توانایی‌های شما
+</span>
+
+</div>
+
+</div>
+
+
+
+<div class="field">
+
+<label for="experienceText">
+
+مهم‌ترین تجربه یا پروژه‌ای که انجام داده‌اید
+
+</label>
+
+<textarea
+id="experienceText"
+name="important_experience"
+placeholder="در چند خط درباره مهم‌ترین پروژه، مسئولیت یا تجربه کاری خود توضیح دهید..."
+></textarea>
+
+</div>
+
+
+
+<div class="field">
+
+<label for="motivation">
+
+چرا می‌خواهید با دیتاپردازش همکاری کنید؟
+
+</label>
+
+<textarea
+id="motivation"
+name="motivation"
+placeholder="چه چیزی باعث شده این مجموعه را برای همکاری انتخاب کنید؟"
+></textarea>
+
+</div>
+
+
+
+<div class="field">
+
+<label for="strength">
+
+مهم‌ترین نقطه قوت شما چیست؟
+
+</label>
+
+<textarea
+id="strength"
+name="strength"
+placeholder="مثلاً حل مسئله، کار تیمی، یادگیری سریع، مدیریت پروژه و..."
+></textarea>
+
+</div>
+
+</div>
+
+
+
+<!-- =================================================
+     SECTION 05
+================================================= -->
+
+<div class="form-section">
+
+<div class="section-heading">
+
+<div class="section-number">
+05
+</div>
+
+<div>
+
+<h3>
+شرایط همکاری
+</h3>
+
+<span>
+انتظارات و شرایط شما
+</span>
+
+</div>
+
+</div>
+
+
+
+<div class="grid-2">
+
+
+<div class="field">
+
+<label for="salary">
+
+حقوق پیشنهادی
+
+</label>
+
+<input
+id="salary"
+name="salary"
+type="text"
+placeholder="مثلاً توافقی / ۳۰ میلیون تومان"
+>
+
+</div>
+
+
+
+<div class="field">
+
+<label for="startDate">
+
+زمان آمادگی برای شروع همکاری
+
+</label>
+
+<select
+id="startDate"
+name="start_date"
+>
+
+<option value="">
+انتخاب کنید
+</option>
+
+<option>
+همین حالا
+</option>
+
+<option>
+کمتر از یک هفته
+</option>
+
+<option>
+۱ تا ۲ هفته
+</option>
+
+<option>
+یک ماه
+</option>
+
+<option>
+بیشتر از یک ماه
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+
+<div class="field">
+
+<label>
+امکان حضور در محل شرکت را دارید؟
+</label>
+
+
+<div class="choice-grid">
+
+
+<div class="choice">
+
+<input
+type="radio"
+id="officeYes"
+name="office"
+value="بله"
+>
+
+<label for="officeYes">
+بله، امکان حضور دارم
+</label>
+
+</div>
+
+
+<div class="choice">
+
+<input
+type="radio"
+id="officeHybrid"
+name="office"
+value="ترکیبی"
+>
+
+<label for="officeHybrid">
+ترکیبی
+</label>
+
+</div>
+
+
+<div class="choice">
+
+<input
+type="radio"
+id="officeNo"
+name="office"
+value="خیر"
+>
+
+<label for="officeNo">
+خیر، فقط دورکاری
+</label>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =================================================
+     SECTION 06
+================================================= -->
+
+<div class="form-section">
+
+<div class="section-heading">
+
+<div class="section-number">
+06
+</div>
+
+<div>
+
+<h3>
+لینک‌ها و رزومه
+</h3>
+
+<span>
+اطلاعات تکمیلی حرفه‌ای
+</span>
+
+</div>
+
+</div>
+
+
+
+<div class="grid-2">
+
+
+<div class="field">
+
+<label for="linkedin">
+
+LinkedIn
+
+</label>
+
+<input
+id="linkedin"
+name="linkedin"
+type="url"
+placeholder="https://linkedin.com/in/..."
+>
+
+</div>
+
+
+
+<div class="field">
+
+<label for="github">
+
+GitHub / Portfolio
+
+</label>
+
+<input
+id="github"
+name="github"
+type="url"
+placeholder="https://github.com/..."
+>
+
+</div>
+
+
+</div>
+
+
+
+<div class="file-upload">
+
+<div class="upload-icon">
+
+<svg
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="1.8"
+stroke-linecap="round"
+stroke-linejoin="round"
+>
+
+<path d="M12 16V4"/>
+
+<path d="m7 9 5-5 5 5"/>
+
+<path d="M4 20h16"/>
+
+</svg>
+
+</div>
+
+
+<strong id="fileText">
+
+رزومه خود را اینجا قرار دهید
+
+</strong>
+
+<span>
+
+PDF / DOC / DOCX — حداکثر 5MB
+
+</span>
+
+
+<input
+    id="resume"
+    name="resume"
+    type="file"
+    accept=".pdf,.doc,.docx"
+>
+
+</div>
+
+</div>
+
+
+
+<!-- =================================================
+     SECTION 07
+================================================= -->
+
+<div class="form-section">
+
+<div class="section-heading">
+
+<div class="section-number">
+07
+</div>
+
+<div>
+
+<h3>
+توضیحات نهایی
+</h3>
+
+<span>
+آخرین نکته‌ای که باید بدانیم
+</span>
+
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label for="message">
+
+اگر نکته دیگری هست که فکر می‌کنید در ارزیابی شما مهم است، بنویسید.
+
+</label>
+
+<textarea
+id="message"
+name="additional_information"
+placeholder="هر چیزی که دوست دارید تیم استخدام ما درباره شما بداند..."
+></textarea>
+
+</div>
+
+
+<div class="consent">
+
+<input
+id="agreement"
+name="agreement"
+type="checkbox"
+value="تایید شد"
+required
+>
+
+<label for="agreement">
+
+تأیید می‌کنم اطلاعات وارد شده صحیح است و با بررسی
+رزومه و اطلاعات این فرم توسط تیم دیتاپردازش موافقم.
+
+</label>
+
+</div>
+
+
+<div class="submit-wrapper">
+
+<button
+class="submit"
+type="submit"
+id="submitButton"
+>
+
+ارسال درخواست همکاری
+
+<svg
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2"
+stroke-linecap="round"
+stroke-linejoin="round"
+>
+
+<path d="M5 12h14"/>
+
+<path d="m13 6 6 6-6 6"/>
+
+</svg>
+
+</button>
+
+</div>
+
+</div>
+
+
+</form>
+
+</div>
+
+
+
+<!-- =================================================
+     SUCCESS
+===================================================== -->
+
+<div
+class="success"
+id="success"
+>
+
+<div class="success-content">
+
+
+<div class="success-icon">
+
+<svg
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2.4"
+stroke-linecap="round"
+stroke-linejoin="round"
+>
+
+<path d="M20 6 9 17l-5-5"/>
+
+</svg>
+
+</div>
+
+
+<h2>
+درخواست شما با موفقیت ارسال شد
+</h2>
+
+
+<p>
+
+از اینکه دیتاپردازش را برای ادامه مسیر حرفه‌ای خود
+انتخاب کردید سپاسگزاریم.
+رزومه و اطلاعات شما توسط تیم ما بررسی خواهد شد
+و در صورت تطابق با موقعیت‌های موجود با شما تماس خواهیم گرفت.
+
+</p>
+
+
+<button
+type="button"
+id="newApplication"
+>
+
+ارسال درخواست جدید
+
+</button>
+
+
+</div>
+
+</div>
+
+
+</section>
+
+
+
+<footer class="footer">
+
+<p>
+© تمامی حقوق این وب‌سایت متعلق به دیتاپردازش خلیج فارس است.
+</p>
+
+</footer>
+
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   DOM ELEMENTS
+========================================================= */
+
+const application = document.querySelector(".application");
+
+const orb1 = document.getElementById("orb1");
+const orb2 = document.getElementById("orb2");
+
+const form = document.getElementById("jobForm");
+
+const resume = document.getElementById("resume");
+const fileText = document.getElementById("fileText");
+
+const success = document.getElementById("success");
+
+const submitButton =
+    document.getElementById("submitButton");
+
+const newApplication =
+    document.getElementById("newApplication");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const progressText =
+    document.getElementById("progressText");
+
+
+/* =========================================================
+   CONFIGURATION
+========================================================= */
+
+const WEB3FORMS_URL =
+    "https://api.web3forms.com/submit";
+
+const MAX_FILE_SIZE =
+    5 * 1024 * 1024;
+
+const ALLOWED_EXTENSIONS = [
+    ".pdf",
+    ".doc",
+    ".docx"
+];
+
+
+/* =========================================================
+   MOUSE FLASHLIGHT
+========================================================= */
+
+if (application) {
+
+    application.addEventListener(
+        "mousemove",
+        function (e) {
+
+            const rect =
+                application.getBoundingClientRect();
+
+            const x =
+                ((e.clientX - rect.left) /
+                    rect.width) * 100;
+
+            const y =
+                ((e.clientY - rect.top) /
+                    rect.height) * 100;
+
+            application.style.setProperty(
+                "--mouse-x",
+                x + "%"
+            );
+
+            application.style.setProperty(
+                "--mouse-y",
+                y + "%"
+            );
+
+        }
+    );
+
+
+    application.addEventListener(
+        "mouseleave",
+        function () {
+
+            application.style.setProperty(
+                "--mouse-x",
+                "50%"
+            );
+
+            application.style.setProperty(
+                "--mouse-y",
+                "20%"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   AMBIENT PARALLAX
+========================================================= */
+
+let animationFrame = null;
+
+document.addEventListener(
+    "mousemove",
+    function (e) {
+
+        if (
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches
+        ) {
+            return;
+        }
+
+        if (animationFrame) {
+            return;
+        }
+
+        animationFrame =
+            requestAnimationFrame(
+                function () {
+
+                    const px =
+                        (e.clientX /
+                            window.innerWidth) - 0.5;
+
+                    const py =
+                        (e.clientY /
+                            window.innerHeight) - 0.5;
+
+
+                    if (orb1) {
+
+                        orb1.style.transform =
+                            `translate(
+                                ${px * -28}px,
+                                ${py * -20}px
+                            )`;
+
+                    }
+
+
+                    if (orb2) {
+
+                        orb2.style.transform =
+                            `translate(
+                                ${px * 24}px,
+                                ${py * 18}px
+                            )`;
+
+                    }
+
+
+                    animationFrame = null;
+
+                }
+            );
+
+    }
+);
+
+
+/* =========================================================
+   FILE NAME + FILE VALIDATION
+========================================================= */
+
+function resetFileInput() {
+
+    if (resume) {
+
+        resume.value = "";
+
+    }
+
+    if (fileText) {
+
+        fileText.textContent =
+            "رزومه خود را اینجا قرار دهید";
+
+    }
+
+}
+
+
+function validateResume(file) {
+
+    if (!file) {
+
+        return {
+            valid: true
+        };
+
+    }
+
+
+    /* =====================================================
+       CHECK FILE SIZE
+    ===================================================== */
+
+    if (file.size > MAX_FILE_SIZE) {
+
+        return {
+
+            valid: false,
+
+            message:
+                "حجم فایل رزومه نباید بیشتر از 5MB باشد."
+
+        };
+
+    }
+
+
+    /* =====================================================
+       CHECK FILE EXTENSION
+    ===================================================== */
+
+    const fileName =
+        file.name.toLowerCase();
+
+    const lastDot =
+        fileName.lastIndexOf(".");
+
+
+    if (lastDot === -1) {
+
+        return {
+
+            valid: false,
+
+            message:
+                "فرمت فایل قابل تشخیص نیست."
+
+        };
+
+    }
+
+
+    const extension =
+        fileName.substring(lastDot);
+
+
+    if (
+        !ALLOWED_EXTENSIONS.includes(
+            extension
+        )
+    ) {
+
+        return {
+
+            valid: false,
+
+            message:
+                "فرمت فایل مجاز نیست.\n\n" +
+                "فرمت‌های مجاز:\n" +
+                "PDF / DOC / DOCX"
+
+        };
+
+    }
+
+
+    return {
+        valid: true
+    };
+
+}
+
+
+/* =========================================================
+   FILE CHANGE
+========================================================= */
+
+if (resume) {
+
+    resume.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                this.files &&
+                this.files[0];
+
+
+            if (!file) {
+
+                resetFileInput();
+
+                return;
+
+            }
+
+
+            const validation =
+                validateResume(file);
+
+
+            if (!validation.valid) {
+
+                alert(
+                    validation.message
+                );
+
+                resetFileInput();
+
+                return;
+
+            }
+
+
+            if (fileText) {
+
+                fileText.textContent =
+                    file.name;
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FORM PROGRESS
+========================================================= */
+
+function updateProgress() {
+
+    if (!form) {
+        return;
+    }
+
+
+    const requiredFields =
+        form.querySelectorAll(
+            "[required]"
+        );
+
+
+    if (!requiredFields.length) {
+
+        if (progressFill) {
+
+            progressFill.style.width =
+                "0%";
+
+        }
+
+        if (progressText) {
+
+            progressText.textContent =
+                "0%";
+
+        }
+
+        return;
+
+    }
+
+
+    let completed = 0;
+
+
+    requiredFields.forEach(
+        function (field) {
+
+            const type =
+                field.type;
+
+
+            /* =============================================
+               CHECKBOX
+            ============================================= */
+
+            if (type === "checkbox") {
+
+                if (field.checked) {
+
+                    completed++;
+
+                }
+
+                return;
+
+            }
+
+
+            /* =============================================
+               RADIO
+            ============================================= */
+
+            if (type === "radio") {
+
+                const group =
+                    form.querySelectorAll(
+                        `input[name="${CSS.escape(field.name)}"]`
+                    );
+
+
+                const isChecked =
+                    Array.from(group)
+                        .some(
+                            radio =>
+                                radio.checked
+                        );
+
+
+                if (
+                    isChecked &&
+                    !Array.from(group)
+                        .slice(
+                            0,
+                            Array.from(group)
+                                .indexOf(field)
+                        )
+                        .some(
+                            radio =>
+                                radio.required
+                        )
+                ) {
+
+                    completed++;
+
+                }
+
+                return;
+
+            }
+
+
+            /* =============================================
+               NORMAL INPUT / SELECT / TEXTAREA
+            ============================================= */
+
+            if (
+                typeof field.value === "string" &&
+                field.value.trim() !== ""
+            ) {
+
+                completed++;
+
+            }
+
+        }
+    );
+
+
+    let percent =
+        Math.round(
+            (completed /
+                requiredFields.length) * 100
+        );
+
+
+    if (percent < 0) {
+        percent = 0;
+    }
+
+    if (percent > 100) {
+        percent = 100;
+    }
+
+
+    if (progressFill) {
+
+        progressFill.style.width =
+            percent + "%";
+
+    }
+
+
+    if (progressText) {
+
+        progressText.textContent =
+            percent + "%";
+
+    }
+
+}
+
+
+/* =========================================================
+   FORM INPUT EVENTS
+========================================================= */
+
+if (form) {
+
+    form.addEventListener(
+        "input",
+        updateProgress
+    );
+
+
+    form.addEventListener(
+        "change",
+        updateProgress
+    );
+
+}
+
+
+/* =========================================================
+   BUTTON LOADING STATE
+========================================================= */
+
+function setLoadingState(isLoading) {
+
+    if (!submitButton) {
+        return;
+    }
+
+
+    if (isLoading) {
+
+        submitButton.disabled =
+            true;
+
+        submitButton.dataset.originalHTML =
+            submitButton.innerHTML;
+
+        submitButton.innerHTML = `
+            <span>
+                در حال ارسال درخواست...
+            </span>
+        `;
+
+    } else {
+
+        submitButton.disabled =
+            false;
+
+        if (
+            submitButton.dataset.originalHTML
+        ) {
+
+            submitButton.innerHTML =
+                submitButton.dataset.originalHTML;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   FORM VALIDATION
+========================================================= */
+
+function validateForm() {
+
+    if (!form) {
+
+        return false;
+
+    }
+
+
+    /* =====================================================
+       HTML5 VALIDATION
+    ===================================================== */
+
+    if (!form.checkValidity()) {
+
+        form.reportValidity();
+
+        return false;
+
+    }
+
+
+    /* =====================================================
+       RESUME VALIDATION
+    ===================================================== */
+
+    const file =
+        resume &&
+        resume.files &&
+        resume.files[0];
+
+
+    if (file) {
+
+        const validation =
+            validateResume(file);
+
+
+        if (!validation.valid) {
+
+            alert(
+                validation.message
+            );
+
+            resetFileInput();
+
+            return false;
+
+        }
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   FORM SUBMIT
+========================================================= */
+
+if (form) {
+
+    form.addEventListener(
+        "submit",
+        async function (e) {
+
+            e.preventDefault();
+
+
+            /* =============================================
+               VALIDATION
+            ============================================= */
+
+            if (!validateForm()) {
+
+                return;
+
+            }
+
+
+            /* =============================================
+               FILE
+            ============================================= */
+
+            const file =
+                resume &&
+                resume.files &&
+                resume.files[0];
+
+
+            /* =============================================
+               LOADING
+            ============================================= */
+
+            setLoadingState(true);
+
+
+            try {
+
+                /* =========================================
+                   CREATE FORMDATA
+                ========================================= */
+
+                const formData =
+                    new FormData(form);
+
+
+                /* =========================================
+                   DEBUG
+                ========================================= */
+
+                if (file) {
+
+                    console.log(
+                        "Resume:",
+                        file.name
+                    );
+
+                    console.log(
+                        "Size:",
+                        (
+                            file.size /
+                            1024 /
+                            1024
+                        ).toFixed(2) + " MB"
+                    );
+
+                    console.log(
+                        "Type:",
+                        file.type
+                    );
+
+                }
+
+
+                /* =========================================
+                   SEND TO WEB3FORMS
+                ========================================= */
+
+                const response =
+                    await fetch(
+                        WEB3FORMS_URL,
+                        {
+
+                            method:
+                                "POST",
+
+                            headers: {
+
+                                "Accept":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                formData
+
+                        }
+                    );
+
+
+                /* =========================================
+                   PARSE RESPONSE
+                ========================================= */
+
+                let result;
+
+
+                try {
+
+                    result =
+                        await response.json();
+
+                } catch (jsonError) {
+
+                    throw new Error(
+                        "پاسخ نامعتبر از سرور دریافت شد."
+                    );
+
+                }
+
+
+                console.log(
+                    "Web3Forms:",
+                    result
+                );
+
+
+                /* =========================================
+                   SUCCESS
+                ========================================= */
+
+                if (
+                    response.ok &&
+                    result &&
+                    result.success
+                ) {
+
+                    /* Reset form */
+
+                    form.reset();
+
+
+                    /* Reset file */
+
+                    resetFileInput();
+
+
+                    /* Reset progress */
+
+                    updateProgress();
+
+
+                    /* Show success */
+
+                    if (success) {
+
+                        success.classList.add(
+                            "show"
+                        );
+
+
+                        setTimeout(
+                            function () {
+
+                                success.scrollIntoView(
+                                    {
+                                        behavior:
+                                            "smooth",
+
+                                        block:
+                                            "center"
+                                    }
+                                );
+
+                            },
+                            100
+                        );
+
+                    }
+
+
+                } else {
+
+                    throw new Error(
+
+                        result &&
+                        result.message
+
+                            ?
+
+                        result.message
+
+                            :
+
+                        "ارسال فرم ناموفق بود."
+
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Web3Forms Error:",
+                    error
+                );
+
+
+                alert(
+                    "متأسفانه ارسال درخواست انجام نشد.\n\n" +
+                    "لطفاً اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید.\n\n" +
+                    "جزئیات خطا:\n" +
+                    error.message
+                );
+
+
+            } finally {
+
+                setLoadingState(
+                    false
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   NEW APPLICATION
+========================================================= */
+
+if (newApplication) {
+
+    newApplication.addEventListener(
+        "click",
+        function () {
+
+            if (success) {
+
+                success.classList.remove(
+                    "show"
+                );
+
+            }
+
+
+            if (form) {
+
+                form.reset();
+
+            }
+
+
+            resetFileInput();
+
+
+            updateProgress();
+
+
+            setTimeout(
+                function () {
+
+                    if (application) {
+
+                        window.scrollTo(
+                            {
+
+                                top:
+                                    application.offsetTop -
+                                    50,
+
+                                behavior:
+                                    "smooth"
+
+                            }
+                        );
+
+                    }
+
+                },
+                100
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (e) {
+
+        if (
+            e.key === "Escape" &&
+            success &&
+            success.classList.contains("show")
+        ) {
+
+            success.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+updateProgress();
+
+</script>
+
+</body>
+</html>

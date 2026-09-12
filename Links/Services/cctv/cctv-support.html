@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پشتیبانی نظارت تصویری | دیتاپردازش خلیج فارس</title>
+<style>
+@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+
+:root{
+    --navy-900: #0c1c33;
+    --navy-800: #16324c;
+    --navy-700: #1c3a58;
+    --teal-400: #2fb8c9;
+    --teal-600: #16788f;
+    --teal-800: #0a3c5c;
+    --text-white: #f5f8fa;
+    --text-muted: #b7c6d4;
+    --border-soft: rgba(255, 255, 255, 0.14);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+    direction: rtl;
+    font-family: "Vazirmatn", sans-serif;
+    background: #011324;
+    color: #fff;
+}
+.container{width:90%;max-width:1300px;margin:auto;}
+
+/* ---------- header (identical across all pages) ---------- */
+header{position:relative;z-index:20;padding:28px 0 70px;}
+.nav-capsule{
+    position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:8px 10px;border-radius:999px;
+    background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    box-shadow:0 24px 55px -22px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
+    overflow:hidden;
+}
+.nav-capsule::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%), rgba(255,255,255,.14), transparent 65%);
+    opacity:0;transition:opacity .4s ease;pointer-events:none;
+}
+.nav-capsule:hover::before{opacity:1;}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text-white);font-weight:800;font-size:15.5px;letter-spacing:.2px;padding-left:8px;white-space:nowrap;}
+.brand-badge{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg, var(--teal-600), var(--teal-800));
+    border:1px solid rgba(255,255,255,.2);
+    box-shadow:0 0 0 5px rgba(47,184,201,.08), 0 8px 18px rgba(0,0,0,.4);
+    overflow:hidden;
+}
+
+.brand-badge img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+}
+.nav-links{position:relative;display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:999px;padding:5px;}
+.nav-links a{position:relative;z-index:2;display:inline-block;padding:9px 20px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--text-muted);text-decoration:none;white-space:nowrap;transition:color .3s ease;}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--text-white);}
+.nav-indicator{position:absolute;top:5px;bottom:5px;left:0;width:0;border-radius:999px;background:linear-gradient(135deg, rgba(47,184,201,.4), rgba(0,124,240,.28));border:1px solid rgba(47,184,201,.45);box-shadow:0 0 18px rgba(47,184,201,.4);transition:transform .4s cubic-bezier(.4,0,.2,1), width .4s cubic-bezier(.4,0,.2,1), opacity .25s ease;z-index:1;pointer-events:none;opacity:0;}
+.nav-links.ready .nav-indicator{opacity:1;}
+.nav-cta{display:flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 0 20px rgba(0,224,255,.45);transition:transform .25s ease, box-shadow .25s ease;flex-shrink:0;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(0,224,255,.6);}
+.nav-cta svg{width:13px;height:13px;transition:transform .3s ease;}
+.nav-cta:hover svg{transform:translateX(-3px);}
+@media (max-width:860px){.nav-links{display:none;}}
+@media (max-width:520px){header{padding:22px 0 50px;}.nav-capsule{border-radius:26px;padding:14px;flex-wrap:wrap;justify-content:center;gap:14px;}.brand{padding-left:0;}.nav-cta{width:100%;justify-content:center;}}
+
+/* ---------- buttons ---------- */
+.btn{min-width:180px;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:500;transition:transform .25s ease;border:none;cursor:pointer;font-family:inherit;}
+.btn-primary{background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;box-shadow:0 0 20px rgba(0,224,255,.6);}
+.btn-secondary{border:1px solid rgba(255,255,255,.3);color:#fff;background:transparent;}
+.btn:hover{transform:translateY(-3px);}
+
+/* ---------- footer ---------- */
+.footer{margin-top:70px;width:100%;background:#011324;border-top:1px solid rgba(255,255,255,.08);color:#fff;}
+.footer-container{width:90%;max-width:1300px;margin:auto;padding:38px 30px 28px;display:grid;grid-template-columns:1.25fr 1fr 1fr 1.35fr;gap:50px;direction:rtl;border:1px solid rgba(255,255,255,.10);border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);}
+.footer-column h3{margin:0 0 18px;font-size:15px;font-weight:600;color:#fff;position:relative;}
+.footer-column h3::after{content:"";display:block;width:28px;height:2px;margin-top:8px;border-radius:10px;background:#00dcd0;box-shadow:0 0 8px rgba(0,224,208,.5);}
+.footer-links{list-style:none;padding:0;margin:0;}
+.footer-links li{margin-bottom:11px;}
+.footer-links a{text-decoration:none;color:rgba(255,255,255,.58);font-size:12px;transition:color .25s ease, padding-right .25s ease;}
+.footer-links a:hover{color:#00dcd0;padding-right:5px;}
+.footer-contact{display:flex;flex-direction:column;gap:12px;}
+.contact-item{display:flex;align-items:flex-start;gap:9px;}
+.contact-icon{flex-shrink:0;width:20px;color:#00dcd0;font-size:17px;text-align:center;}
+.contact-item p,.contact-item a{margin:0;color:rgba(255,255,255,.58);text-decoration:none;font-size:11px;line-height:1.9;transition:color .25s ease;}
+.contact-item a:hover{color:#00dcd0;}
+.social-links{display:flex;align-items:center;gap:10px;margin-top:16px;}
+.social-links a{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;color:rgba(255,255,255,.85);font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));box-shadow:0 5px 15px rgba(0,0,0,.15);transition:transform .25s ease, background .25s ease, color .25s ease;}
+.social-links a:hover{transform:translateY(-4px);color:#00dcd0;background:rgba(0,224,208,.10);}
+.social-links a svg{width:16px;height:16px;stroke:currentColor;}
+.footer-bottom{width:90%;max-width:1300px;margin:auto;min-height:70px;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);direction:rtl;}
+.footer-bottom p{margin:0;color:rgba(255,255,255,.45);font-size:10px;}
+.footer-logo{display:flex;align-items:center;font-weight:800;font-size:13px;color:rgba(255,255,255,.7);}
+@media (max-width:960px){.footer-container{grid-template-columns:repeat(2,1fr);gap:35px;}}
+@media (max-width:600px){.footer{margin-top:50px;}.footer-container{width:94%;padding:30px 22px;grid-template-columns:1fr;gap:30px;}.footer-bottom{width:94%;padding:15px 10px;flex-direction:column;gap:12px;text-align:center;}.footer-logo{order:-1;}}
+
+/* =========================================================
+   صفحه پشتیبانی نظارت تصویری
+========================================================= */
+.page-wrap{position:relative;overflow:hidden;}
+.page-wrap::before{
+    content:"";position:fixed;inset:0;
+    background:
+        radial-gradient(1000px 650px at 90% -10%, rgba(47,184,201,.15), transparent 60%),
+        radial-gradient(850px 600px at -10% 25%, rgba(22,50,76,.55), transparent 60%),
+        radial-gradient(800px 560px at 55% 105%, rgba(255,90,90,.08), transparent 60%);
+    pointer-events:none;z-index:0;
+}
+
+.breadcrumb{position:relative;z-index:1;display:flex;align-items:center;gap:8px;margin-bottom:22px;font-size:12.5px;color:rgba(255,255,255,.45);}
+.breadcrumb a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s ease;}
+.breadcrumb a:hover{color:var(--teal-400);}
+.breadcrumb span.current{color:var(--teal-400);}
+
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--teal-400);font-weight:600;letter-spacing:.4px;margin-bottom:18px;}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal-400);box-shadow:0 0 10px 2px rgba(47,184,201,.6);}
+
+/* ---------- HERO ---------- */
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:54px;align-items:center;margin-bottom:88px;}
+.hero-grid h1{font-size:clamp(26px,3.3vw,39px);line-height:1.55;font-weight:700;margin-bottom:20px;}
+.hero-grid h1 span{color:#00e0d0;text-shadow:0 0 40px rgba(5,226,200,.8);}
+.hero-grid > div:first-child p{color:rgba(255,255,255,.68);font-size:15px;line-height:2.05;margin-bottom:28px;max-width:530px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px;}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}
+.hero-stat{display:flex;flex-direction:column;gap:3px;}
+.hero-stat .num{font-size:22px;font-weight:800;color:#fff;}
+.hero-stat .num span{color:var(--teal-400);}
+.hero-stat .lbl{font-size:11.5px;color:rgba(255,255,255,.5);}
+
+/* ---------- دیوار مانیتورینگ (بازآفرینی همان سبک ویوفایندر دوربین‌ها) ---------- */
+.wall-panel{
+    position:relative;
+    border-radius:26px;overflow:hidden;
+    border:1px solid var(--border-soft);
+    background:linear-gradient(160deg, rgba(16,30,48,.96), rgba(6,14,26,.98));
+    box-shadow:0 30px 70px -25px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.08);
+    padding:16px;
+}
+.wall-top{display:flex;align-items:center;justify-content:space-between;padding:6px 6px 14px;}
+.wall-title{font-size:11.5px;color:rgba(255,255,255,.5);font-weight:600;}
+.wall-live{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;font-size:10.5px;font-weight:700;color:#fff;background:linear-gradient(135deg,#00e0c6,#007cf0);box-shadow:0 0 14px rgba(0,200,255,.5);}
+.wall-live .dot{width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 6px 1px #fff;animation:pulse-dot 1.6s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+.cam-wall{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.cam-tile{
+    position:relative;
+    aspect-ratio:4/3;
+    border-radius:14px;overflow:hidden;
+    background:
+        repeating-linear-gradient(45deg, rgba(255,255,255,.02) 0 2px, transparent 2px 12px),
+        radial-gradient(circle at 30% 20%, rgba(47,184,201,.14), rgba(4,12,22,.98) 60%);
+    border:1px solid rgba(255,255,255,.08);
+    display:flex;align-items:center;justify-content:center;
+}
+.cam-tile .vf span{position:absolute;width:14px;height:14px;border-color:rgba(0,224,208,.55);}
+.cam-tile .vf span:nth-child(1){top:8px;right:8px;border-top:1.6px solid;border-right:1.6px solid;border-radius:0 5px 0 0;}
+.cam-tile .vf span:nth-child(2){top:8px;left:8px;border-top:1.6px solid;border-left:1.6px solid;border-radius:5px 0 0 0;}
+.cam-tile .vf span:nth-child(3){bottom:8px;right:8px;border-bottom:1.6px solid;border-right:1.6px solid;border-radius:0 0 5px 0;}
+.cam-tile .vf span:nth-child(4){bottom:8px;left:8px;border-bottom:1.6px solid;border-left:1.6px solid;border-radius:0 0 0 5px;}
+.cam-tile .cam-icon{width:26px;height:26px;opacity:.35;}
+.cam-tile .cam-icon svg{width:100%;height:100%;stroke:rgba(255,255,255,.6);}
+.cam-tile .cam-label{position:absolute;bottom:6px;right:8px;font-size:8.5px;color:rgba(255,255,255,.45);}
+.cam-tile .rec{position:absolute;top:7px;right:7px;display:flex;align-items:center;gap:4px;font-size:7.5px;font-weight:700;color:#fff;background:rgba(0,0,0,.4);padding:2px 6px;border-radius:999px;}
+.cam-tile .rec .d{width:4px;height:4px;border-radius:50%;background:#ff4d4d;box-shadow:0 0 4px 1px rgba(255,77,77,.8);animation:pulse-dot 1.6s ease-in-out infinite;}
+.cam-tile.offline{opacity:.4;}
+.cam-tile.offline .cam-label::before{content:"آفلاین · ";color:rgba(255,255,255,.3);}
+
+.wall-status{display:flex;gap:9px;margin-top:12px;}
+.wall-chip{flex:1;text-align:center;padding:10px 6px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+.wall-chip .v{font-size:13.5px;font-weight:800;color:#fff;}
+.wall-chip .l{font-size:8.5px;color:rgba(255,255,255,.42);margin-top:2px;}
+.wall-chip.warn .v{color:#ffb547;}
+.wall-chip.ok .v{color:#00e0d0;}
+
+@media (max-width:960px){
+    .hero-grid{grid-template-columns:1fr;}
+    .wall-panel{order:-1;}
+}
+@media (max-width:420px){
+    .cam-wall{grid-template-columns:1fr 1fr;}
+}
+
+/* ---------- section head ---------- */
+.section-head{position:relative;z-index:1;text-align:center;max-width:660px;margin:0 auto 44px;}
+.a-kicker{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.5px;color:var(--teal-400);margin-bottom:12px;justify-content:center;}
+.a-kicker::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--teal-400);box-shadow:0 0 8px rgba(47,184,201,.6);}
+.section-head h2{font-size:clamp(22px,2.8vw,30px);font-weight:700;margin-bottom:14px;}
+.section-head p{color:rgba(255,255,255,.6);font-size:14px;line-height:1.95;}
+
+section.block{position:relative;z-index:1;margin-bottom:96px;}
+
+/* ---------- زیگزاگ ویژگی‌ها ---------- */
+.zigzag{display:flex;flex-direction:column;gap:26px;max-width:900px;margin:0 auto;}
+.zz-row{display:flex;align-items:center;gap:34px;}
+.zz-row:nth-child(even){flex-direction:row-reverse;}
+.zz-visual{
+    flex:0 0 150px;height:150px;border-radius:24px;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(145deg, var(--teal-600), var(--teal-800));
+    border:1px solid rgba(255,255,255,.18);
+    box-shadow:0 0 0 8px rgba(47,184,201,.06), 0 18px 40px rgba(0,0,0,.35);
+    flex-shrink:0;
+}
+.zz-visual svg{width:56px;height:56px;stroke:#fff;}
+.zz-body{
+    position:relative;overflow:hidden;flex:1;
+    padding:22px 26px;border-radius:20px;
+    background:linear-gradient(120deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.zz-body::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%), rgba(0,224,208,.14), transparent 65%);
+    opacity:0;transition:opacity .35s ease;
+}
+.zz-body.spot-on::before{opacity:1;border-color:rgba(47,184,201,.4);}
+.zz-body.spot-on{border-color:rgba(47,184,201,.35);}
+.zz-body > *{position:relative;z-index:2;}
+.zz-index{font-size:11px;font-weight:700;color:var(--teal-400);margin-bottom:7px;letter-spacing:.3px;}
+.zz-body h3{font-size:16px;font-weight:700;margin-bottom:10px;}
+.zz-body p{font-size:13.3px;line-height:2;color:rgba(255,255,255,.62);}
+
+@media (max-width:760px){
+    .zz-row,.zz-row:nth-child(even){flex-direction:column;text-align:center;}
+    .zz-visual{width:100px;height:100px;flex:0 0 100px;}
+    .zz-visual svg{width:38px;height:38px;}
+}
+
+/* ---------- کارت‌های پروژه (دو مورد) ---------- */
+.project-pair{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:900px;margin:0 auto;}
+.project-highlight{
+    position:relative;overflow:hidden;
+    padding:30px 28px;border-radius:22px;
+    background:linear-gradient(135deg, rgba(0,224,208,.09), rgba(0,124,240,.05));
+    border:1px solid rgba(47,184,201,.28);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    transition:transform .3s ease;
+}
+.project-highlight:hover{transform:translateY(-5px);}
+.project-highlight::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.10), transparent 62%);
+    opacity:0;transition:opacity .35s ease;
+}
+.project-highlight.spot-on::before{opacity:1;}
+.project-highlight > *{position:relative;z-index:2;}
+.ph-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 6px rgba(47,184,201,.08);margin-bottom:20px;}
+.ph-icon svg{width:22px;height:22px;stroke:#fff;}
+.project-highlight h3{font-size:15.5px;font-weight:700;line-height:1.85;margin-bottom:16px;}
+.ph-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);}
+.ph-tag{font-size:11px;color:rgba(255,255,255,.55);}
+.ph-year{display:inline-flex;align-items:center;padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;color:var(--teal-400);background:rgba(47,184,201,.1);border:1px solid rgba(47,184,201,.3);}
+
+@media (max-width:700px){.project-pair{grid-template-columns:1fr;}}
+
+/* ---------- call CTA ---------- */
+.call-banner{
+    position:relative;text-align:center;
+    padding:60px 30px;border-radius:28px;
+    background:linear-gradient(160deg, rgba(22,50,76,.65), rgba(10,15,30,.55));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    overflow:hidden;
+}
+.call-banner::after{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(520px 280px at 50% 20%, black, transparent 75%);
+    mask-image:radial-gradient(520px 280px at 50% 20%, black, transparent 75%);
+    pointer-events:none;
+}
+.call-badge{width:58px;height:58px;margin:0 auto 20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#00e0c6,#007cf0);box-shadow:0 0 0 8px rgba(47,184,201,.08), 0 12px 30px rgba(0,124,240,.4);position:relative;z-index:2;}
+.call-badge svg{width:24px;height:24px;stroke:#fff;}
+.call-banner .a-kicker{justify-content:center;}
+.call-banner h2{position:relative;z-index:2;font-size:clamp(20px,2.6vw,28px);font-weight:700;margin-bottom:12px;}
+.call-banner p{position:relative;z-index:2;color:rgba(255,255,255,.65);font-size:14px;margin-bottom:32px;max-width:560px;margin-left:auto;margin-right:auto;}
+.phone-row{position:relative;z-index:2;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.phone-chip{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 24px;border-radius:16px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.14);
+    color:#fff;text-decoration:none;
+    font-size:15px;font-weight:700;letter-spacing:.3px;
+    direction:ltr;
+    transition:all .3s ease;
+}
+.phone-chip svg{width:17px;height:17px;stroke:var(--teal-400);flex-shrink:0;}
+.phone-chip:hover{border-color:rgba(47,184,201,.5);background:rgba(47,184,201,.1);transform:translateY(-3px);}
+
+@media (max-width:600px){
+    .phone-row{flex-direction:column;align-items:center;}
+    .phone-chip{width:100%;max-width:280px;justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+<div class="container">
+
+<header>
+    <div class="nav-capsule" id="navCapsule">
+        <a href="../../../index.html" class="brand">
+            <span class="brand-badge">
+               <img src="../../../img/Logo.png" alt="">
+            </span>
+            دیتاپردازش خلیج فارس
+        </a>
+        <nav class="nav-links" id="navLinks">
+            <span class="nav-indicator" id="navIndicator"></span>
+            <a href="../../../index.html">صفحه اصلی</a>
+            <a href="../../aboutUs.html">درباره ما</a>
+            <a href="./cctv-support.html" aria-current="page">پشتیبانی نظارت تصویری</a>
+        </nav>
+        <a href="../../contactUs.html" class="nav-cta">
+            تماس با ما
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+    </div>
+</header>
+
+<main>
+
+    <div class="breadcrumb">
+        <a href="../../../index.html">خانه</a>
+        <span>‹</span>
+        <a href="#">خدمات</a>
+        <span>‹</span>
+        <span class="current">پشتیبانی نظارت تصویری</span>
+    </div>
+
+    <!-- ================= HERO ================= -->
+    <section class="hero-grid">
+        <div>
+            <div class="eyebrow">امنیت بدون وقفه</div>
+            <h1>پشتیبانی سیستم‌های <span>نظارت تصویری</span>؛ امنیت بدون وقفه</h1>
+            <p>
+                نظارت تصویری یکی از مهم‌ترین ارکان امنیت سازمان‌هاست، اما یک سیستم نظارتی زمانی کارآمد است که
+                همیشه در بهترین حالت ممکن عمل کند. هرگونه اختلال یا خرابی فنی می‌تواند امنیت مجموعه شما را به
+                خطر بیندازد؛ اینجاست که پشتیبانی حرفه‌ای دیتا پردازش وارد عمل می‌شود.
+            </p>
+            <div class="hero-actions">
+                <a href="../../contactUs.html" class="btn btn-primary">درخواست پشتیبانی <span>❯</span></a>
+                <a href="#projects" class="btn btn-secondary">مشاهده نمونه پروژه‌ها</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="num">۲۴/<span>۷</span></span><span class="lbl">پایش و پاسخگویی</span></div>
+                <div class="hero-stat"><span class="num"><span>پیش</span>گیرانه</span><span class="lbl">نگهداری تخصصی</span></div>
+                <div class="hero-stat"><span class="num"><span>به‌روز</span></span><span class="lbl">سخت‌افزار و نرم‌افزار</span></div>
+                <div class="hero-stat"><span class="num">↓<span>هزینه</span></span><span class="lbl">تعمیرات ناگهانی</span></div>
+            </div>
+        </div>
+
+        <!-- ---------------- دیوار مانیتورینگ (بدون ویدیو، فقط طراحی گرافیکی) ---------------- -->
+        <div class="wall-panel">
+            <div class="wall-top">
+                <span class="wall-title">DataPD · Monitoring Wall</span>
+                <span class="wall-live"><span class="dot"></span> زنده</span>
+            </div>
+            <div class="cam-wall">
+
+                <div class="cam-tile">
+                    <div class="vf"><span></span><span></span><span></span><span></span></div>
+                    <div class="cam-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+                    <span class="rec"><span class="d"></span>REC</span>
+                    <span class="cam-label">ورودی اصلی</span>
+                </div>
+
+                <div class="cam-tile">
+                    <div class="vf"><span></span><span></span><span></span><span></span></div>
+                    <div class="cam-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+                    <span class="rec"><span class="d"></span>REC</span>
+                    <span class="cam-label">پارکینگ</span>
+                </div>
+
+                <div class="cam-tile">
+                    <div class="vf"><span></span><span></span><span></span><span></span></div>
+                    <div class="cam-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+                    <span class="rec"><span class="d"></span>REC</span>
+                    <span class="cam-label">راهرو طبقه ۲</span>
+                </div>
+
+                <div class="cam-tile offline">
+                    <div class="vf"><span></span><span></span><span></span><span></span></div>
+                    <div class="cam-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+                    <span class="cam-label">اتاق سرور</span>
+                </div>
+
+            </div>
+            <div class="wall-status">
+                <div class="wall-chip ok"><div class="v">۱۱</div><div class="l">دوربین آنلاین</div></div>
+                <div class="wall-chip warn"><div class="v">۱</div><div class="l">در حال بررسی</div></div>
+                <div class="wall-chip"><div class="v">۰</div><div class="l">هشدار فعال</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= چرا دیتا پردازش ================= -->
+    <section class="block">
+        <div class="section-head">
+            <div class="a-kicker">پشتیبانی حرفه‌ای</div>
+            <h2>چرا پشتیبانی سیستم‌های نظارتی خود را به دیتا پردازش بسپارید؟</h2>
+        </div>
+
+        <div class="zigzag">
+
+            <div class="zz-row">
+                <div class="zz-visual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+                <div class="zz-body spot-el">
+                    <div class="zz-index">۰۱ · مانیتورینگ و بررسی مستمر</div>
+                    <h3>پایش دائمی، پیش از بروز مشکل</h3>
+                    <p>با پایش مداوم و بررسی دوره‌ای تجهیزات، مشکلات احتمالی را پیش از وقوع شناسایی و برطرف می‌کنیم تا هیچ اختلالی در سیستم شما رخ ندهد.</p>
+                </div>
+            </div>
+
+            <div class="zz-row">
+                <div class="zz-visual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/></svg></div>
+                <div class="zz-body spot-el">
+                    <div class="zz-index">۰۲ · واکنش سریع و پشتیبانی ۲۴/۷</div>
+                    <h3>در مواقع حساس، سرعت حرف اول را می‌زند</h3>
+                    <p>تیم فنی دیتا پردازش به‌صورت ۲۴ ساعته و در ۷ روز هفته آماده ارائه خدمات پشتیبانی و رفع مشکلات احتمالی شماست.</p>
+                </div>
+            </div>
+
+            <div class="zz-row">
+                <div class="zz-visual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"/></svg></div>
+                <div class="zz-body spot-el">
+                    <div class="zz-index">۰۳ · تعمیر و نگهداری تخصصی</div>
+                    <h3>عملکرد پایدار در بالاترین سطح</h3>
+                    <p>تجهیزات نظارتی ممکن است به مرور دچار افت کیفیت یا مشکل فنی شوند. با نگهداری پیشگیرانه و تعمیرات تخصصی، عملکرد سیستم شما را در بالاترین سطح حفظ می‌کنیم.</p>
+                </div>
+            </div>
+
+            <div class="zz-row">
+                <div class="zz-visual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3.5-7.1"/><path d="M21 4v5h-5"/></svg></div>
+                <div class="zz-body spot-el">
+                    <div class="zz-index">۰۴ · به‌روزرسانی نرم‌افزاری و سخت‌افزاری</div>
+                    <h3>همگام با جدیدترین استانداردها</h3>
+                    <p>فناوری‌های نظارت تصویری همواره در حال پیشرفت هستند. با به‌روزرسانی نرم‌افزارها و ارتقای تجهیزات، سیستم شما را مطابق جدیدترین استانداردهای امنیتی نگه می‌داریم.</p>
+                </div>
+            </div>
+
+            <div class="zz-row">
+                <div class="zz-visual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9.5a2.5 2.5 0 0 0-2.5-2.5h-1a2.5 2.5 0 0 0 0 5h1a2.5 2.5 0 0 1 0 5h-1a2.5 2.5 0 0 1-2.5-2.5M12 6v1.2M12 16.8V18"/></svg></div>
+                <div class="zz-body spot-el">
+                    <div class="zz-index">۰۵ · کاهش هزینه‌های سازمانی</div>
+                    <h3>بالاترین بازدهی از سرمایه‌گذاری شما</h3>
+                    <p>با یک پشتیبانی حرفه‌ای، دیگر نیازی به تعویض مداوم تجهیزات و پرداخت هزینه‌های گزاف تعمیرات ناگهانی نخواهید داشت.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= PROJECTS ================= -->
+    <section class="block" id="projects" style="margin-bottom:0;">
+        <div class="section-head">
+            <div class="a-kicker">سوابق اجرایی</div>
+            <h2>گوشه‌ای از سوابق پروژه‌های نظارت تصویری</h2>
+            <p>نمونه‌ای از پروژه‌های پشتیبانی و بهسازی سیستم‌های نظارت تصویری که تیم دیتا پردازش اجرا کرده است</p>
+        </div>
+
+        <div class="project-pair">
+
+            <div class="project-highlight spot-el">
+                <div class="ph-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14V4a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10M2 14h20l-1.5 7h-17Z"/><path d="M12 8v4M10 10h4"/></svg></div>
+                <h3>پشتیبانی، نگهداری و بهسازی مجموعه تجهیزات نظارت تصویری سازمان ثبت استان تهران</h3>
+                <div class="ph-footer">
+                    <span class="ph-tag">پشتیبانی و بهسازی</span>
+                    <span class="ph-year">۱۴۰۳</span>
+                </div>
+            </div>
+
+            <div class="project-highlight spot-el">
+                <div class="ph-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18M3 12h18"/></svg></div>
+                <h3>پشتیبانی، نگهداری و بهسازی مجموعه تجهیزات نظارت تصویری پژوهشگاه ارتباطات کشور</h3>
+                <div class="ph-footer">
+                    <span class="ph-tag">پشتیبانی و بهسازی</span>
+                    <span class="ph-year">۱۴۰۳</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+</div>
+
+<!-- ================= CTA ================= -->
+<div class="container">
+    <section class="block" style="margin-top:90px;margin-bottom:0;">
+        <div class="call-banner spot-el">
+            <div class="call-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11Z"/></svg>
+            </div>
+            <div class="a-kicker">آسودگی خاطر</div>
+            <h2>امنیتی پایدار، بدون دغدغه!</h2>
+            <p>
+                با پشتیبانی حرفه‌ای دیتا پردازش، دیگر نگران عملکرد سیستم‌های نظارتی خود نخواهید بود. ما اینجاییم
+                تا با بهترین خدمات پشتیبانی و نگهداری، امنیت مجموعه شما را در هر لحظه تضمین کنیم.
+            </p>
+            <div class="phone-row">
+                <a href="tel:02122841589" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-22841589
+                </a>
+                <a href="tel:02122891940" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-22891940
+                </a>
+                <a href="tel:02122896293" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-22896293
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>دیتا پردازش خلیج فارس</h3>
+            <p style="font-size:12px;line-height:2;color:rgba(255,255,255,.58);margin-bottom:16px;">
+                ارائه‌دهنده خدمات شبکه، نظارت تصویری، آرشیو الکترونیک و زیرساخت‌های فناوری اطلاعات از سال ۱۳۸۷.
+            </p>
+            <div class="social-links">
+                <a href="#" aria-label="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <rect x="3.5" y="3.5" width="17" height="17"
+          rx="4.8"
+          stroke="#FFFFFF"
+          stroke-width="1"/>
+
+    <circle cx="12" cy="12" r="4"
+            stroke="#FFFFFF"
+            stroke-width="1"/>
+
+    <circle cx="17.3" cy="6.8" r="0.7"
+            fill="#FFFFFF"/>
+            
+                   </svg>
+                </a>
+
+                <a href="#" aria-label="Telegram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <path d="M21 4.5L3.8 11.15C3.1 11.42 3.1 12.38 3.8 12.65L8.1 14.2L9.75 19.35C9.97 20.03 10.82 20.25 11.37 19.78L13.8 17.7L17.95 20.75C18.55 21.19 19.42 20.86 19.57 20.13L21.95 5.35C22.1 4.5 21.8 4.2 21 4.5Z"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <path d="M8.1 14.2L18.35 7.55L11.8 15.9"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+                   </svg>
+                </a>
+                
+                <a href="#" aria-label="Bale"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+    
+    <path d="M12 3.2C7.05 3.2 3.2 6.55 3.2 11.05C3.2 13.85 4.65 16.15 7 17.65L6.35 20.45L9.35 18.85C10.2 19.1 11.1 19.2 12 19.2C16.95 19.2 20.8 15.55 20.8 11.05C20.8 6.55 16.95 3.2 12 3.2Z"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <path d="M8.2 11.35L10.35 13.05L15.8 8.95"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+                   </svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>دسترسی سریع</h3>
+            <ul class="footer-links">
+                <li><a href="../index.html">صفحه اصلی</a></li>
+                <li><a href="#">خدمات ما</a></li>
+                <li><a href="#">محصولات</a></li>
+                <li><a href="#projects">پروژه‌ها</a></li>
+                <li><a href="./contactUs.html">تماس با ما</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>خدمات</h3>
+            <ul class="footer-links">
+                <li><a href="#">پشتیبانی نظارت تصویری</a></li>
+                <li><a href="#">آرشیو الکترونیک</a></li>
+                <li><a href="#">نصب و راه‌اندازی شبکه</a></li>
+                <li><a href="#">پشتیبانی شبکه</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>تماس با ما</h3>
+            <div class="footer-contact">
+                <div class="contact-item"><span class="contact-icon">☏</span><a href="tel:02122841589">021-22841589</a></div>
+                <div class="contact-item"><span class="contact-icon">☏</span><a href="tel:02122891940">021-22891940</a></div>
+                <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:info@datapd.ir">info@datapd.ir</a></div>
+                <div class="contact-item"><span class="contact-icon">⚑</span><p>تهران . پاسداران . نگارستان چهارم . پلاک 4</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© ۱۴۰۴ دیتا پردازش خلیج فارس. تمامی حقوق محفوظ است.</p>
+        <div class="footer-logo">دیتا پردازش</div>
+    </div>
+</footer>
+
+</div>
+
+<script>
+  const navLinks = document.getElementById('navLinks');
+  const indicator = document.getElementById('navIndicator');
+  function moveIndicator(el){ if(!el || !indicator) return; indicator.style.width = el.offsetWidth + 'px'; indicator.style.transform = `translateX(${el.offsetLeft}px)`; }
+  if(navLinks && indicator){
+    const links = navLinks.querySelectorAll('a');
+    const active = navLinks.querySelector('a[aria-current="page"]') || links[0];
+    requestAnimationFrame(() => { moveIndicator(active); navLinks.classList.add('ready'); });
+    links.forEach(link => link.addEventListener('mouseenter', () => moveIndicator(link)));
+    navLinks.addEventListener('mouseleave', () => moveIndicator(active));
+    window.addEventListener('resize', () => moveIndicator(navLinks.querySelector('a:hover') || active));
+  }
+
+  const capsule = document.getElementById('navCapsule');
+  if(capsule){
+    capsule.addEventListener('mousemove', (e) => {
+      const rect = capsule.getBoundingClientRect();
+      capsule.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      capsule.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  }
+
+  document.querySelectorAll('.spot-el').forEach(card => {
+    card.addEventListener('mouseenter', () => card.classList.add('spot-on'));
+    card.addEventListener('mouseleave', () => card.classList.remove('spot-on'));
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  });
+</script>
+</body>
+</html>

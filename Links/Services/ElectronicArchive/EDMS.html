@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سیستم مدیریت اسناد الکترونیک EDMS | دیتاپردازش خلیج فارس</title>
+<style>
+@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+
+:root{
+    --navy-900: #0c1c33;
+    --navy-800: #16324c;
+    --navy-700: #1c3a58;
+    --teal-400: #2fb8c9;
+    --teal-600: #16788f;
+    --teal-800: #0a3c5c;
+    --violet-400: #9b8cff;
+    --violet-600: #5d3dff;
+    --text-white: #f5f8fa;
+    --text-muted: #b7c6d4;
+    --border-soft: rgba(255, 255, 255, 0.14);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+    direction: rtl;
+    font-family: "Vazirmatn", sans-serif;
+    background: #011324;
+    color: #fff;
+}
+.container{width:90%;max-width:1300px;margin:auto;}
+
+/* ---------- header (identical across all pages) ---------- */
+header{position:relative;z-index:20;padding:28px 0 70px;}
+.nav-capsule{
+    position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:8px 10px;border-radius:999px;
+    background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    box-shadow:0 24px 55px -22px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
+    overflow:hidden;
+}
+.nav-capsule::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%), rgba(255,255,255,.14), transparent 65%);
+    opacity:0;transition:opacity .4s ease;pointer-events:none;
+}
+.nav-capsule:hover::before{opacity:1;}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text-white);font-weight:800;font-size:15.5px;letter-spacing:.2px;padding-left:8px;white-space:nowrap;}
+.brand-badge{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 5px rgba(47,184,201,.08), 0 8px 18px rgba(0,0,0,.4);overflow:hidden;}
+.brand-badge svg{width:52%;height:52%;stroke:#fff;}
+.nav-links{position:relative;display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:999px;padding:5px;}
+.nav-links a{position:relative;z-index:2;display:inline-block;padding:9px 20px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--text-muted);text-decoration:none;white-space:nowrap;transition:color .3s ease;}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--text-white);}
+.nav-indicator{position:absolute;top:5px;bottom:5px;left:0;width:0;border-radius:999px;background:linear-gradient(135deg, rgba(47,184,201,.4), rgba(0,124,240,.28));border:1px solid rgba(47,184,201,.45);box-shadow:0 0 18px rgba(47,184,201,.4);transition:transform .4s cubic-bezier(.4,0,.2,1), width .4s cubic-bezier(.4,0,.2,1), opacity .25s ease;z-index:1;pointer-events:none;opacity:0;}
+.nav-links.ready .nav-indicator{opacity:1;}
+.nav-cta{display:flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 0 20px rgba(0,224,255,.45);transition:transform .25s ease, box-shadow .25s ease;flex-shrink:0;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(0,224,255,.6);}
+.nav-cta svg{width:13px;height:13px;transition:transform .3s ease;}
+.nav-cta:hover svg{transform:translateX(-3px);}
+@media (max-width:860px){.nav-links{display:none;}}
+@media (max-width:520px){header{padding:22px 0 50px;}.nav-capsule{border-radius:26px;padding:14px;flex-wrap:wrap;justify-content:center;gap:14px;}.brand{padding-left:0;}.nav-cta{width:100%;justify-content:center;}}
+
+/* ---------- buttons ---------- */
+.btn{min-width:180px;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:500;transition:transform .25s ease;border:none;cursor:pointer;font-family:inherit;}
+.btn-primary{background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;box-shadow:0 0 20px rgba(0,224,255,.6);}
+.btn-secondary{border:1px solid rgba(255,255,255,.3);color:#fff;background:transparent;}
+.btn:hover{transform:translateY(-3px);}
+
+/* ---------- footer ---------- */
+.footer{margin-top:70px;width:100%;background:#011324;border-top:1px solid rgba(255,255,255,.08);color:#fff;}
+.footer-container{width:90%;max-width:1300px;margin:auto;padding:38px 30px 28px;display:grid;grid-template-columns:1.25fr 1fr 1fr 1.35fr;gap:50px;direction:rtl;border:1px solid rgba(255,255,255,.10);border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);}
+.footer-column h3{margin:0 0 18px;font-size:15px;font-weight:600;color:#fff;position:relative;}
+.footer-column h3::after{content:"";display:block;width:28px;height:2px;margin-top:8px;border-radius:10px;background:#00dcd0;box-shadow:0 0 8px rgba(0,224,208,.5);}
+.footer-links{list-style:none;padding:0;margin:0;}
+.footer-links li{margin-bottom:11px;}
+.footer-links a{text-decoration:none;color:rgba(255,255,255,.58);font-size:12px;transition:color .25s ease, padding-right .25s ease;}
+.footer-links a:hover{color:#00dcd0;padding-right:5px;}
+.footer-contact{display:flex;flex-direction:column;gap:12px;}
+.contact-item{display:flex;align-items:flex-start;gap:9px;}
+.contact-icon{flex-shrink:0;width:20px;color:#00dcd0;font-size:17px;text-align:center;}
+.contact-item p,.contact-item a{margin:0;color:rgba(255,255,255,.58);text-decoration:none;font-size:11px;line-height:1.9;transition:color .25s ease;}
+.contact-item a:hover{color:#00dcd0;}
+.social-links{display:flex;align-items:center;gap:10px;margin-top:16px;}
+.social-links a{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;color:rgba(255,255,255,.85);font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));box-shadow:0 5px 15px rgba(0,0,0,.15);transition:transform .25s ease, background .25s ease, color .25s ease;}
+.social-links a:hover{transform:translateY(-4px);color:#00dcd0;background:rgba(0,224,208,.10);}
+.social-links a svg{width:16px;height:16px;stroke:currentColor;}
+.footer-bottom{width:90%;max-width:1300px;margin:auto;min-height:70px;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);direction:rtl;}
+.footer-bottom p{margin:0;color:rgba(255,255,255,.45);font-size:10px;}
+.footer-logo{display:flex;align-items:center;font-weight:800;font-size:13px;color:rgba(255,255,255,.7);}
+@media (max-width:960px){.footer-container{grid-template-columns:repeat(2,1fr);gap:35px;}}
+@media (max-width:600px){.footer{margin-top:50px;}.footer-container{width:94%;padding:30px 22px;grid-template-columns:1fr;gap:30px;}.footer-bottom{width:94%;padding:15px 10px;flex-direction:column;gap:12px;text-align:center;}.footer-logo{order:-1;}}
+
+/* =========================================================
+   صفحه سیستم مدیریت اسناد الکترونیک EDMS
+========================================================= */
+.page-wrap{position:relative;overflow:hidden;}
+.page-wrap::before{
+    content:"";position:fixed;inset:0;
+    background:
+        radial-gradient(1100px 700px at 92% -10%, rgba(93,61,255,.16), transparent 60%),
+        radial-gradient(850px 600px at -10% 20%, rgba(22,50,76,.55), transparent 60%),
+        radial-gradient(800px 560px at 55% 105%, rgba(0,224,208,.14), transparent 60%);
+    pointer-events:none;z-index:0;
+}
+
+.breadcrumb{position:relative;z-index:1;display:flex;align-items:center;gap:8px;margin-bottom:22px;font-size:12.5px;color:rgba(255,255,255,.45);}
+.breadcrumb a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s ease;}
+.breadcrumb a:hover{color:var(--teal-400);}
+.breadcrumb span.current{color:var(--teal-400);}
+
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--teal-400);font-weight:600;letter-spacing:.4px;margin-bottom:18px;}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal-400);box-shadow:0 0 10px 2px rgba(47,184,201,.6);}
+
+/* ---------- HERO ---------- */
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:54px;align-items:center;margin-bottom:90px;}
+.hero-grid h1{font-size:clamp(26px,3.2vw,38px);line-height:1.55;font-weight:700;margin-bottom:20px;}
+.hero-grid h1 span{
+    background:linear-gradient(90deg,#00e0d0,#7a8bff);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-grid > div:first-child p{color:rgba(255,255,255,.68);font-size:14.5px;line-height:2.05;margin-bottom:18px;max-width:520px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin:26px 0 32px;}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}
+.hero-stat{display:flex;flex-direction:column;gap:3px;}
+.hero-stat .num{font-size:22px;font-weight:800;color:#fff;}
+.hero-stat .num span{background:linear-gradient(90deg,#00e0d0,#7a8bff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-stat .lbl{font-size:11.5px;color:rgba(255,255,255,.5);}
+
+/* ---------- محصول موکاپ: پیش‌نمایش داشبورد EDMS ---------- */
+.app-frame{
+    position:relative;
+    border-radius:22px;
+    overflow:hidden;
+    border:1px solid var(--border-soft);
+    background:linear-gradient(160deg, rgba(16,30,48,.96), rgba(6,14,26,.98));
+    box-shadow:0 40px 90px -30px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.app-titlebar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.02);
+}
+.app-dots{display:flex;gap:6px;}
+.app-dots span{width:9px;height:9px;border-radius:50%;}
+.app-dots span:nth-child(1){background:#ff5f57;}
+.app-dots span:nth-child(2){background:#febc2e;}
+.app-dots span:nth-child(3){background:#28c840;}
+.app-titlebar .app-title{font-size:11.5px;color:rgba(255,255,255,.45);font-weight:600;}
+.app-live{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;color:rgba(255,255,255,.55);}
+.app-live .dot{width:6px;height:6px;border-radius:50%;background:#00e0d0;box-shadow:0 0 6px 1px rgba(0,224,208,.8);animation:pulse-dot 1.6s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+.app-body{display:flex;min-height:400px;}
+.app-side{
+    width:60px;flex-shrink:0;
+    display:flex;flex-direction:column;align-items:center;gap:18px;
+    padding:22px 0;border-left:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.015);
+}
+.app-side .s-ico{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);}
+.app-side .s-ico svg{width:16px;height:16px;stroke:currentColor;}
+.app-side .s-ico.active{background:linear-gradient(135deg, var(--teal-600), var(--teal-800));color:#fff;box-shadow:0 0 0 5px rgba(47,184,201,.1);}
+
+.app-main{flex:1;padding:22px 24px;min-width:0;}
+.app-search{
+    display:flex;align-items:center;gap:10px;
+    padding:11px 16px;border-radius:12px;
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);
+    font-size:12px;color:rgba(255,255,255,.4);margin-bottom:18px;
+}
+.app-search svg{width:14px;height:14px;stroke:rgba(255,255,255,.4);flex-shrink:0;}
+
+.app-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.app-stat{padding:12px 14px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);}
+.app-stat .v{font-size:15px;font-weight:800;color:#fff;margin-bottom:2px;}
+.app-stat .l{font-size:9.5px;color:rgba(255,255,255,.4);}
+
+.doc-row{
+    display:flex;align-items:center;gap:12px;
+    padding:11px 12px;border-radius:12px;
+    background:rgba(255,255,255,.02);
+    margin-bottom:8px;
+    border:1px solid transparent;
+    transition:border-color .2s ease, background .2s ease;
+}
+.doc-row:hover{border-color:rgba(47,184,201,.3);background:rgba(255,255,255,.04);}
+.doc-ico{width:32px;height:32px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.doc-ico svg{width:15px;height:15px;stroke:#fff;}
+.doc-ico.blue{background:linear-gradient(135deg,#00e0c6,#007cf0);}
+.doc-ico.violet{background:linear-gradient(135deg,#9b8cff,#5d3dff);}
+.doc-ico.amber{background:linear-gradient(135deg,#ffb547,#ff7a3d);}
+.doc-lines{flex:1;min-width:0;}
+.doc-lines .dl{height:6px;border-radius:4px;background:rgba(255,255,255,.13);margin-bottom:6px;}
+.doc-lines .dl:last-child{margin-bottom:0;width:45%;background:rgba(255,255,255,.06);}
+.doc-tag{flex-shrink:0;font-size:9.5px;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+.doc-tag.ok{background:rgba(0,224,208,.12);color:#00e0d0;border:1px solid rgba(0,224,208,.3);}
+.doc-tag.pending{background:rgba(255,181,71,.12);color:#ffb547;border:1px solid rgba(255,181,71,.3);}
+
+/* toast شناور */
+.app-toast{
+    position:absolute;bottom:-14px;left:-14px;z-index:5;
+    display:flex;align-items:center;gap:10px;
+    padding:12px 16px;border-radius:15px;
+    background:rgba(10,20,35,.92);
+    border:1px solid rgba(255,255,255,.14);
+    box-shadow:0 20px 40px -15px rgba(0,0,0,.6);
+    backdrop-filter:blur(10px);
+    animation:float-toast 4s ease-in-out infinite;
+}
+.app-toast .t-ico{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#00e0c6,#007cf0);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.app-toast .t-ico svg{width:13px;height:13px;stroke:#fff;}
+.app-toast .t-text{font-size:11px;color:rgba(255,255,255,.85);}
+.app-toast .t-text b{display:block;font-size:11.5px;margin-bottom:1px;}
+@keyframes float-toast{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+
+@media (max-width:960px){
+    .hero-grid{grid-template-columns:1fr;}
+    .app-frame{order:-1;}
+    .app-toast{display:none;}
+}
+@media (max-width:520px){
+    .app-body{flex-direction:column;}
+    .app-side{width:100%;flex-direction:row;justify-content:center;border-left:none;border-bottom:1px solid rgba(255,255,255,.07);padding:14px 0;}
+    .app-stats-row{grid-template-columns:1fr 1fr;}
+}
+
+/* ---------- section head ---------- */
+.section-head{position:relative;z-index:1;text-align:center;max-width:680px;margin:0 auto 44px;}
+.a-kicker{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.5px;color:var(--teal-400);margin-bottom:12px;justify-content:center;}
+.a-kicker::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--teal-400);box-shadow:0 0 8px rgba(47,184,201,.6);}
+.section-head h2{font-size:clamp(22px,2.8vw,30px);font-weight:700;margin-bottom:14px;}
+.section-head p{color:rgba(255,255,255,.6);font-size:14px;line-height:1.95;}
+
+section.block{position:relative;z-index:1;margin-bottom:96px;}
+
+/* ---------- چرا EDMS ضروری است — گرید آیکونی ---------- */
+.necessity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.necessity-card{
+    position:relative;overflow:hidden;
+    padding:26px 24px;border-radius:20px;
+    background:linear-gradient(120deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    transition:transform .3s ease, border-color .3s ease;
+}
+.necessity-card:hover{transform:translateY(-5px);border-color:rgba(47,184,201,.4);}
+.necessity-card::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%), rgba(0,224,208,.14), rgba(122,139,255,.06) 45%, transparent 72%);
+    opacity:0;transition:opacity .35s ease;
+}
+.necessity-card.spot-on::before{opacity:1;}
+.necessity-card > *{position:relative;z-index:2;}
+.necessity-icon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.18);box-shadow:0 0 0 5px rgba(47,184,201,.08);margin-bottom:16px;}
+.necessity-icon svg{width:19px;height:19px;stroke:#fff;}
+.necessity-card h3{font-size:14.5px;font-weight:700;margin-bottom:9px;}
+.necessity-card p{font-size:12.5px;line-height:1.9;color:rgba(255,255,255,.6);}
+
+@media (max-width:1000px){.necessity-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:600px){.necessity-grid{grid-template-columns:1fr;}}
+
+/* ---------- چرا دیتا پردازش — کارت‌های چرخشی (فلیپ) ---------- */
+.flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.flip-grid .flip-item:nth-child(4){grid-column:1 / span 1;}
+.flip-outer{perspective:1400px;height:230px;}
+.flip-inner{
+    position:relative;width:100%;height:100%;
+    transition:transform .7s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+}
+.flip-outer:hover .flip-inner{transform:rotateY(180deg);}
+.flip-face{
+    position:absolute;inset:0;
+    backface-visibility:hidden;
+    border-radius:20px;
+    padding:26px 24px;
+    border:1px solid var(--border-soft);
+    display:flex;flex-direction:column;
+}
+.flip-front{
+    background:linear-gradient(140deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    justify-content:space-between;
+}
+.flip-front .fi-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#9b8cff,#5d3dff);box-shadow:0 0 0 6px rgba(155,140,255,.1);}
+.flip-front .fi-icon svg{width:22px;height:22px;stroke:#fff;}
+.flip-front h3{font-size:15px;font-weight:700;line-height:1.7;}
+.flip-front .fi-hint{font-size:10.5px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:5px;}
+.flip-front .fi-hint svg{width:11px;height:11px;stroke:rgba(255,255,255,.4);}
+.flip-back{
+    background:linear-gradient(140deg, rgba(0,224,208,.14), rgba(93,61,255,.14));
+    transform:rotateY(180deg);
+    justify-content:center;
+    border-color:rgba(155,140,255,.35);
+}
+.flip-back p{font-size:12.8px;line-height:1.95;color:rgba(255,255,255,.85);}
+.flip-back .fb-tag{font-size:10.5px;font-weight:700;color:var(--teal-400);margin-bottom:10px;letter-spacing:.3px;}
+
+@media (max-width:900px){.flip-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:640px){
+    .flip-grid{grid-template-columns:1fr;}
+    .flip-outer{height:auto;perspective:none;}
+    .flip-inner{position:relative;transform:none !important;transition:none;height:auto;}
+    .flip-face{position:relative;backface-visibility:visible;}
+    .flip-back{display:none;}
+    .flip-front{padding-bottom:20px;}
+    .flip-front::after{content:"";display:none;}
+}
+@media (max-width:640px){
+    .flip-outer{height:auto;}
+    .flip-front h3{margin-bottom:8px;}
+}
+
+/* mobile: show description under title instead of flip */
+.mobile-desc{display:none;font-size:12.5px;line-height:1.9;color:rgba(255,255,255,.6);margin-top:10px;}
+@media (max-width:640px){.mobile-desc{display:block;}.fi-hint{display:none;}}
+
+/* ---------- closing CTA ---------- */
+.call-banner{
+    position:relative;text-align:center;
+    padding:66px 30px;border-radius:30px;
+    background:linear-gradient(160deg, rgba(22,50,76,.7), rgba(10,15,30,.6));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    overflow:hidden;
+}
+.call-banner::after{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(560px 300px at 50% 15%, black, transparent 75%);
+    mask-image:radial-gradient(560px 300px at 50% 15%, black, transparent 75%);
+    pointer-events:none;
+}
+.call-badge{
+    width:60px;height:60px;margin:0 auto 20px;border-radius:20px;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#00e0c6,#007cf0);
+    box-shadow:0 0 0 9px rgba(47,184,201,.08), 0 14px 34px rgba(0,124,240,.45);
+    position:relative;z-index:2;
+}
+.call-badge svg{width:25px;height:25px;stroke:#fff;}
+.call-banner .a-kicker{justify-content:center;}
+.call-banner h2{position:relative;z-index:2;font-size:clamp(21px,2.7vw,29px);font-weight:700;margin-bottom:12px;}
+.call-banner h2 span{background:linear-gradient(90deg,#00e0d0,#7a8bff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.call-banner p{position:relative;z-index:2;color:rgba(255,255,255,.65);font-size:14px;margin-bottom:32px;max-width:580px;margin-left:auto;margin-right:auto;}
+.phone-row{position:relative;z-index:2;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.phone-chip{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 24px;border-radius:16px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.14);
+    color:#fff;text-decoration:none;
+    font-size:15px;font-weight:700;letter-spacing:.3px;
+    direction:ltr;
+    transition:all .3s ease;
+}
+.phone-chip svg{width:17px;height:17px;stroke:var(--teal-400);flex-shrink:0;}
+.phone-chip:hover{border-color:rgba(47,184,201,.5);background:rgba(47,184,201,.1);transform:translateY(-3px);}
+
+@media (max-width:600px){
+    .phone-row{flex-direction:column;align-items:center;}
+    .phone-chip{width:100%;max-width:280px;justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+<div class="container">
+
+<header>
+    <div class="nav-capsule" id="navCapsule">
+        <a href="../index.html" class="brand">
+            <span class="brand-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>
+            </span>
+            دیتاپردازش خلیج فارس
+        </a>
+        <nav class="nav-links" id="navLinks">
+            <span class="nav-indicator" id="navIndicator"></span>
+            <a href="../../../index.html">صفحه اصلی</a>
+            <a href="../../aboutUs.html">درباره ما</a>
+            <a href="#" aria-current="page">مدیریت اسناد EDMS</a>
+        </nav>
+        <a href="../../contactUs.html" class="nav-cta">
+            تماس با ما
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+    </div>
+</header>
+
+<main>
+
+    <div class="breadcrumb">
+        <a href="../index.html">خانه</a>
+        <span>‹</span>
+        <a href="#">خدمات</a>
+        <span>‹</span>
+        <span class="current">سیستم مدیریت اسناد الکترونیک</span>
+    </div>
+
+    <!-- ================= HERO ================= -->
+    <section class="hero-grid">
+        <div>
+            <div class="eyebrow">EDMS · نرم‌افزار سازمانی</div>
+            <h1>سیستم مدیریت اسناد الکترونیک <span>EDMS</span>؛ تحول در مدیریت اطلاعات</h1>
+            <p>
+                حجم بالای اسناد، مشکلات بایگانی فیزیکی، دشواری در جست‌وجو و بازیابی اطلاعات و امنیت ناکافی،
+                از چالش‌های اصلی سازمان‌هاست. دیتا پردازش با طراحی و اجرای نرم‌افزار پیشرفته‌ی EDMS، اسناد
+                شما را به‌صورت دیجیتال مدیریت می‌کند تا از حداکثر بهره‌وری، امنیت و سرعت دسترسی برخوردار شوید.
+            </p>
+            <div class="hero-actions">
+                <a href="../../contactUs.html" class="btn btn-primary">درخواست دمو رایگان <span>❯</span></a>
+                <a href="#why-us" class="btn btn-secondary">چرا دیتا پردازش؟</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="num">&lt;<span>3</span></span><span class="lbl">ثانیه جست‌وجوی سند</span></div>
+                <div class="hero-stat"><span class="num"><span>ERP</span>/CRM</span><span class="lbl">یکپارچه‌سازی کامل</span></div>
+                <div class="hero-stat"><span class="num">چند<span>سطحی</span></span><span class="lbl">کنترل دسترسی</span></div>
+                <div class="hero-stat"><span class="num">۲۴/<span>۷</span></span><span class="lbl">پشتیبانی و آموزش</span></div>
+            </div>
+        </div>
+
+        <!-- ---------------- موکاپ داشبورد نرم‌افزار EDMS ---------------- -->
+        <div class="app-frame">
+            <div class="app-titlebar">
+                <div class="app-dots"><span></span><span></span><span></span></div>
+                <span class="app-title">DataPD · EDMS Dashboard</span>
+                <span class="app-live"><span class="dot"></span> آنلاین</span>
+            </div>
+            <div class="app-body">
+                <div class="app-side">
+                    <div class="s-ico active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></svg></div>
+                    <div class="s-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg></div>
+                    <div class="s-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                    <div class="s-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></div>
+                    <div class="s-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></div>
+                </div>
+                <div class="app-main">
+                    <div class="app-search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                        جست‌وجوی هوشمند در میان اسناد سازمانی...
+                    </div>
+                    <div class="app-stats-row">
+                        <div class="app-stat"><div class="v">۱٬۲۰۴</div><div class="l">سند فعال</div></div>
+                        <div class="app-stat"><div class="v">۱۸</div><div class="l">کاربر متصل</div></div>
+                        <div class="app-stat"><div class="v">۹۹.۹٪</div><div class="l">امنیت سیستم</div></div>
+                    </div>
+
+                    <div class="doc-row">
+                        <div class="doc-ico blue"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+                        <div class="doc-lines"><div class="dl"></div><div class="dl"></div></div>
+                        <span class="doc-tag ok">تأییدشده</span>
+                    </div>
+                    <div class="doc-row">
+                        <div class="doc-ico violet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+                        <div class="doc-lines"><div class="dl"></div><div class="dl"></div></div>
+                        <span class="doc-tag pending">در حال بررسی</span>
+                    </div>
+                    <div class="doc-row">
+                        <div class="doc-ico amber"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+                        <div class="doc-lines"><div class="dl"></div><div class="dl"></div></div>
+                        <span class="doc-tag ok">تأییدشده</span>
+                    </div>
+                    <div class="doc-row">
+                        <div class="doc-ico blue"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+                        <div class="doc-lines"><div class="dl"></div><div class="dl"></div></div>
+                        <span class="doc-tag ok">تأییدشده</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="app-toast">
+                <div class="t-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v14M6 8l6-6 6 6"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></div>
+                <div class="t-text"><b>سند جدید بارگذاری شد</b>قرارداد واحد مالی · هم‌اکنون</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= چرا EDMS ضروری است ================= -->
+    <section class="block">
+        <div class="section-head">
+            <div class="a-kicker">ضرورت دیجیتال‌سازی</div>
+            <h2>چرا سیستم مدیریت اسناد (EDMS) ضروری است؟</h2>
+        </div>
+        <div class="necessity-grid">
+
+            <div class="necessity-card spot-el">
+                <div class="necessity-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+                <h3>دسترسی سریع و آسان به اطلاعات</h3>
+                <p>امکان جست‌وجو و بازیابی اسناد در چند ثانیه، بدون نیاز به گشتن میان پوشه‌های فیزیکی.</p>
+            </div>
+
+            <div class="necessity-card spot-el">
+                <div class="necessity-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11Z"/></svg></div>
+                <h3>افزایش امنیت و کنترل دسترسی</h3>
+                <p>تعریف سطح دسترسی برای کاربران مختلف، متناسب با نقش و جایگاه سازمانی هر فرد.</p>
+            </div>
+
+            <div class="necessity-card spot-el">
+                <div class="necessity-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9.5a2.5 2.5 0 0 0-2.5-2.5h-1a2.5 2.5 0 0 0 0 5h1a2.5 2.5 0 0 1 0 5h-1a2.5 2.5 0 0 1-2.5-2.5M12 6v1.2M12 16.8V18"/></svg></div>
+                <h3>کاهش هزینه‌های بایگانی</h3>
+                <p>حذف نیاز به فضای فیزیکی برای ذخیره‌سازی و کاهش هزینه‌های چاپ و نگهداری اسناد.</p>
+            </div>
+
+            <div class="necessity-card spot-el">
+                <div class="necessity-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11Z"/><path d="m9.5 12 1.8 1.8L15 10"/></svg></div>
+                <h3>جلوگیری از مفقودی اسناد</h3>
+                <p>محافظت کامل از اطلاعات سازمانی در برابر خرابی تجهیزات، حوادث و حذف سهوی.</p>
+            </div>
+
+            <div class="necessity-card spot-el">
+                <div class="necessity-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                <h3>بهبود همکاری سازمانی</h3>
+                <p>امکان اشتراک‌گذاری امن اسناد میان بخش‌های مختلف، بدون نیاز به ارسال فیزیکی یا ایمیل پراکنده.</p>
+            </div>
+
+            <div class="necessity-card spot-el">
+                <div class="necessity-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></div>
+                <h3>انطباق با استانداردهای قانونی</h3>
+                <p>رعایت کامل مقررات و استانداردهای مرتبط با بایگانی و مستندسازی سازمانی.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= چرا دیتا پردازش ================= -->
+    <section class="block" id="why-us" style="margin-bottom:0;">
+        <div class="section-head">
+            <div class="a-kicker">مزیت انتخاب ما · نشانگر موس را روی کارت‌ها ببرید</div>
+            <h2>چرا دیتا پردازش بهترین انتخاب برای پیاده‌سازی EDMS است؟</h2>
+        </div>
+
+        <div class="flip-grid">
+
+            <div class="flip-item flip-outer">
+                <div class="flip-inner">
+                    <div class="flip-face flip-front">
+                        <div class="fi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></div>
+                        <h3>طراحی سفارشی و متناسب با سازمان شما</h3>
+                        <span class="mobile-desc">نرم‌افزاری ارائه می‌دهیم که دقیقاً مطابق با فرآیندها و ساختار کسب‌وکار شما باشد.</span>
+                        <span class="fi-hint">برای مشاهده توضیحات، اشاره کنید <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+                    </div>
+                    <div class="flip-face flip-back">
+                        <div class="fb-tag">طراحی اختصاصی</div>
+                        <p>ما نرم‌افزاری ارائه می‌دهیم که دقیقاً مطابق با فرآیندها و ساختار کسب‌وکار شما باشد؛ نه یک راهکار آماده و عمومی.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-item flip-outer">
+                <div class="flip-inner">
+                    <div class="flip-face flip-front">
+                        <div class="fi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11Z"/></svg></div>
+                        <h3>تکنولوژی پیشرفته و امنیت بالا</h3>
+                        <span class="mobile-desc">استفاده از رمزگذاری، کنترل دسترسی و قابلیت‌های پیشرفته برای حفاظت از اسناد سازمانی.</span>
+                        <span class="fi-hint">برای مشاهده توضیحات، اشاره کنید <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+                    </div>
+                    <div class="flip-face flip-back">
+                        <div class="fb-tag">امنیت سازمانی</div>
+                        <p>استفاده از رمزگذاری، کنترل دسترسی چندسطحی و قابلیت‌های پیشرفته برای حفاظت کامل از اسناد سازمانی.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-item flip-outer">
+                <div class="flip-inner">
+                    <div class="flip-face flip-front">
+                        <div class="fi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></div>
+                        <h3>یکپارچه‌سازی با سایر سیستم‌ها</h3>
+                        <span class="mobile-desc">امکان اتصال EDMS به اتوماسیون اداری، ERP، CRM و سایر نرم‌افزارهای مورد استفاده شما.</span>
+                        <span class="fi-hint">برای مشاهده توضیحات، اشاره کنید <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+                    </div>
+                    <div class="flip-face flip-back">
+                        <div class="fb-tag">یکپارچگی کامل</div>
+                        <p>امکان اتصال EDMS به اتوماسیون اداری، ERP، CRM و سایر نرم‌افزارهای مورد استفاده‌ی سازمان شما.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-item flip-outer">
+                <div class="flip-inner">
+                    <div class="flip-face flip-front">
+                        <div class="fi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+                        <h3>رابط کاربری ساده و کاربرپسند</h3>
+                        <span class="mobile-desc">استفاده آسان بدون نیاز به تخصص فنی بالا، برای همه کارکنان سازمان.</span>
+                        <span class="fi-hint">برای مشاهده توضیحات، اشاره کنید <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+                    </div>
+                    <div class="flip-face flip-back">
+                        <div class="fb-tag">تجربه کاربری</div>
+                        <p>طراحی رابط کاربری ساده و روان، بدون نیاز به تخصص فنی بالا، برای استفاده‌ی راحت همه‌ی کارکنان سازمان.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-item flip-outer">
+                <div class="flip-inner">
+                    <div class="flip-face flip-front">
+                        <div class="fi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+                        <h3>پشتیبانی و آموزش کامل</h3>
+                        <span class="mobile-desc">ارائه خدمات پشتیبانی و آموزش تیم‌های سازمانی برای بهره‌وری بیشتر.</span>
+                        <span class="fi-hint">برای مشاهده توضیحات، اشاره کنید <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+                    </div>
+                    <div class="flip-face flip-back">
+                        <div class="fb-tag">همراهی مستمر</div>
+                        <p>ارائه خدمات پشتیبانی مستمر و آموزش کامل تیم‌های سازمانی برای بهره‌وری هر‌چه‌بیشتر از سیستم.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+</div>
+
+<!-- ================= CLOSING CTA ================= -->
+<div class="container">
+    <section class="block" style="margin-top:96px;margin-bottom:0;">
+        <div class="call-banner spot-el">
+            <div class="call-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="m9.5 14 1.8 1.8L15 12"/></svg>
+            </div>
+            <div class="a-kicker">تحول دیجیتال</div>
+            <h2>با دیتا پردازش، <span>مدیریت اسناد</span> را متحول کنید!</h2>
+            <p>
+                با نرم‌افزار مدیریت اسناد الکترونیک (EDMS) دیتا پردازش، کنترل کامل اسناد خود را در اختیار داشته باشید،
+                از امنیت بالا برخوردار شوید و در مسیر دیجیتالی‌شدن، یک قدم جلوتر از رقبا باشید.
+            </p>
+            <div class="phone-row">
+                <a href="tel:02122841589" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-22841589
+                </a>
+                <a href="tel:02122891940" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-22891940
+                </a>
+                <a href="tel:02122896293" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-22896293
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>دیتا پردازش خلیج فارس</h3>
+            <p style="font-size:12px;line-height:2;color:rgba(255,255,255,.58);margin-bottom:16px;">
+                ارائه‌دهنده خدمات شبکه، نظارت تصویری، آرشیو الکترونیک و زیرساخت‌های فناوری اطلاعات از سال ۱۳۸۹.
+            </p>
+            <div class="social-links">
+                <a href="#" aria-label="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <rect x="3.5" y="3.5" width="17" height="17"
+          rx="4.8"
+          stroke="#FFFFFF"
+          stroke-width="1"/>
+
+    <circle cx="12" cy="12" r="4"
+            stroke="#FFFFFF"
+            stroke-width="1"/>
+
+    <circle cx="17.3" cy="6.8" r="0.7"
+            fill="#FFFFFF"/>
+            
+                   </svg>
+                </a>
+
+                <a href="#" aria-label="Telegram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <path d="M21 4.5L3.8 11.15C3.1 11.42 3.1 12.38 3.8 12.65L8.1 14.2L9.75 19.35C9.97 20.03 10.82 20.25 11.37 19.78L13.8 17.7L17.95 20.75C18.55 21.19 19.42 20.86 19.57 20.13L21.95 5.35C22.1 4.5 21.8 4.2 21 4.5Z"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <path d="M8.1 14.2L18.35 7.55L11.8 15.9"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+                   </svg>
+                </a>
+                
+                <a href="#" aria-label="Bale"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+    
+    <path d="M12 3.2C7.05 3.2 3.2 6.55 3.2 11.05C3.2 13.85 4.65 16.15 7 17.65L6.35 20.45L9.35 18.85C10.2 19.1 11.1 19.2 12 19.2C16.95 19.2 20.8 15.55 20.8 11.05C20.8 6.55 16.95 3.2 12 3.2Z"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <path d="M8.2 11.35L10.35 13.05L15.8 8.95"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+                   </svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>دسترسی سریع</h3>
+            <ul class="footer-links">
+                <li><a href="../../../index.html">صفحه اصلی</a></li>
+                <li><a href="#">خدمات ما</a></li>
+                <li><a href="#">محصولات</a></li>
+                <li><a href="#why-us">چرا دیتا پردازش</a></li>
+                <li><a href="../../contactUs.html">تماس با ما</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>خدمات</h3>
+            <ul class="footer-links">
+                <li><a href="#">مدیریت اسناد EDMS</a></li>
+                <li><a href="#">آرشیو الکترونیک</a></li>
+                <li><a href="#">نصب و راه‌اندازی شبکه</a></li>
+                <li><a href="#">پشتیبانی شبکه</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>تماس با ما</h3>
+            <div class="footer-contact">
+                <div class="contact-item"><span class="contact-icon">☏</span><a href="tel:02122841589">021-22841589</a></div>
+                <div class="contact-item"><span class="contact-icon">☏</span><a href="tel:02122891940">021-22891940</a></div>
+                <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:info@datapd.ir">info@datapd.ir</a></div>
+                <div class="contact-item"><span class="contact-icon">⚑</span><p>تهران . پاسداران . نگارستان چهارم . پلاک 4</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© ۱۴۰۴ دیتا پردازش خلیج فارس. تمامی حقوق محفوظ است.</p>
+        <div class="footer-logo">دیتا پردازش</div>
+    </div>
+</footer>
+
+</div>
+
+<script>
+  const navLinks = document.getElementById('navLinks');
+  const indicator = document.getElementById('navIndicator');
+  function moveIndicator(el){ if(!el || !indicator) return; indicator.style.width = el.offsetWidth + 'px'; indicator.style.transform = `translateX(${el.offsetLeft}px)`; }
+  if(navLinks && indicator){
+    const links = navLinks.querySelectorAll('a');
+    const active = navLinks.querySelector('a[aria-current="page"]') || links[0];
+    requestAnimationFrame(() => { moveIndicator(active); navLinks.classList.add('ready'); });
+    links.forEach(link => link.addEventListener('mouseenter', () => moveIndicator(link)));
+    navLinks.addEventListener('mouseleave', () => moveIndicator(active));
+    window.addEventListener('resize', () => moveIndicator(navLinks.querySelector('a:hover') || active));
+  }
+
+  const capsule = document.getElementById('navCapsule');
+  if(capsule){
+    capsule.addEventListener('mousemove', (e) => {
+      const rect = capsule.getBoundingClientRect();
+      capsule.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      capsule.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  }
+
+  document.querySelectorAll('.spot-el').forEach(card => {
+    card.addEventListener('mouseenter', () => card.classList.add('spot-on'));
+    card.addEventListener('mouseleave', () => card.classList.remove('spot-on'));
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  });
+</script>
+</body>
+</html>

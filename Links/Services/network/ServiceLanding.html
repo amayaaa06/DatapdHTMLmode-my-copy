@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نصب، راه‌اندازی و پشتیبانی شبکه | دیتاپردازش خلیج فارس</title>
+<style>
+@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+
+:root{
+    --navy-900: #0c1c33;
+    --navy-800: #16324c;
+    --navy-700: #1c3a58;
+    --teal-400: #2fb8c9;
+    --teal-600: #16788f;
+    --teal-800: #0a3c5c;
+    --violet-400: #9b8cff;
+    --text-white: #f5f8fa;
+    --text-muted: #b7c6d4;
+    --border-soft: rgba(255, 255, 255, 0.14);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+    direction: rtl;
+    font-family: "Vazirmatn", sans-serif;
+    background: #011324;
+    color: #fff;
+}
+.container{width:90%;max-width:1300px;margin:auto;}
+
+/* ---------- header (identical across all pages) ---------- */
+header{position:relative;z-index:20;padding:28px 0 70px;}
+.nav-capsule{
+    position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:8px 10px;border-radius:999px;
+    background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    box-shadow:0 24px 55px -22px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
+    overflow:hidden;
+}
+.nav-capsule::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%), rgba(255,255,255,.14), transparent 65%);
+    opacity:0;transition:opacity .4s ease;pointer-events:none;
+}
+.nav-capsule:hover::before{opacity:1;}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text-white);font-weight:800;font-size:15.5px;letter-spacing:.2px;padding-left:8px;white-space:nowrap;}
+.brand-badge{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 5px rgba(47,184,201,.08), 0 8px 18px rgba(0,0,0,.4);overflow:hidden;}
+.brand-badge svg{width:52%;height:52%;stroke:#fff;}
+.nav-links{position:relative;display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:999px;padding:5px;}
+.nav-links a{position:relative;z-index:2;display:inline-block;padding:9px 20px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--text-muted);text-decoration:none;white-space:nowrap;transition:color .3s ease;}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--text-white);}
+.nav-indicator{position:absolute;top:5px;bottom:5px;left:0;width:0;border-radius:999px;background:linear-gradient(135deg, rgba(47,184,201,.4), rgba(0,124,240,.28));border:1px solid rgba(47,184,201,.45);box-shadow:0 0 18px rgba(47,184,201,.4);transition:transform .4s cubic-bezier(.4,0,.2,1), width .4s cubic-bezier(.4,0,.2,1), opacity .25s ease;z-index:1;pointer-events:none;opacity:0;}
+.nav-links.ready .nav-indicator{opacity:1;}
+.nav-cta{display:flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 0 20px rgba(0,224,255,.45);transition:transform .25s ease, box-shadow .25s ease;flex-shrink:0;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(0,224,255,.6);}
+.nav-cta svg{width:13px;height:13px;transition:transform .3s ease;}
+.nav-cta:hover svg{transform:translateX(-3px);}
+@media (max-width:860px){.nav-links{display:none;}}
+@media (max-width:520px){header{padding:22px 0 50px;}.nav-capsule{border-radius:26px;padding:14px;flex-wrap:wrap;justify-content:center;gap:14px;}.brand{padding-left:0;}.nav-cta{width:100%;justify-content:center;}}
+
+/* ---------- buttons ---------- */
+.btn{min-width:180px;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:500;transition:transform .25s ease;border:none;cursor:pointer;font-family:inherit;}
+.btn-primary{background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;box-shadow:0 0 20px rgba(0,224,255,.6);}
+.btn-secondary{border:1px solid rgba(255,255,255,.3);color:#fff;background:transparent;}
+.btn:hover{transform:translateY(-3px);}
+
+/* ---------- footer ---------- */
+.footer{margin-top:70px;width:100%;background:#011324;border-top:1px solid rgba(255,255,255,.08);color:#fff;}
+.footer-container{width:90%;max-width:1300px;margin:auto;padding:38px 30px 28px;display:grid;grid-template-columns:1.25fr 1fr 1fr 1.35fr;gap:50px;direction:rtl;border:1px solid rgba(255,255,255,.10);border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);}
+.footer-column h3{margin:0 0 18px;font-size:15px;font-weight:600;color:#fff;position:relative;}
+.footer-column h3::after{content:"";display:block;width:28px;height:2px;margin-top:8px;border-radius:10px;background:#00dcd0;box-shadow:0 0 8px rgba(0,224,208,.5);}
+.footer-links{list-style:none;padding:0;margin:0;}
+.footer-links li{margin-bottom:11px;}
+.footer-links a{text-decoration:none;color:rgba(255,255,255,.58);font-size:12px;transition:color .25s ease, padding-right .25s ease;}
+.footer-links a:hover{color:#00dcd0;padding-right:5px;}
+.footer-contact{display:flex;flex-direction:column;gap:12px;}
+.contact-item{display:flex;align-items:flex-start;gap:9px;}
+.contact-icon{flex-shrink:0;width:20px;color:#00dcd0;font-size:17px;text-align:center;}
+.contact-item p,.contact-item a{margin:0;color:rgba(255,255,255,.58);text-decoration:none;font-size:11px;line-height:1.9;transition:color .25s ease;}
+.contact-item a:hover{color:#00dcd0;}
+.social-links{display:flex;align-items:center;gap:10px;margin-top:16px;}
+.social-links a{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;color:rgba(255,255,255,.85);font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));box-shadow:0 5px 15px rgba(0,0,0,.15);transition:transform .25s ease, background .25s ease, color .25s ease;}
+.social-links a:hover{transform:translateY(-4px);color:#00dcd0;background:rgba(0,224,208,.10);}
+.social-links a svg{width:16px;height:16px;stroke:currentColor;}
+.footer-bottom{width:90%;max-width:1300px;margin:auto;min-height:70px;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);direction:rtl;}
+.footer-bottom p{margin:0;color:rgba(255,255,255,.45);font-size:10px;}
+.footer-logo{display:flex;align-items:center;font-weight:800;font-size:13px;color:rgba(255,255,255,.7);}
+@media (max-width:960px){.footer-container{grid-template-columns:repeat(2,1fr);gap:35px;}}
+@media (max-width:600px){.footer{margin-top:50px;}.footer-container{width:94%;padding:30px 22px;grid-template-columns:1fr;gap:30px;}.footer-bottom{width:94%;padding:15px 10px;flex-direction:column;gap:12px;text-align:center;}.footer-logo{order:-1;}}
+
+/* =========================================================
+   صفحه نصب و راه‌اندازی و پشتیبانی شبکه
+========================================================= */
+.page-wrap{position:relative;overflow:hidden;}
+.page-wrap::before{
+    content:"";position:fixed;inset:0;
+    background:
+        radial-gradient(1000px 650px at 90% -10%, rgba(155,140,255,.13), transparent 60%),
+        radial-gradient(850px 600px at -10% 25%, rgba(22,50,76,.55), transparent 60%),
+        radial-gradient(750px 550px at 55% 100%, rgba(47,184,201,.12), transparent 60%);
+    pointer-events:none;z-index:0;
+}
+
+.breadcrumb{position:relative;z-index:1;display:flex;align-items:center;gap:8px;margin-bottom:22px;font-size:12.5px;color:rgba(255,255,255,.45);}
+.breadcrumb a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s ease;}
+.breadcrumb a:hover{color:var(--teal-400);}
+.breadcrumb span.current{color:var(--teal-400);}
+
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--teal-400);font-weight:600;letter-spacing:.4px;margin-bottom:18px;}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal-400);box-shadow:0 0 10px 2px rgba(47,184,201,.6);}
+
+/* ---------- hero: متن + گراف تعاملی شبکه ---------- */
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;margin-bottom:80px;}
+.hero-grid h1{font-size:clamp(26px,3.3vw,39px);line-height:1.55;font-weight:700;margin-bottom:20px;}
+.hero-grid h1 span{color:#00e0d0;text-shadow:0 0 40px rgba(5,226,200,.8);}
+.hero-grid > div:first-child p{color:rgba(255,255,255,.68);font-size:15px;line-height:2.05;margin-bottom:28px;max-width:540px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px;}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}
+.hero-stat{display:flex;flex-direction:column;gap:3px;}
+.hero-stat .num{font-size:22px;font-weight:800;color:#fff;}
+.hero-stat .num span{color:var(--teal-400);}
+.hero-stat .lbl{font-size:11.5px;color:rgba(255,255,255,.5);}
+
+/* گراف زنده‌ی شبکه به‌جای عکس */
+.net-panel{
+    position:relative;
+    border-radius:26px;
+    overflow:hidden;
+    aspect-ratio:1/1;
+    border:1px solid var(--border-soft);
+    background:radial-gradient(circle at 50% 45%, rgba(22,50,76,.9), rgba(2,10,20,.98));
+    box-shadow:0 30px 70px -25px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.net-panel svg{position:absolute;inset:0;width:100%;height:100%;}
+.net-panel .n-line{stroke:rgba(47,184,201,.35);stroke-width:1;}
+.net-panel .n-line.active{stroke:rgba(0,224,208,.9);stroke-width:1.4;filter:drop-shadow(0 0 4px rgba(0,224,208,.7));}
+.net-panel .n-dot{fill:#0a3c5c;stroke:rgba(47,184,201,.6);stroke-width:1.2;}
+.net-panel .n-dot.core{fill:url(#coreGrad);stroke:rgba(0,224,208,.9);}
+.net-panel .n-pulse{fill:none;stroke:rgba(0,224,208,.55);stroke-width:1.4;opacity:0;}
+.net-center-badge{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:70px;height:70px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#00e0c6,#007cf0);
+    box-shadow:0 0 0 10px rgba(0,224,208,.08), 0 0 40px rgba(0,200,255,.55);
+    z-index:3;
+}
+.net-center-badge svg{width:28px;height:28px;stroke:#fff;}
+.net-caption{
+    position:absolute;bottom:18px;right:18px;left:18px;z-index:3;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+}
+.net-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;font-size:11.5px;color:rgba(255,255,255,.75);background:rgba(1,19,36,.6);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(6px);}
+.net-chip .dot{width:6px;height:6px;border-radius:50%;background:#00e0d0;box-shadow:0 0 6px 1px rgba(0,224,208,.8);animation:pulse-dot 1.6s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+@media (max-width:960px){
+    .hero-grid{grid-template-columns:1fr;}
+    .net-panel{order:-1;aspect-ratio:16/9;}
+}
+
+/* ---------- section head ---------- */
+.section-head{position:relative;z-index:1;text-align:center;max-width:660px;margin:0 auto 44px;}
+.a-kicker{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.5px;color:var(--teal-400);margin-bottom:12px;justify-content:center;}
+.a-kicker::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--teal-400);box-shadow:0 0 8px rgba(47,184,201,.6);}
+.section-head h2{font-size:clamp(22px,2.8vw,30px);font-weight:700;margin-bottom:14px;}
+.section-head p{color:rgba(255,255,255,.6);font-size:14px;line-height:1.95;}
+
+section.block{position:relative;z-index:1;margin-bottom:90px;}
+
+/* ---------- why cards ---------- */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.why-card{
+    position:relative;overflow:hidden;
+    padding:30px 30px 28px;
+    border-radius:22px;
+    background:linear-gradient(120deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.why-card::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%), rgba(155,140,255,.14), rgba(0,224,208,.06) 45%, transparent 72%);
+    opacity:0;transition:opacity .35s ease;
+}
+.why-card.spot-on::before{opacity:1;}
+.why-card > *{position:relative;z-index:2;}
+.why-icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 5px rgba(47,184,201,.08);margin-bottom:18px;}
+.why-icon svg{width:20px;height:20px;stroke:#fff;}
+.why-card h3{font-size:17px;font-weight:700;margin-bottom:12px;}
+.why-card p{font-size:13.8px;line-height:2.05;color:rgba(255,255,255,.65);}
+@media (max-width:860px){.why-grid{grid-template-columns:1fr;}}
+
+/* ---------- reasons ---------- */
+.reasons-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+.reason-item{padding:24px 18px;border-radius:18px;text-align:center;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);transition:transform .3s ease, border-color .3s ease;}
+.reason-item:hover{transform:translateY(-4px);border-color:rgba(47,184,201,.4);}
+.reason-item .r-icon{width:42px;height:42px;margin:0 auto 13px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(0,224,208,.2), rgba(0,124,240,.12));border:1px solid rgba(47,184,201,.35);}
+.reason-item .r-icon svg{width:18px;height:18px;stroke:#00e0d0;}
+.reason-item p{font-size:12px;line-height:1.85;color:rgba(255,255,255,.68);}
+@media (max-width:1080px){.reasons-grid{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:640px){.reasons-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:420px){.reasons-grid{grid-template-columns:1fr;}}
+
+/* ---------- portfolio: خط زمانی پروژه‌ها ---------- */
+.timeline{position:relative;padding-right:6px;}
+.timeline::before{
+    content:"";position:absolute;top:6px;bottom:6px;right:24px;width:2px;
+    background:linear-gradient(180deg, rgba(0,224,208,.55), rgba(155,140,255,.35), rgba(0,224,208,.1));
+}
+.tl-item{position:relative;display:flex;gap:22px;padding-bottom:30px;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-dot{
+    flex-shrink:0;position:relative;z-index:2;
+    width:50px;height:50px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, var(--teal-600), var(--teal-800));
+    border:1px solid rgba(255,255,255,.2);
+    box-shadow:0 0 0 6px rgba(47,184,201,.08);
+}
+.tl-dot svg{width:20px;height:20px;stroke:#fff;}
+.tl-body{
+    position:relative;overflow:hidden;flex:1;
+    padding:20px 24px;border-radius:18px;
+    background:linear-gradient(120deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.tl-body::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.08), transparent 62%);
+    opacity:0;transition:opacity .35s ease;
+}
+.tl-body.spot-on::after{opacity:1;}
+.tl-body > *{position:relative;z-index:2;}
+.tl-body h3{font-size:14px;font-weight:600;line-height:1.9;color:rgba(255,255,255,.88);margin-bottom:9px;}
+.tl-year{display:inline-flex;align-items:center;padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;color:var(--teal-400);background:rgba(47,184,201,.1);border:1px solid rgba(47,184,201,.3);}
+
+@media (max-width:600px){
+    .timeline::before{right:20px;}
+    .tl-dot{width:42px;height:42px;}
+    .tl-dot svg{width:17px;height:17px;}
+    .tl-body{padding:16px 18px;}
+}
+
+/* ---------- grouped registry portfolio card ---------- */
+.registry-card{
+    position:relative;overflow:hidden;
+    margin-top:30px;
+    padding:32px 34px;
+    border-radius:24px;
+    background:linear-gradient(135deg, rgba(155,140,255,.09), rgba(0,224,208,.05));
+    border:1px solid rgba(155,140,255,.25);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+.registry-card::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.10), transparent 62%);
+    opacity:0;transition:opacity .35s ease;
+}
+.registry-card.spot-on::before{opacity:1;}
+.registry-card > *{position:relative;z-index:2;}
+.registry-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;}
+.registry-icon{flex-shrink:0;width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#9b8cff,#5d3dff);box-shadow:0 0 0 6px rgba(155,140,255,.1);}
+.registry-icon svg{width:22px;height:22px;stroke:#fff;}
+.registry-head h3{font-size:17.5px;font-weight:700;margin-bottom:8px;}
+.registry-head p{font-size:13px;line-height:1.95;color:rgba(255,255,255,.62);}
+
+.registry-sub{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);margin-bottom:12px;}
+.registry-chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:22px;}
+.registry-chips:last-child{margin-bottom:0;}
+.registry-chips span{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:9px 16px;border-radius:999px;font-size:12.5px;
+    color:rgba(255,255,255,.82);
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+}
+.registry-chips span::before{content:"";width:6px;height:6px;border-radius:50%;background:#00e0d0;box-shadow:0 0 6px rgba(0,224,208,.7);}
+.registry-chips.exec span::before{background:#9b8cff;box-shadow:0 0 6px rgba(155,140,255,.7);}
+
+/* ---------- call CTA ---------- */
+.call-banner{
+    position:relative;text-align:center;
+    padding:60px 30px;border-radius:28px;
+    background:linear-gradient(160deg, rgba(22,50,76,.65), rgba(10,15,30,.55));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    overflow:hidden;
+}
+.call-banner::after{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(520px 280px at 50% 20%, black, transparent 75%);
+    mask-image:radial-gradient(520px 280px at 50% 20%, black, transparent 75%);
+    pointer-events:none;
+}
+.call-badge{width:58px;height:58px;margin:0 auto 20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#00e0c6,#007cf0);box-shadow:0 0 0 8px rgba(47,184,201,.08), 0 12px 30px rgba(0,124,240,.4);position:relative;z-index:2;}
+.call-badge svg{width:24px;height:24px;stroke:#fff;}
+.call-banner h2{position:relative;z-index:2;font-size:clamp(20px,2.6vw,28px);font-weight:700;margin-bottom:12px;}
+.call-banner p{position:relative;z-index:2;color:rgba(255,255,255,.65);font-size:14px;margin-bottom:32px;}
+.phone-row{position:relative;z-index:2;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.phone-chip{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 24px;border-radius:16px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.14);
+    color:#fff;text-decoration:none;
+    font-size:15px;font-weight:700;letter-spacing:.3px;
+    direction:ltr;
+    transition:all .3s ease;
+}
+.phone-chip svg{width:17px;height:17px;stroke:var(--teal-400);flex-shrink:0;}
+.phone-chip:hover{border-color:rgba(47,184,201,.5);background:rgba(47,184,201,.1);transform:translateY(-3px);}
+
+@media (max-width:600px){
+    .phone-row{flex-direction:column;align-items:center;}
+    .phone-chip{width:100%;max-width:280px;justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+<div class="container">
+
+<header>
+    <div class="nav-capsule" id="navCapsule">
+        <a href="../index.html" class="brand">
+            <span class="brand-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>
+            </span>
+            دیتاپردازش خلیج فارس
+        </a>
+        <nav class="nav-links" id="navLinks">
+            <span class="nav-indicator" id="navIndicator"></span>
+            <a href="../../../index.html">صفحه اصلی</a>
+            <a href="../../aboutUs.html">درباره ما</a>
+            <a href="#" aria-current="page">نصب و پشتیبانی شبکه</a>
+        </nav>
+        <a href="../../contactUs.html" class="nav-cta">
+            تماس با ما
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+    </div>
+</header>
+
+<main>
+
+    <div class="breadcrumb">
+        <a href="../../../index.html">خانه</a>
+        <span>‹</span>
+        <a href="#">خدمات</a>
+        <span>‹</span>
+        <span class="current">نصب، راه‌اندازی و پشتیبانی شبکه</span>
+    </div>
+
+    <!-- ================= HERO ================= -->
+    <section class="hero-grid">
+        <div>
+            <div class="eyebrow">زیرساخت شبکه از صفر تا صد</div>
+            <h1>نصب، راه‌اندازی و <span>پشتیبانی شبکه</span>؛ ستون فقرات سازمان شما</h1>
+            <p>
+                از اتصال سریع و بدون قطعی گرفته تا امنیت اطلاعات و مدیریت کارآمد داده‌ها، همه به یک شبکه‌ی
+                حرفه‌ای وابسته است. دیتا پردازش با تخصص در نصب، راه‌اندازی، طراحی و پشتیبانی شبکه، زیرساختی
+                قدرتمند برای سازمان شما می‌سازد تا بی‌دغدغه روی رشد کسب‌وکارتان تمرکز کنید.
+            </p>
+            <div class="hero-actions">
+                <a href="../../contactUs.html" class="btn btn-primary">مشاوره رایگان <span>❯</span></a>
+                <a href="#projects" class="btn btn-secondary">مشاهده نمونه پروژه‌ها</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="num">+<span>16</span></span><span class="lbl">پروژه اجراشده</span></div>
+                <div class="hero-stat"><span class="num"><span>7000</span>+</span><span class="lbl">متر شبکه‌کشی پسیو</span></div>
+                <div class="hero-stat"><span class="num"><span>8</span></span><span class="lbl">واحد ثبت اسناد و املاک</span></div>
+                <div class="hero-stat"><span class="num">۲۴/<span>۷</span></span><span class="lbl">مانیتورینگ شبکه</span></div>
+            </div>
+        </div>
+
+        <div class="net-panel" id="netPanel">
+            <svg viewBox="0 0 400 400">
+                <defs>
+                    <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#00e0c6"/>
+                        <stop offset="100%" stop-color="#007cf0"/>
+                    </radialGradient>
+                </defs>
+                <!-- lines from core to nodes -->
+                <line class="n-line" x1="200" y1="200" x2="80" y2="90"/>
+                <line class="n-line" x1="200" y1="200" x2="200" y2="55"/>
+                <line class="n-line" x1="200" y1="200" x2="320" y2="90"/>
+                <line class="n-line" x1="200" y1="200" x2="345" y2="210"/>
+                <line class="n-line" x1="200" y1="200" x2="320" y2="320"/>
+                <line class="n-line" x1="200" y1="200" x2="200" y2="350"/>
+                <line class="n-line" x1="200" y1="200" x2="80" y2="320"/>
+                <line class="n-line" x1="200" y1="200" x2="55" y2="210"/>
+                <!-- ring links -->
+                <line class="n-line" x1="80" y1="90" x2="200" y2="55"/>
+                <line class="n-line" x1="200" y1="55" x2="320" y2="90"/>
+                <line class="n-line" x1="320" y1="90" x2="345" y2="210"/>
+                <line class="n-line" x1="345" y1="210" x2="320" y2="320"/>
+                <line class="n-line" x1="320" y1="320" x2="200" y2="350"/>
+                <line class="n-line" x1="200" y1="350" x2="80" y2="320"/>
+                <line class="n-line" x1="80" y1="320" x2="55" y2="210"/>
+                <line class="n-line" x1="55" y1="210" x2="80" y2="90"/>
+
+                <circle class="n-dot" cx="80" cy="90" r="7"/>
+                <circle class="n-dot" cx="200" cy="55" r="7"/>
+                <circle class="n-dot" cx="320" cy="90" r="7"/>
+                <circle class="n-dot" cx="345" cy="210" r="7"/>
+                <circle class="n-dot" cx="320" cy="320" r="7"/>
+                <circle class="n-dot" cx="200" cy="350" r="7"/>
+                <circle class="n-dot" cx="80" cy="320" r="7"/>
+                <circle class="n-dot" cx="55" cy="210" r="7"/>
+                <circle class="n-dot core" cx="200" cy="200" r="12"/>
+            </svg>
+            
+            <div class="net-caption">
+                <span class="net-chip"><span class="dot"></span> شبکه پایدار</span>
+                <span class="net-chip">پوشش سراسری</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= WHY ================= -->
+    <section class="block">
+        <div class="section-head">
+            <div class="a-kicker">اهمیت زیرساخت</div>
+            <h2>چرا شبکه‌ی حرفه‌ای برای سازمان شما تعیین‌کننده است؟</h2>
+        </div>
+        <div class="why-grid">
+            <div class="why-card spot-el">
+                <div class="why-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/></svg>
+                </div>
+                <h3>چرا شبکه‌ی حرفه‌ای اهمیت دارد؟</h3>
+                <p>
+                    یک زیرساخت شبکه‌ای بهینه و مطمئن، سرعت و عملکرد سیستم‌ها را افزایش می‌دهد و نقش مهمی در
+                    مدیریت اطلاعات، کاهش هزینه‌های عملیاتی و تأمین امنیت داده‌ها دارد. بدون یک شبکه استاندارد،
+                    شرکت‌ها با کندی ارتباطات، قطعی‌های مداوم، هدررفت منابع و تهدیدات امنیتی روبه‌رو خواهند شد.
+                </p>
+            </div>
+            <div class="why-card spot-el">
+                <div class="why-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11Z"/></svg>
+                </div>
+                <h3>پشتیبانی شبکه؛ تضمین تداوم و امنیت کسب‌وکار</h3>
+                <p>
+                    حتی بهترین شبکه‌ها هم بدون نگهداری تخصصی، در معرض خرابی تجهیزات، نفوذهای امنیتی و کاهش
+                    کارایی قرار می‌گیرند. تیم حرفه‌ای دیتا پردازش با مانیتورینگ ۲۴/۷ و پشتیبانی سریع، تضمین
+                    می‌کند شبکه شما همیشه پایدار و ایمن باقی بماند.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= چرا دیتا پردازش ================= -->
+    <section class="block">
+        <div class="section-head">
+            <div class="a-kicker">مزیت رقابتی</div>
+            <h2>چرا شرکت دیتا پردازش؟</h2>
+            <p>با دیتا پردازش، دیگر نگران مشکلات شبکه نباشید؛ بهترین زیرساخت را برای شما فراهم می‌کنیم.</p>
+        </div>
+        <div class="reasons-grid">
+            <div class="reason-item">
+                <div class="r-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+                <p>طراحی و راه‌اندازی شبکه بر اساس نیازهای خاص سازمان شما</p>
+            </div>
+            <div class="reason-item">
+                <div class="r-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+                <p>افزایش امنیت با پیاده‌سازی جدیدترین راهکارهای محافظتی</p>
+            </div>
+            <div class="reason-item">
+                <div class="r-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+                <p>پشتیبانی ۲۴/۷ و رفع سریع مشکلات شبکه‌ای</p>
+            </div>
+            <div class="reason-item">
+                <div class="r-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+                <p>بهینه‌سازی عملکرد شبکه برای بهره‌وری بیشتر و هزینه کمتر</p>
+            </div>
+            <div class="reason-item">
+                <div class="r-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+                <p>استفاده از تجهیزات و استانداردهای روز دنیا</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PROJECTS ================= -->
+    <section class="block" id="projects" style="margin-bottom:0;">
+        <div class="section-head">
+            <div class="a-kicker">سوابق اجرایی</div>
+            <h2>گوشه‌ای از پروژه‌های اجرای شبکه و دیتاسنتر</h2>
+            <p>نمونه‌ای از پروژه‌های نصب، راه‌اندازی و زیرساخت شبکه که تیم دیتا پردازش در سراسر کشور اجرا کرده است</p>
+        </div>
+
+        <div class="timeline">
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای ۳٬۰۰۰ متر شبکه پسیو معاونت نگهداری مخابرات استان بوشهر در پروژه امنیت شبکه</h3>
+                    <span class="tl-year">۱۳۸۹</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای شبکه مسی و فیبر نوری و دیتاسنتر جهت دوربین‌های مداربسته و تجهیزات سرور و شبکه در انبارهای مرکزی مجتمع گاز پارس جنوبی</h3>
+                    <span class="tl-year">۱۳۹۲</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای ۴٬۰۰۰ متر شبکه پسیو و راه‌اندازی سیستم VoIP فاز ۱۲ مجتمع گاز پارس جنوبی</h3>
+                    <span class="tl-year">پاییز ۹۴</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای شبکه داخلی ساختمان کمیته امداد امام خمینی، منطقه شعبه شهر ری</h3>
+                    <span class="tl-year">۱۳۹۸</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای شبکه داخلی ساختمان کمیته امداد امام خمینی، منطقه ۷ تهران</h3>
+                    <span class="tl-year">۱۳۹۸</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای شبکه داخلی ساختمان کمیته امداد امام خمینی، منطقه ۱۰ تهران</h3>
+                    <span class="tl-year">۱۳۹۸</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای زیرساخت شبکه، فیبر نوری و دیتاسنتر سیستم نظارت تصویری دانشگاه علمی‌کاربردی و محوطه‌های شهرک صنعتی ماموت</h3>
+                    <span class="tl-year">۱۳۹۸</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای شبکه داخلی ساختمان شرکت معادن سنگان</h3>
+                    <span class="tl-year">۱۳۹۹</span>
+                </div>
+            </div>
+
+            <!-- بخش گروه‌بندی‌شده ثبت اسناد و املاک -->
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V8l8-5 8 5v13M9 21v-7h6v7"/></svg></div>
+                <div class="tl-body registry-card spot-el" style="padding:0;background:none;border:none;backdrop-filter:none;">
+                    <div class="registry-card spot-el">
+                        <div class="registry-head">
+                            <div class="registry-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                            </div>
+                            <div>
+                                <h3>بهسازی و اجرای شبکه داخلی، نظارت تصویری و دیتاسنتر ادارات ثبت اسناد و املاک</h3>
+                                <p>پروژه‌ای گسترده در ۸ واحد ثبت اسناد و املاک استان تهران، شامل بازطراحی زیرساخت شبکه داخلی، سیستم نظارت تصویری و اتاق سرور هر واحد.</p>
+                            </div>
+                        </div>
+
+                        <div class="registry-sub">واحدهای بهسازی‌شده</div>
+                        <div class="registry-chips">
+                            <span>کن</span>
+                            <span>شمیرانات</span>
+                            <span>یافت‌آباد</span>
+                            <span>تهرانپارس</span>
+                            <span>رودکی</span>
+                            <span>شهریار</span>
+                            <span>پیروزی</span>
+                        </div>
+
+                        <div class="registry-sub">واحد اجراشده از پایه</div>
+                        <div class="registry-chips exec">
+                            <span>ترکمنستان</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+</div>
+
+<!-- ================= CALL BANNER ================= -->
+<div class="container">
+    <section class="block" style="margin-top:90px;">
+        <div class="call-banner spot-el">
+            <div class="call-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+            </div>
+            <h2>همین حالا برای مشاوره رایگان با ما تماس بگیرید!</h2>
+            <p>کارشناسان ما آماده بررسی رایگان زیرساخت شبکه سازمان شما و ارائه راهکار مناسب هستند.</p>
+            <div class="phone-row">
+                <a href="tel:02123841589" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-23841589
+                </a>
+                <a href="tel:02123891940" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-23891940
+                </a>
+                <a href="tel:02123896293" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-23896293
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>دیتا پردازش خلیج فارس</h3>
+            <p style="font-size:12px;line-height:2;color:rgba(255,255,255,.58);margin-bottom:16px;">
+                ارائه‌دهنده خدمات شبکه، نظارت تصویری، آرشیو الکترونیک و زیرساخت‌های فناوری اطلاعات از سال ۱۳۸۹.
+            </p>
+            <div class="social-links">
+                <a href="#" aria-label="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <rect x="3.5" y="3.5" width="17" height="17"
+          rx="4.8"
+          stroke="#FFFFFF"
+          stroke-width="1"/>
+
+    <circle cx="12" cy="12" r="4"
+            stroke="#FFFFFF"
+            stroke-width="1"/>
+
+    <circle cx="17.3" cy="6.8" r="0.7"
+            fill="#FFFFFF"/>
+            
+                   </svg>
+                </a>
+
+                <a href="#" aria-label="Telegram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <path d="M21 4.5L3.8 11.15C3.1 11.42 3.1 12.38 3.8 12.65L8.1 14.2L9.75 19.35C9.97 20.03 10.82 20.25 11.37 19.78L13.8 17.7L17.95 20.75C18.55 21.19 19.42 20.86 19.57 20.13L21.95 5.35C22.1 4.5 21.8 4.2 21 4.5Z"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <path d="M8.1 14.2L18.35 7.55L11.8 15.9"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+                   </svg>
+                </a>
+                
+                <a href="#" aria-label="Bale"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+    
+    <path d="M12 3.2C7.05 3.2 3.2 6.55 3.2 11.05C3.2 13.85 4.65 16.15 7 17.65L6.35 20.45L9.35 18.85C10.2 19.1 11.1 19.2 12 19.2C16.95 19.2 20.8 15.55 20.8 11.05C20.8 6.55 16.95 3.2 12 3.2Z"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <path d="M8.2 11.35L10.35 13.05L15.8 8.95"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+                   </svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>دسترسی سریع</h3>
+            <ul class="footer-links">
+                <li><a href="../index.html">صفحه اصلی</a></li>
+                <li><a href="#">خدمات ما</a></li>
+                <li><a href="#">محصولات</a></li>
+                <li><a href="#projects">پروژه‌ها</a></li>
+                <li><a href="./contactUs.html">تماس با ما</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>خدمات</h3>
+            <ul class="footer-links">
+                <li><a href="#">نصب و راه‌اندازی شبکه</a></li>
+                <li><a href="#">پشتیبانی شبکه</a></li>
+                <li><a href="#">نظارت تصویری</a></li>
+                <li><a href="#">هاستینگ و دیتاسنتر</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>تماس با ما</h3>
+            <div class="footer-contact">
+                <div class="contact-item"><span class="contact-icon">☏</span><a href="tel:02123841589">021-23841589</a></div>
+                <div class="contact-item"><span class="contact-icon">☏</span><a href="tel:02123891940">021-23891940</a></div>
+                <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:info@datapd.ir">info@datapd.ir</a></div>
+                <div class="contact-item"><span class="contact-icon">⚑</span><p>تهران . پاسداران . نگارستان چهارم . پلاک 4</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© ۱۴۰۴ دیتا پردازش خلیج فارس. تمامی حقوق محفوظ است.</p>
+        <div class="footer-logo">دیتا پردازش</div>
+    </div>
+</footer>
+
+</div>
+
+<script>
+  const navLinks = document.getElementById('navLinks');
+  const indicator = document.getElementById('navIndicator');
+  function moveIndicator(el){ if(!el || !indicator) return; indicator.style.width = el.offsetWidth + 'px'; indicator.style.transform = `translateX(${el.offsetLeft}px)`; }
+  if(navLinks && indicator){
+    const links = navLinks.querySelectorAll('a');
+    const active = navLinks.querySelector('a[aria-current="page"]') || links[0];
+    requestAnimationFrame(() => { moveIndicator(active); navLinks.classList.add('ready'); });
+    links.forEach(link => link.addEventListener('mouseenter', () => moveIndicator(link)));
+    navLinks.addEventListener('mouseleave', () => moveIndicator(active));
+    window.addEventListener('resize', () => moveIndicator(navLinks.querySelector('a:hover') || active));
+  }
+
+  const capsule = document.getElementById('navCapsule');
+  if(capsule){
+    capsule.addEventListener('mousemove', (e) => {
+      const rect = capsule.getBoundingClientRect();
+      capsule.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      capsule.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  }
+
+  document.querySelectorAll('.spot-el').forEach(card => {
+    card.addEventListener('mouseenter', () => card.classList.add('spot-on'));
+    card.addEventListener('mouseleave', () => card.classList.remove('spot-on'));
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  });
+
+  // --- انیمیشن گراف زنده شبکه: چراغ‌های خط به‌صورت متناوب روشن می‌شوند ---
+  const netPanel = document.getElementById('netPanel');
+  if(netPanel){
+    const lines = netPanel.querySelectorAll('.n-line');
+    let i = 0;
+    setInterval(() => {
+      lines.forEach(l => l.classList.remove('active'));
+      lines[i % lines.length].classList.add('active');
+      lines[(i + 8) % lines.length].classList.add('active');
+      i++;
+    }, 450);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خدمات اکتیو، طراحی و پشتیبانی شبکه | دیتاپردازش خلیج فارس</title>
+<style>
+  @import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+  :root{
+    --bg-1:#011324;
+    --bg-2:#0c1c33;
+    --navy-900:#0c1c33;
+    --navy-800:#16324c;
+    --navy-700:#1c3a58;
+    --glass:rgba(255,255,255,.055);
+    --glass-strong:rgba(255,255,255,.09);
+    --glass-border:rgba(255,255,255,.14);
+    --glass-border-soft:rgba(255,255,255,.07);
+    --text:#f5f8fa;
+    --text-dim:#b7c6d4;
+    --text-dimmer:#7c8ba0;
+    --teal:#2fb8c9;
+    --teal-soft:rgba(47,184,201,.35);
+    --teal-600:#16788f;
+    --teal-800:#0a3c5c;
+    --radius-lg:28px;
+    --radius-md:18px;
+    --radius-sm:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Vazirmatn', sans-serif;
+    background:
+      radial-gradient(1100px 700px at 82% -8%, rgba(47,184,201,.14), transparent 60%),
+      radial-gradient(900px 650px at -8% 108%, rgba(22,50,76,.5), transparent 60%),
+      linear-gradient(160deg, var(--bg-1), var(--bg-2) 60%, var(--bg-1));
+    color:var(--text);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+  .blueprint{
+    position:fixed;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(1200px 800px at 50% 20%, black, transparent 75%);
+    mask-image:radial-gradient(1200px 800px at 50% 20%, black, transparent 75%);
+    z-index:0;
+  }
+  .orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;transition:transform .6s ease-out;}
+  .orb-amber{width:420px;height:420px;background:rgba(47,184,201,.22);top:-120px;left:62%;}
+  .orb-teal{width:380px;height:380px;background:rgba(0,224,208,.16);bottom:-140px;left:4%;}
+
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 32px 60px;}
+
+  /* ---------- header ---------- */
+  header{position:relative;z-index:20;padding:28px 0 60px;}
+  .nav-capsule{
+    position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:8px 10px;border-radius:999px;
+    background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
+    border:1px solid var(--glass-border-soft);
+    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    box-shadow:0 24px 55px -22px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
+    overflow:hidden;
+  }
+  .nav-capsule::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%), rgba(255,255,255,.14), transparent 65%);
+    opacity:0;transition:opacity .4s ease;pointer-events:none;
+  }
+  .nav-capsule:hover::before{opacity:1;}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);font-weight:800;font-size:15.5px;letter-spacing:.2px;padding-left:8px;white-space:nowrap;}
+  .brand-badge{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 5px rgba(47,184,201,.08), 0 8px 18px rgba(0,0,0,.4);overflow:hidden;}
+  .brand-badge img{width: 100%; height: 100%;}
+  .nav-links a{position:relative;z-index:2;display:inline-block;padding:9px 20px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--text-dim);text-decoration:none;white-space:nowrap;transition:color .3s ease;}
+  .nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--text);}
+  .nav-indicator{position:absolute;top:5px;bottom:5px;left:0;width:0;border-radius:999px;background:linear-gradient(135deg, rgba(47,184,201,.4), rgba(0,124,240,.28));border:1px solid rgba(47,184,201,.45);box-shadow:0 0 18px rgba(47,184,201,.4);transition:transform .4s cubic-bezier(.4,0,.2,1), width .4s cubic-bezier(.4,0,.2,1), opacity .25s ease;z-index:1;pointer-events:none;opacity:0;}
+  .nav-links.ready .nav-indicator{opacity:1;}
+  .nav-cta{display:flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 0 20px rgba(0,224,255,.45);transition:transform .25s ease, box-shadow .25s ease;flex-shrink:0;}
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(0,224,255,.6);}
+  .nav-cta svg{width:13px;height:13px;transition:transform .3s ease;}
+  .nav-cta:hover svg{transform:translateX(-3px);}
+  @media (max-width:860px){.nav-links{display:none;}}
+  @media (max-width:520px){
+    header{padding:22px 0 46px;}
+    .nav-capsule{border-radius:26px;padding:14px;flex-wrap:wrap;justify-content:center;gap:14px;}
+    .brand{padding-left:0;}
+    .nav-cta{width:100%;justify-content:center;}
+  }
+
+  /* ---------- breadcrumb ---------- */
+  .breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:30px;font-size:12.5px;color:rgba(255,255,255,.45);}
+  .breadcrumb a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s ease;}
+  .breadcrumb a:hover{color:var(--teal);}
+  .breadcrumb span.current{color:var(--teal);}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--teal);letter-spacing:.5px;font-weight:600;margin-bottom:18px;}
+  .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px 2px var(--teal-soft);}
+
+  h1{font-size:clamp(30px, 3.6vw, 46px);font-weight:800;line-height:1.4;letter-spacing:-.5px;margin-bottom:20px;}
+  h1 span{color:#00e0d0;text-shadow:0 0 40px rgba(5,226,200,.8);}
+
+  h2{font-size:clamp(21px,2.4vw,28px);font-weight:700;margin-bottom:14px;}
+  h2 span{color:#00e0d0;}
+
+  .lead{font-size:15.5px;line-height:2.1;color:var(--text-dim);}
+
+  /* ---------- spotlight: چراغ‌قوه ---------- */
+  .spot{position:relative;overflow:hidden;}
+  .spot::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.14), transparent 62%);
+    opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1;
+  }
+  .spot.spot-on::before{opacity:1;}
+  .spot > *{position:relative;z-index:2;}
+
+  /* ---------- hero split ---------- */
+  .hero-split{
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    gap:50px;
+    align-items:center;
+    margin-bottom:70px;
+  }
+  .hero-pills{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 32px;}
+  .hero-pills span{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:8px 16px;border-radius:999px;
+    font-size:12.5px;color:var(--text-dim);
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--glass-border-soft);
+  }
+  .hero-pills span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px rgba(47,184,201,.7);}
+  .hero-buttons{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:0 26px;height:52px;border-radius:999px;text-decoration:none;font-size:14.5px;font-weight:600;transition:transform .25s ease, box-shadow .25s ease;}
+  .btn-primary{background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;box-shadow:0 0 20px rgba(0,224,255,.5);}
+  .btn-secondary{border:1px solid var(--glass-border);color:var(--text);background:rgba(255,255,255,.03);}
+  .btn:hover{transform:translateY(-3px);}
+
+  .hero-media{position:relative;}
+  .hero-media .media-frame{
+    position:relative;border-radius:28px;overflow:hidden;
+    border:1px solid var(--glass-border);
+    box-shadow:0 30px 70px -25px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  .hero-media img{width:100%;display:block;aspect-ratio:4/3.4;object-fit:cover;}
+  .hero-media .media-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 55%, rgba(1,19,36,.75) 100%);}
+  .floating-chip{
+    position:absolute;
+    display:flex;align-items:center;gap:10px;
+    padding:12px 18px;border-radius:18px;
+    background:linear-gradient(180deg, rgba(22,50,76,.85), rgba(12,30,51,.85));
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(14px);
+    box-shadow:0 16px 34px rgba(0,0,0,.45);
+    z-index:3;
+  }
+  .floating-chip .chip-icon{
+    width:34px;height:34px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, var(--teal-600), var(--teal-800));
+  }
+  .floating-chip .chip-icon svg{width:16px;height:16px;stroke:#fff;}
+  .floating-chip b{display:block;font-size:14px;}
+  .floating-chip span{display:block;font-size:10.5px;color:var(--text-dimmer);}
+  .chip-1{bottom:-18px;right:24px;}
+  .chip-2{top:-18px;left:20px;}
+
+  @media (max-width:920px){
+    .hero-split{grid-template-columns:1fr;gap:60px;}
+    .hero-media{order:-1;}
+    .floating-chip{position:static;margin-top:14px;display:inline-flex;}
+    .chip-1,.chip-2{margin-left:8px;}
+  }
+
+  /* ---------- stats bar ---------- */
+  .stats-bar{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:80px;
+  }
+  .stat-card{
+    text-align:center;
+    padding:26px 16px;
+    border-radius:22px;
+    background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
+    border:1px solid var(--glass-border-soft);
+    backdrop-filter:blur(14px);
+  }
+  .stat-card b{display:block;font-size:clamp(24px,3vw,32px);font-weight:800;color:#00e0d0;text-shadow:0 0 24px rgba(5,226,200,.5);margin-bottom:6px;}
+  .stat-card span{font-size:12px;color:var(--text-dim);}
+  @media (max-width:720px){.stats-bar{grid-template-columns:1fr 1fr;}}
+
+  section.block{margin-top:90px;}
+
+  /* ---------- split section (متن + عکس) ---------- */
+  .split-section{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+    align-items:center;
+  }
+  .split-section.reverse{grid-template-columns:1fr 1fr;}
+  .split-section .split-text p{font-size:14.5px;line-height:2.15;color:var(--text-dim);margin-bottom:18px;}
+  .split-media{
+    position:relative;border-radius:26px;overflow:hidden;
+    border:1px solid var(--glass-border-soft);
+    box-shadow:0 22px 55px -22px rgba(0,0,0,.55);
+  }
+  .split-media img{width:100%;display:block;aspect-ratio:5/4;object-fit:cover;}
+  .split-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 55%, rgba(1,19,36,.7) 100%);}
+
+  @media (max-width:860px){
+    .split-section{grid-template-columns:1fr;gap:32px;}
+    .split-section .split-media{order:-1;}
+  }
+
+  /* ---------- mini feature grid (3 مورد) ---------- */
+  .mini-feature-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin-top:28px;
+  }
+  .mini-feature{
+    padding:22px 20px;
+    border-radius:20px;
+    background:rgba(255,255,255,.045);
+    border:1px solid var(--glass-border-soft);
+    backdrop-filter:blur(12px);
+    transition:transform .3s ease, border-color .3s ease;
+  }
+  .mini-feature:hover{transform:translateY(-5px);border-color:rgba(47,184,201,.4);}
+  .mini-feature .mf-icon{
+    width:42px;height:42px;border-radius:13px;margin-bottom:14px;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, rgba(47,184,201,.22), rgba(22,50,76,.4));
+    border:1px solid rgba(255,255,255,.1);
+  }
+  .mini-feature .mf-icon svg{width:19px;height:19px;stroke:var(--teal);}
+  .mini-feature h4{font-size:14.5px;font-weight:700;margin-bottom:7px;}
+  .mini-feature p{font-size:12.5px;line-height:1.85;color:var(--text-dimmer);}
+  @media (max-width:720px){.mini-feature-grid{grid-template-columns:1fr;}}
+
+  /* ---------- why-us timeline (چرا دیتاپردازش) ---------- */
+  .why-timeline{position:relative;display:flex;flex-direction:column;gap:8px;}
+  .why-timeline::before{content:"";position:absolute;top:6px;bottom:6px;right:calc(50% - 1px);width:2px;background:linear-gradient(180deg, transparent, rgba(47,184,201,.5) 10%, rgba(0,124,240,.4) 90%, transparent);}
+  .why-item{position:relative;display:flex;align-items:center;padding:14px 0;}
+  .why-item:nth-child(odd) .why-card{margin-right:calc(50% + 26px);text-align:left;flex-direction:row-reverse;}
+  .why-item:nth-child(even) .why-card{margin-left:calc(50% + 26px);text-align:right;}
+  .why-node{position:absolute;right:calc(50% - 8px);width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,#00e0c6,#007cf0);box-shadow:0 0 0 5px rgba(11,20,35,1), 0 0 16px rgba(47,184,201,.8);z-index:3;}
+  .why-card{display:flex;align-items:center;gap:16px;width:100%;padding:20px 22px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(14px);transition:transform .3s ease, border-color .3s ease, background .3s ease;}
+  .why-item:nth-child(odd) .why-card:hover{transform:translateX(-6px);}
+  .why-item:nth-child(even) .why-card:hover{transform:translateX(6px);}
+  .why-card:hover{border-color:rgba(0,224,208,.4);background:rgba(255,255,255,.07);}
+  .why-icon{flex-shrink:0;width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(47,184,201,.22), rgba(22,50,76,.4));border:1px solid rgba(255,255,255,.1);}
+  .why-icon svg{width:21px;height:21px;stroke:var(--teal);}
+  .why-text h4{font-size:15px;font-weight:700;margin-bottom:5px;}
+  .why-text p{font-size:12.5px;line-height:1.85;color:rgba(255,255,255,.62);}
+  @media (max-width:760px){
+    .why-timeline::before{right:19px;}
+    .why-node{right:12px;}
+    .why-item:nth-child(odd) .why-card,
+    .why-item:nth-child(even) .why-card{margin:0;margin-right:46px;text-align:right;flex-direction:row;}
+    .why-item:nth-child(odd) .why-card:hover,
+    .why-item:nth-child(even) .why-card:hover{transform:translateX(-4px);}
+  }
+
+  /* ---------- portfolio (سوابق پروژه‌ها) ---------- */
+  .portfolio-grid{display:flex;flex-direction:column;gap:16px;}
+  .portfolio-card{
+    border-radius:22px;
+    background:linear-gradient(120deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+    border:1px solid var(--glass-border-soft);
+    backdrop-filter:blur(14px);
+    overflow:hidden;
+  }
+  .portfolio-card summary{
+    list-style:none;cursor:pointer;
+    display:flex;align-items:center;gap:18px;
+    padding:22px 24px;
+  }
+  .portfolio-card summary::-webkit-details-marker{display:none;}
+  .portfolio-icon{
+    flex-shrink:0;width:52px;height:52px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, var(--teal-600), var(--teal-800));
+    border:1px solid rgba(255,255,255,.2);
+    box-shadow:0 0 0 5px rgba(47,184,201,.08);
+  }
+  .portfolio-icon svg{width:21px;height:21px;stroke:#fff;}
+  .portfolio-head{flex:1;min-width:0;}
+  .portfolio-head h4{font-size:16px;font-weight:700;margin-bottom:3px;}
+  .portfolio-head span{font-size:12px;color:var(--text-dimmer);}
+  .portfolio-count{
+    flex-shrink:0;font-size:12px;font-weight:600;color:var(--teal);
+    padding:6px 14px;border-radius:999px;
+    background:rgba(47,184,201,.1);
+    border:1px solid rgba(47,184,201,.25);
+  }
+  .portfolio-chevron{flex-shrink:0;width:18px;height:18px;stroke:var(--text-dim);transition:transform .3s ease;}
+  .portfolio-card[open] .portfolio-chevron{transform:rotate(180deg);}
+  .portfolio-list{list-style:none;padding:0 24px 24px 24px;display:flex;flex-direction:column;gap:11px;}
+  .portfolio-list li{
+    position:relative;padding-right:20px;
+    font-size:13px;line-height:1.9;color:var(--text-dim);
+    border-top:1px solid rgba(255,255,255,.06);
+    padding-top:11px;
+  }
+  .portfolio-list li:first-child{border-top:none;padding-top:0;}
+  .portfolio-list li::before{content:"";position:absolute;right:0;top:19px;width:6px;height:6px;border-radius:2px;background:var(--teal);transform:rotate(45deg);box-shadow:0 0 6px rgba(47,184,201,.6);}
+  .portfolio-list li:first-child::before{top:8px;}
+  .portfolio-list b{color:var(--text);font-weight:600;}
+
+  /* ---------- cta banner ---------- */
+  .cta-banner{
+    position:relative;text-align:center;padding:60px 30px;border-radius:28px;
+    background:linear-gradient(160deg, rgba(22,50,76,.65), rgba(10,15,30,.55));
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(18px);
+    overflow:hidden;
+  }
+  .cta-banner::after{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(500px 260px at 50% 30%, black, transparent 75%);
+    mask-image:radial-gradient(500px 260px at 50% 30%, black, transparent 75%);
+    pointer-events:none;
+  }
+  .cta-badge{width:58px;height:58px;margin:0 auto 20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#00e0c6,#007cf0);box-shadow:0 0 0 8px rgba(47,184,201,.08), 0 12px 30px rgba(0,124,240,.4);position:relative;z-index:2;}
+  .cta-badge svg{width:24px;height:24px;stroke:#fff;}
+  .cta-banner h2{position:relative;z-index:2;margin-bottom:14px;}
+  .cta-banner p{position:relative;z-index:2;color:rgba(255,255,255,.65);font-size:14.5px;margin-bottom:30px;max-width:56ch;margin-inline:auto;}
+  .cta-buttons{position:relative;z-index:2;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
+  .cta-phones{position:relative;z-index:2;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+  .cta-phones a{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 18px;border-radius:999px;
+    font-size:13px;color:var(--text-dim);
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--glass-border-soft);
+    text-decoration:none;direction:ltr;
+    transition:color .25s ease, border-color .25s ease;
+  }
+  .cta-phones a:hover{color:var(--text);border-color:rgba(47,184,201,.4);}
+  .cta-phones a svg{width:14px;height:14px;stroke:var(--teal);}
+
+  /* ---------- footer ---------- */
+  .footer{margin-top:90px;width:100%;background:none;border-top:1px solid rgba(255,255,255,.08);color:#fff;}
+  .footer-container{width:90%;max-width:1300px;margin:auto;padding:38px 30px 28px;display:grid;grid-template-columns:1.25fr 1fr 1fr 1.35fr;gap:50px;direction:rtl;border:1px solid rgba(255,255,255,.10);border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));backdrop-filter:blur(15px);}
+  .footer-column{min-width:0;}
+  .footer-column h3{margin:0 0 18px;font-size:15px;font-weight:600;color:#fff;position:relative;}
+  .footer-column h3::after{content:"";display:block;width:28px;height:2px;margin-top:8px;border-radius:10px;background:#00dcd0;box-shadow:0 0 8px rgba(0,224,208,.5);}
+  .footer-links{list-style:none;padding:0;margin:0;}
+  .footer-links li{margin-bottom:11px;}
+  .footer-links a{text-decoration:none;color:rgba(255,255,255,.58);font-size:12px;transition:color .25s ease, padding-right .25s ease;}
+  .footer-links a:hover{color:#00dcd0;padding-right:5px;}
+  .footer-contact{display:flex;flex-direction:column;gap:12px;}
+  .contact-item{display:flex;align-items:flex-start;gap:9px;}
+  .contact-icon{flex-shrink:0;width:20px;color:#00dcd0;font-size:17px;text-align:center;}
+  .contact-item p,.contact-item a{margin:0;color:rgba(255,255,255,.58);text-decoration:none;font-size:11px;line-height:1.9;transition:color .25s ease;}
+  .contact-item a:hover{color:#00dcd0;}
+  .newsletter-text{margin:0 0 15px;color:rgba(255,255,255,.55);font-size:11px;line-height:2;}
+  .newsletter-form{width:100%;height:42px;display:flex;align-items:center;overflow:hidden;border-radius:12px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);}
+  .newsletter-form input{flex:1;min-width:0;height:100%;border:none;outline:none;background:transparent;color:#fff;padding:0 13px;font-family:"Vazirmatn",sans-serif;font-size:11px;direction:rtl;}
+  .newsletter-form input::placeholder{color:rgba(255,255,255,.35);}
+  .newsletter-form button{width:48px;height:100%;border:none;cursor:pointer;background:linear-gradient(135deg,#00aeb0,#087e99);color:#fff;font-size:17px;}
+  .social-links{display:flex;align-items:center;gap:10px;margin-top:16px;}
+  .social-links a{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));box-shadow:0 5px 15px rgba(0,0,0,.15);transition:transform .25s ease, background .25s ease;}
+  .social-links a:hover{transform:translateY(-4px);background:rgba(0,224,208,.10);}
+  .social-links a img{width:18px;height:18px;object-fit:contain;filter:brightness(0) invert(1);}
+  .footer-bottom{width:90%;max-width:1300px;margin:auto;min-height:70px;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);direction:rtl;}
+  .footer-bottom p{margin:0;color:rgba(255,255,255,.45);font-size:10px;}
+  .footer-logo img{height:48px;width:auto;object-fit:contain;}
+
+  @media (max-width:960px){.footer-container{grid-template-columns:repeat(2,1fr);gap:35px;}}
+  @media (max-width:600px){
+    .footer{margin-top:60px;}
+    .footer-container{width:94%;padding:30px 22px;grid-template-columns:1fr;gap:30px;}
+    .footer-bottom{width:94%;padding:15px 10px;flex-direction:column;gap:12px;text-align:center;}
+    .footer-logo{order:-1;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+    .orb{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="blueprint"></div>
+<div class="orb orb-amber" id="orbAmber"></div>
+<div class="orb orb-teal" id="orbTeal"></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="nav-capsule" id="navCapsule">
+        <a href="../index.html" class="brand">
+            <span class="brand-badge"><img src="../../../img/Logo.png" alt="Logo"></span>
+            دیتاپردازش خلیج فارس
+        </a>
+        <nav class="nav-links" id="navLinks">
+            <span class="nav-indicator" id="navIndicator"></span>
+            <a href="../../../index.html">صفحه اصلی</a>
+            <a href="../../aboutUs.html">درباره ما</a>
+            <a href="#" aria-current="page">خدمات</a>
+            <a href="../../contactUs.html">تماس با ما</a>
+        </nav>
+        <a href="../../contactUs.html" class="nav-cta">
+            مشاوره رایگان
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="breadcrumb">
+        <a href="../../../index.html">خانه</a>
+        <span>/</span>
+        <a href="#">خدمات</a>
+        <span>/</span>
+        <span class="current">اکتیو شبکه</span>
+    </div>
+
+    <!-- ================= HERO ================= -->
+    <div class="hero-split">
+        <div class="hero-text">
+            <div class="eyebrow">خدمات اکتیو، طراحی و پشتیبانی شبکه</div>
+            <h1>تضمین <span>امنیت و سرعت</span> کسب‌وکار شما</h1>
+            <p class="lead">
+                در دنیای امروز، یک شبکه پایدار و امن اساس موفقیت هر کسب‌وکار است. دیتاپردازش با ارائه‌ی
+                خدمات اکتیو، طراحی و پشتیبانی شبکه، زیرساختی قدرتمند برای سازمان‌ها و شرکت‌ها فراهم می‌کند
+                تا بدون دغدغه روی رشد و توسعه‌ی خود تمرکز کنند.
+            </p>
+            <div class="hero-pills">
+                <span>راه‌اندازی سرور، روتر، سوئیچ و فایروال</span>
+                <span>پشتیبانی ۲۴/۷</span>
+                <span>مانیتورینگ مداوم</span>
+            </div>
+            <div class="hero-buttons">
+                <a href="../../contactUs.html" class="btn btn-primary">درخواست مشاوره رایگان <span>❯</span></a>
+                <a href="tel:02122891940" class="btn btn-secondary">تماس مستقیم <span>❯</span></a>
+            </div>
+        </div>
+
+        <div class="hero-media">
+            <div class="media-frame spot">
+                <img src="../../../img/ChatGPT Image Aug 19, 2026, 12_56_11 PM.png" alt="خدمات اکتیو شبکه دیتاپردازش">
+            </div>
+            <div class="floating-chip chip-2">
+                <span class="chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg></span>
+                <div><b>امنیت تضمینی</b><span>جدیدترین تکنولوژی‌ها</span></div>
+            </div>
+            <div class="floating-chip chip-1">
+                <span class="chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+                <div><b>پشتیبانی ۲۴/۷</b><span>بدون وقفه در سرویس‌دهی</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= STATS ================= -->
+    <div class="stats-bar">
+        <div class="stat-card"><b class="stat-number" data-target="16">0</b><span>پروژه ملی و سازمانی</span></div>
+        <div class="stat-card"><b class="stat-number" data-target="7000">0</b><span>متر شبکه پسیو اجرا شده</span></div>
+        <div class="stat-card"><b>۱۳۸۷</b><span>سال تاسیس شرکت</span></div>
+        <div class="stat-card"><b>۲۴/۷</b><span>پشتیبانی و مانیتورینگ</span></div>
+    </div>
+
+    <!-- ================= چرا اکتیو شبکه اهمیت دارد ================= -->
+    <section class="block">
+        <div class="split-section">
+            <div class="split-text">
+                <div class="eyebrow">اهمیت زیرساخت اکتیو</div>
+                <h2>چرا خدمات اکتیو شبکه اهمیت دارد؟</h2>
+                <p>
+                    خدمات اکتیو شبکه شامل راه‌اندازی، پیکربندی و مدیریت تجهیزات اصلی شبکه مانند سرورها،
+                    روترها، سوئیچ‌ها، فایروال‌ها و سرویس‌های نرم‌افزاری است. یک زیرساخت اکتیو بهینه و
+                    استاندارد، ستون فقرات ارتباطات دیجیتال سازمان شماست.
+                </p>
+            </div>
+            <div class="split-media spot">
+                <img src="../../../img/ChatGPT Image Aug 19, 2026, 01_09_14 PM.png" alt="زیرساخت اکتیو شبکه">
+            </div>
+        </div>
+
+        <div class="mini-feature-grid">
+            <div class="mini-feature spot">
+                <div class="mf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 8v4l3 2"/></svg></div>
+                <h4>ارتباطات بدون قطعی</h4>
+                <p>ارتباطات داخلی و خارجی شرکت سریع و بدون وقفه برقرار می‌ماند.</p>
+            </div>
+            <div class="mini-feature spot">
+                <div class="mf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg></div>
+                <h4>امنیت داده‌های حساس</h4>
+                <p>اطلاعات و داده‌های حساس سازمان در برابر تهدیدات امنیتی محافظت می‌شوند.</p>
+            </div>
+            <div class="mini-feature spot">
+                <div class="mf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/></svg></div>
+                <h4>بهینه‌سازی عملکرد</h4>
+                <p>عملکرد سیستم‌ها بهبود می‌یابد و هزینه‌های اضافی کاهش پیدا می‌کند.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= پشتیبانی شبکه ================= -->
+    <section class="block">
+        <div class="split-section reverse">
+            <div class="split-media spot">
+                <img src="../../../img/خدمات شبکه.png" alt="تیم پشتیبانی شبکه دیتاپردازش">
+            </div>
+            <div class="split-text">
+                <div class="eyebrow">پشتیبانی بدون وقفه</div>
+                <h2>پشتیبانی شبکه؛ لازمه‌ی عملکرد بدون اختلال</h2>
+                <p>
+                    حتی قوی‌ترین شبکه‌ها هم نیاز به مانیتورینگ و پشتیبانی مداوم دارند. خرابی‌های ناگهانی،
+                    حملات سایبری یا مشکلات نرم‌افزاری می‌توانند باعث افت عملکرد و کاهش بهره‌وری شوند.
+                </p>
+                <p>
+                    تیم دیتاپردازش با پشتیبانی ۲۴/۷، رفع سریع مشکلات و بهینه‌سازی مداوم شبکه، این اطمینان
+                    را به شما می‌دهد که کسب‌وکارتان همیشه در بهترین حالت کار کند.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= چرا دیتاپردازش ================= -->
+    <section class="block">
+        <div class="section-head" style="text-align:center;max-width:640px;margin:0 auto 40px;">
+            <div class="eyebrow" style="justify-content:center;">انتخاب مطمئن</div>
+            <h2>چرا دیتاپردازش انتخاب مناسبی برای شماست؟</h2>
+        </div>
+
+        <div class="why-timeline">
+            <div class="why-item">
+                <span class="why-node"></span>
+                <div class="why-card spot">
+                    <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"/></svg></div>
+                    <div class="why-text"><h4>طراحی و راه‌اندازی تخصصی</h4><p>طراحی و راه‌اندازی شبکه متناسب با نیازهای واقعی سازمان شما</p></div>
+                </div>
+            </div>
+            <div class="why-item">
+                <span class="why-node"></span>
+                <div class="why-card spot">
+                    <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg></div>
+                    <div class="why-text"><h4>تضمین امنیت اطلاعات</h4><p>استفاده از جدیدترین تکنولوژی‌های امنیتی روز دنیا</p></div>
+                </div>
+            </div>
+            <div class="why-item">
+                <span class="why-node"></span>
+                <div class="why-card spot">
+                    <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+                    <div class="why-text"><h4>پشتیبانی و مانیتورینگ دائمی</h4><p>پایش مستمر شبکه برای جلوگیری از هر گونه خرابی</p></div>
+                </div>
+            </div>
+            <div class="why-item">
+                <span class="why-node"></span>
+                <div class="why-card spot">
+                    <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+                    <div class="why-text"><h4>کاهش هزینه، افزایش بهره‌وری</h4><p>کاهش هزینه‌های نگهداری و افزایش بهره‌وری کسب‌وکار شما</p></div>
+                </div>
+            </div>
+            <div class="why-item">
+                <span class="why-node"></span>
+                <div class="why-card spot">
+                    <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+                    <div class="why-text"><h4>مشاوره تخصصی</h4><p>مشاوره تخصصی و استفاده از تجهیزات استاندارد و حرفه‌ای</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= سوابق پروژه‌ها ================= -->
+    <section class="block">
+        <div class="section-head" style="text-align:center;max-width:680px;margin:0 auto 40px;">
+            <div class="eyebrow" style="justify-content:center;">افتخارات اجرایی</div>
+            <h2>گوشه‌ای از سوابق و پتانسیل‌های شرکت</h2>
+            <p class="lead" style="margin-top:10px;">بخشی از پروژه‌های اجرا و بهسازی شبکه، فیبر نوری و دیتاسنتر که توسط تیم دیتاپردازش انجام شده است</p>
+        </div>
+
+        <div class="portfolio-grid">
+
+            <details class="portfolio-card spot" open>
+                <summary>
+                    <span class="portfolio-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h1"/><path d="M9 13h1"/><path d="M14 9h1"/><path d="M14 13h1"/></svg></span>
+                    <div class="portfolio-head">
+                        <h4>زیرساخت‌های ملی و صنعتی</h4>
+                        <span>مخابرات، مجتمع گاز پارس جنوبی، دانشگاه و معادن</span>
+                    </div>
+                    <span class="portfolio-count">۵ پروژه</span>
+                    <svg class="portfolio-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
+                <ul class="portfolio-list">
+                    <li><b>معاونت نگهداری مخابرات استان بوشهر</b> — اجرای ۳۰۰۰ متر شبکه پسیو، پروژه امنیت شبکه (۱۳۸۹)</li>
+                    <li><b>مجتمع گاز پارس جنوبی</b> — اجرای شبکه مسی، فیبر نوری و دیتاسنتر دوربین‌های مداربسته و تجهیزات سرور در انبارهای مرکزی (۱۳۹۲)</li>
+                    <li><b>مجتمع گاز پارس جنوبی — فاز ۱۲</b> — اجرای ۴۰۰۰ متر شبکه پسیو و راه‌اندازی سیستم VoIP (پاییز ۱۳۹۴)</li>
+                    <li><b>دانشگاه علمی‌کاربردی و شهرک صنعتی ماموت</b> — اجرای زیرساخت شبکه، فیبر نوری و دیتاسنتر سیستم نظارت تصویری (۱۳۹۸)</li>
+                    <li><b>شرکت معادن سنگان</b> — اجرای شبکه داخلی ساختمان (۱۳۹۹)</li>
+                </ul>
+            </details>
+
+            <details class="portfolio-card spot">
+                <summary>
+                    <span class="portfolio-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M6 21V10l6-6 6 6v11"/><path d="M10 21v-6h4v6"/></svg></span>
+                    <div class="portfolio-head">
+                        <h4>کمیته امداد امام خمینی (ره)</h4>
+                        <span>اجرای شبکه داخلی چند منطقه تهران</span>
+                    </div>
+                    <span class="portfolio-count">۳ پروژه</span>
+                    <svg class="portfolio-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
+                <ul class="portfolio-list">
+                    <li><b>شعبه شهر ری</b> — اجرای شبکه داخلی ساختمان (۱۳۹۸)</li>
+                    <li><b>منطقه ۷ تهران</b> — اجرای شبکه داخلی ساختمان (۱۳۹۸)</li>
+                    <li><b>منطقه ۱۰ تهران</b> — اجرای شبکه داخلی ساختمان (۱۳۹۸)</li>
+                </ul>
+            </details>
+
+            <details class="portfolio-card spot">
+                <summary>
+                    <span class="portfolio-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6"/><path d="M9 12h6"/><path d="M9 16h4"/></svg></span>
+                    <div class="portfolio-head">
+                        <h4>سازمان ثبت اسناد و املاک کشور</h4>
+                        <span>بهسازی و اجرای زیرساخت شبکه و نظارت تصویری، ۸ واحد</span>
+                    </div>
+                    <span class="portfolio-count">۸ واحد</span>
+                    <svg class="portfolio-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
+                <ul class="portfolio-list">
+                    <li><b>واحد کن</b> — بهسازی شبکه داخلی، نظارت تصویری و دیتاسنتر</li>
+                    <li><b>واحد شمیرانات</b> — بهسازی شبکه داخلی، نظارت تصویری و دیتاسنتر</li>
+                    <li><b>واحد یافت‌آباد</b> — بهسازی شبکه داخلی، نظارت تصویری و دیتاسنتر</li>
+                    <li><b>واحد تهرانپارس</b> — بهسازی شبکه داخلی، نظارت تصویری و دیتاسنتر</li>
+                    <li><b>واحد رودکی</b> — بهسازی شبکه داخلی، نظارت تصویری و دیتاسنتر</li>
+                    <li><b>واحد شهریار</b> — بهسازی شبکه داخلی، نظارت تصویری و دیتاسنتر</li>
+                    <li><b>واحد ترکمنستان</b> — اجرای شبکه داخلی، نظارت تصویری و دیتاسنتر</li>
+                    <li><b>واحد پیروزی</b> — اجرای شبکه داخلی، نظارت تصویری و دیتاسنتر</li>
+                </ul>
+            </details>
+
+        </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="block">
+        <div class="cta-banner spot">
+            <div class="cta-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>
+            </div>
+            <h2>با سپردن شبکه‌ی خود به دیتاپردازش، خیالتان راحت باشد</h2>
+            <p>طراحی، راه‌اندازی و پشتیبانی شبکه‌ی سازمان شما را به تیمی متخصص بسپارید و از سرعت، امنیت و پایداری شبکه‌تان مطمئن شوید. همین حالا برای دریافت مشاوره رایگان با ما تماس بگیرید.</p>
+            <div class="cta-buttons">
+                <a href="../../contactUs.html" class="btn btn-primary">درخواست مشاوره رایگان <span>❯</span></a>
+            </div>
+            <div class="cta-phones">
+                <a href="tel:02122841589"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>021-22841589</a>
+                <a href="tel:02122891940"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>021-22891940</a>
+                <a href="tel:02122896293"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>021-22896293</a>
+            </div>
+        </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column contact-column">
+            <h3>اطلاعات تماس</h3>
+            <div class="footer-contact">
+                <div class="contact-item"><span class="contact-icon">⌖</span><p>تهران . پاسداران . نگارستان چهارم . پلاک 4</p></div>
+                <div class="contact-item"><span class="contact-icon">⌕</span><a href="tel:02122891940">021-22891940</a></div>
+                <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:info@datapd.ir">info@datapd.ir</a></div>
+                <div class="contact-item"><span class="contact-icon">◎</span><a href="#">ساعت کاری 8 صبح تا 4 بعدازظهر</a></div>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>خدمات</h3>
+            <ul class="footer-links">
+                <li><a href="./active-services.html">اکتیو شبکه</a></li>
+                <li><a href="#">پسیو شبکه</a></li>
+                <li><a href="#">نظارت تصویری</a></li>
+                <li><a href="./archive-services.html">آرشیو الکترونیک</a></li>
+                <li><a href="#">دیتاسنتر</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>لینک‌های مفید</h3>
+            <ul class="footer-links">
+                <li><a href="#">مقالات منتخب</a></li>
+                <li><a href="#">شرایط و قوانین</a></li>
+                <li><a href="#">حریم خصوصی</a></li>
+                <li><a href="#">گواهینامه‌ها</a></li>
+                <li><a href="#">مستندات</a></li>
+            </ul>
+        </div>
+        <div class="footer-column newsletter-column">
+            <h3>خبرنامه</h3>
+            <p class="newsletter-text">برای دریافت آخرین اخبار و پیشنهادات در خبرنامه ما عضو شوید.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="ایمیل خود را وارد کنید">
+                <button type="submit">➤</button>
+            </form>
+            <div class="social-links">
+                <a href="#" aria-label="Telegram"><img src="../../../img/Telegram2.svg" alt="Telegram"></a>
+                <a href="#" aria-label="Instagram"><img src="../../../img/instagram2.svg" alt="Instagram"></a>
+                <a href="#" aria-label="Bale"><img src="../../../img/Bale2.svg" alt="Bale"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-logo"><img src="../../../img/Logo.png" alt="دیتاپردازش خلیج فارس"></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // --- sliding glass pill indicator on the navbar ---
+  const navLinks = document.getElementById('navLinks');
+  const indicator = document.getElementById('navIndicator');
+  function moveIndicator(el){
+    if(!el || !indicator) return;
+    indicator.style.width = el.offsetWidth + 'px';
+    indicator.style.transform = `translateX(${el.offsetLeft}px)`;
+  }
+  if(navLinks && indicator){
+    const navA = navLinks.querySelectorAll('a');
+    const activeLink = navLinks.querySelector('a[aria-current="page"]') || navA[0];
+    requestAnimationFrame(() => { moveIndicator(activeLink); navLinks.classList.add('ready'); });
+    navA.forEach(link => link.addEventListener('mouseenter', () => moveIndicator(link)));
+    navLinks.addEventListener('mouseleave', () => moveIndicator(activeLink));
+    window.addEventListener('resize', () => moveIndicator(navLinks.querySelector('a:hover') || activeLink));
+  }
+
+  // --- cursor light sweep on the glass navbar ---
+  const capsule = document.getElementById('navCapsule');
+  if(capsule){
+    capsule.addEventListener('mousemove', (e) => {
+      const rect = capsule.getBoundingClientRect();
+      capsule.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      capsule.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  }
+
+  // --- چراغ‌قوه: نور تعقیب‌کننده‌ی موس روی همه‌ی کارت‌های متنی ---
+  document.querySelectorAll('.spot').forEach(card => {
+    card.addEventListener('mouseenter', () => card.classList.add('spot-on'));
+    card.addEventListener('mouseleave', () => card.classList.remove('spot-on'));
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  });
+
+  // --- شمارنده‌ی متحرک آمار ---
+  const statEls = document.querySelectorAll('.stat-number');
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 1400;
+        const start = performance.now();
+        function tick(now){
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(eased * target).toLocaleString('fa-IR');
+          if(progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        statObserver.unobserve(el);
+      }
+    });
+  }, {threshold:0.6});
+  statEls.forEach(el => statObserver.observe(el));
+
+  // --- ambient orb parallax ---
+  const orbAmber = document.getElementById('orbAmber');
+  const orbTeal = document.getElementById('orbTeal');
+  let rafId = null;
+  document.addEventListener('mousemove', (e) => {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      const px = (e.clientX / window.innerWidth - 0.5);
+      const py = (e.clientY / window.innerHeight - 0.5);
+      orbAmber.style.transform = `translate(${px * -30}px, ${py * -20}px)`;
+      orbTeal.style.transform = `translate(${px * 24}px, ${py * 18}px)`;
+      rafId = null;
+    });
+  });
+
+  // --- بستن خودکار سایر آکاردئون‌های سوابق هنگام باز شدن یکی ---
+  document.querySelectorAll('.portfolio-card').forEach(item => {
+    item.addEventListener('toggle', () => {
+      if(item.open){
+        document.querySelectorAll('.portfolio-card').forEach(other => {
+          if(other !== item) other.open = false;
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

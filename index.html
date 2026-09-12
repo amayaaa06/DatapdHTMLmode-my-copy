@@ -1,116 +1,793 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DataPD</title>
-    <link rel="stylesheet" href="./style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    
-    <header>
 
-        <nav>
 
-            <div class="">
-                <button class="">پنل مشتریان </button>
-                <button class=""><a href="tel:+982122891940"> 021-22891940</a></button>
+         <!-- ================= HEADER ================= -->
+    <header class="hero">
+                        <!-- Background Map -->
+         <div class="hero-background">
+             <img 
+                 src="./img/Iran.jpg" 
+                 alt="persian gulf"
+                 class="hero-map"
+                 >
+        </div>
+       
+         <!-- ================= NAVBAR ================= -->
+
+        <nav class="navbar container" >
+
+                            <!-- Logo -->
+
+            <div class="logo-name">
+
+                <img 
+                    src="./img/Logo.png" 
+                    alt="Datapd"
+                    class="logo"
+                    >
+                    <div class="logo-text">
+                        <h2>دیتاپردازش خلیج فارس</h2>
+                        <p>دژی چون خلیج</p>
+                    </div>
+                
             </div>
 
-            <div class="">
-                <a href="#">صفحه اصلی</a>
-                <a href="#">تماس با ما</a>
-                <a href="#">خدمات ما</a>
-                <a href="#">درباره ما</a>
-                <a href="#">مقالات</a>
+                 <!-- Navigation -->
+
+            <div class="nav-options">
+
+                <a href="#" class="active"> 
+                    صفحه اصلی
+                </a>
+
+                <div class="nav-dropdown">
+
+    <a href="#" class="nav-dropdown-toggle">
+        خدمات ما
+        <span class="dropdown-arrow"></span>
+    </a>
+
+    <div class="dropdown-menu">
+
+    <!-- هوش مصنوعی -->
+    <div class="dropdown-item has-submenu">
+
+        <a href="#">
+            آرشیوالکترونیک
+            <span class="submenu-arrow"> ❮ </span>
+        </a>
+
+        <div class="submenu">
+
+            <a href="./Links/Services/ElectronicArchive/Consulting.html">مشاوره</a>
+            <a href="./Links/Services/ElectronicArchive/EDMS.html">EDMS طراحی و اجرای نر افزارهای </a>
+            <a href="./Links/Services/ElectronicArchive/archive-project.html"> اجرای پروژه های آرشیو الکترونیک</a>
+
+        </div>
+
+    </div>
+
+
+    <!-- شبکه و زیرساخت -->
+    <div class="dropdown-item has-submenu">
+
+        <a href="#">
+            شبکه و زیرساخت
+            <span class="submenu-arrow"> ❮ </span>
+        </a>
+
+        <div class="submenu">
+
+            <a href="./Links/Services/network/ActiveServices.html">اکتیو شبکه</a>
+            <a href="./Links/Services/network/NetworkSupport.html"> طراحی و پشتیبانی  </a>
+            <a href="./Links/Services/network/ServiceLanding.html">نصب و راه اندازی  </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- نظارت تصویری -->
+    <div class="dropdown-item has-submenu">
+
+        <a href="#">
+            نظارت تصویری هوشمند
+            <span class="submenu-arrow"> ❮ </span>
+        </a>
+
+        <div class="submenu">
+
+            <a href="./Links/Services/cctv/cctv-support.html"> پشتیبانی سیستم ها  </a>
+            <a href="./Links/Services/cctv/CctvServices.html"> نصب و راه اندازی  </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- هاستینگ -->
+    <div class="dropdown-item has-submenu">
+
+        <a href="#">
+            هاستینگ 
+            <span class="submenu-arrow"> ❮ </span>
+        </a>
+
+        <div class="submenu">
+
+            <a href="./Links/Services/Hosting/DomainManagement.html"> ثبت و مدیریت دامنه</a>
+            <a href="./Links/Services/Hosting/serverServices.html">سرورهای اختصاصی و مجازی </a>
+            <a href="./Links/Services/Hosting/WebHosting.html">وب هاستینگ</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+                <a href="#" id="product"> 
+                    محصولات
+                </a>
+
+                <a href="#articles" id="article"> 
+                   مقالات
+                </a>
+
+                <a href="./Links/contactUs.html" id="contant">
+                    تماس با ما
+                </a>
+                
+            </div>
+
+            <!-- Customer Panel + Phone -->
+
+            <div class="user-login">
+
+                <a href="https://datahoteling.com/client/index.php?rp=/login" class="user-panel">
+                    
+                        <img src="./img/UserSVG.svg" alt="UserIcon">
+                    
+                   <span > پنل مشتریان </span> 
+                </a>
+
+                <a href="tel:+982112345678" class="phone-number">
+                    
+                        <img src="./img/PhoneSVG.svg" alt="PhoneIcon">
+
+                    <span>021-22891940</span>
+
+                </a>
+
             </div>
             
-            <div class="">
-                <img src="#" alt="logo">
-                <h2>دیتاپردازش خلیج فارس</h2>
-                <p>هوشمند.امن.پایدار</p>
+        </nav>
+
+        <!-- ================= HERO CONTENT ================= -->
+
+        <div class="hero-content">
+
+            <h1>
+                دیتاپردازش
+                <span>
+                    خلیج فارس
+                </span>
+                معمار
+                <br>
+                زیرساخت هوشمند
+            </h1>
+            
+            <p>
+                خدمات حرفه‌ای هاستینگ، نظارت تصویری هوشمند،
+                شبکه و دیتاسنتر،
+                <br>
+                 هوش مصنوعی و امنیت سایبری
+            </p>
+
+            <div class="hero-button">
+                <a href="./Links/aboutUs.html" class="btn btn-secondary">درباره ما <span> ❯ </span></a>
+    <a href="#services" class="btn btn-primary">مشاهده خدمات <span> ❯ </span></a>
+
             </div>
 
-        </nav>
+        </div>
 
     </header>
 
     <main>
-        <img src="./img/file_00000000fa387243bc914c0bba1a3fd9 (1).png" alt="photo">
-        
-        <div class="">
 
-            <div class="">
-                <h1> پردازش <span style="color: blue;"> هوشمند</span>  داده <br> در قلب خلیج فارس</h1>
-                <p>خدمات حرفه ای  هاستینگ . نظارت تصویری . شبکه و دیتا . <br>هوش مصنوعی و امنیت سایبری</p>
-            </div>
+        <!-- ================= SERVICES ================= -->
 
-            <div class="">
-                <button class=""> <a href="#"> مشاهده خدمات</a> </button>
-                <button class=""><a href="#">درباره ما</a></button>
-            </div>
-           
+        <!-- Card 1 -->
+
+         <section class="services container" id="services">
+
+            <article class="service-card">
+
+                <div class="service-icon">
+                    <img src="./img/AI.png" alt="AI">
+                </div>
+                
+                <h3>
+                   آرشیو الکترونیک
+                </h3>
+
+                <p>
+                   با دریافت خدمات تخصصی آرشیو 
+                   الکترونیک و مدیریت اسناد، فرآیند ثبت، نگهداری، دسته‌بندی و 
+                   دسترسی به اطلاعات سازمان را سریع‌تر کنید.
+                </p>
+
+                <a href="./Links/Services/ElectronicArchive/index.html">
+                    بیشتر بدانید
+                    <span> ❯ </span>
+                </a>
+            </article>
+
+         <!-- Card 2 -->
+
+            <article class="service-card">
+
+                <div class="service-icon">
+                    <img src="./img/net.png" alt="زیرساخت شبکه">
+                </div>
+
+                <h3>
+                    زیرساخت شبکه و دیتاسنتر
+                </h3>
+
+                <p>
+                    طراحی و پیاده‌سازی زیرساخت‌های شبکه
+                    و دیتاسنتر با بالاترین استانداردهای
+                    امنیتی و عملکردی
+                </p>
+
+                <a href="./Links/Services/network/index.html">
+                    بیشتر بدانید
+                    <span> ❯ </span>
+                </a>
+
+            </article>
+
+
+            <!-- Card 3 -->
+
+            <article class="service-card">
+
+                <div class="service-icon">
+                    <img src="./img/look.png" alt="نظارت تصویری">
+                </div>
+
+                <h3>
+                    نظارت تصویری هوشمند
+                </h3>
+
+                <p>
+                    راهکارهای نظارت تصویری پیشرفته با
+                    هوش مصنوعی برای امنیت بیشتر و
+                    مدیریت هوشمند و مطمئن
+                </p>
+
+                <a href="./Links/Services/cctv/index.html">
+                    بیشتر بدانید
+                    <span> ❯ </span>
+                </a>
+
+            </article>
+
+
+            <!-- Card 4 -->
+            <article class="service-card">
+
+                <div class="service-icon">
+                    <img src="./img/Host.png" alt="هاستینگ">
+                </div>
+
+                <h3>
+                    هاستینگ ابری و اختصاصی
+                </h3>
+
+                <p>
+                    ارائه خدمات هاستینگ پرسرعت، پایدار
+                    و امن با زیرساخت قدرتمند در
+                    دیتاسنترهای داخلی و بین‌المللی
+                </p>
+
+                <a href="./Links/Services/Hosting/index.html">
+                    بیشتر بدانید
+                    <span> ❯ </span>
+                </a>
+
+            </article>
+
+        </section>
+
+         <!-- ================= CUSTOMERS ================= -->
+
+        <section class="customer container">
+
+    <div class="customer-title">
+        <h3>مشتریان و همکاری‌ها</h3>
+    </div>
+
+    <div class="customer-logos">
+
+        <div class="customer-logo">
+            <img src="./img/BimeIran.png" alt="بیمه ایران">
         </div>
 
-        <article class="">
-            <section>مشتریان و همکاری ها</section>
+        <div class="customer-logo">
+            <img src="./img/TehranUni.png" alt="دانشگاه تهران">
+        </div>
 
-            <section>
-                <img src="#" alt="">
-                <img src="#" alt="">
-                <img src="#" alt="">
-                <img src="#" alt="">
-                <img src="#" alt="">
-            </section>
-            
-            <button class="">مشاهده همه</button>
+        <div class="customer-logo">
+            <img src="./img/sherkatNaft.png" alt="شرکت ملی نفت ایران">
+        </div>
+
+        <div class="customer-logo">
+            <img src="./img/atom.png" alt="اتم">
+        </div>
+
+        <div class="customer-logo">
+            <img src="./img/gaz.svg" alt="گاز">
+        </div>
+
+    </div>
+
+    <a href="#" class="customers-button">
+        مشاهده همه
+        <span> ❯ </span>
+    </a>
+
+</section>
+
+<!-- ================= ARTICLES ================= -->
+
+<section class="articles container" id="articles">
+
+    <!-- Section Header -->
+
+    <div class="articles-header">
+
+        <h2>
+            اخبار و مقالات
+        </h2>
+
+        <p>
+            آخرین اخبار و مطالب تخصصی
+        </p>
+
+    </div>
+
+
+    <!-- Articles Grid -->
+
+    <div class="articles-grid" id="articles-grid">
+
+
+        <!-- Article 1 -->
+
+        <article class="article-card">
+
+            <div class="article-image">
+
+                <img
+                    src="./img/Pasive2.png"
+                    alt="پسیو شبکه"
+                >
+
+            </div>
+
+            <div class="article-content">
+
+                <span class="article-category">
+                   پسیو شبکه
+                </span>
+
+                <h3>
+                   پسیو شبکه یعنی چه؟ در این مقاله قصد داریم به طور اختصاصی و کامل به اینکه پسیو شبکه یعنی چه بپردازیم. امروزه
+                </h3>
+
+                <div class="article-meta">
+
+                    <span>
+                        ۱۴۰3/12/1
+                    </span>
+
+                    <span>
+                        ◷
+                    </span>
+
+                </div>
+
+                <a href="./Links/articles/passive.html" class="read-more">
+                    بیشتر بخوانید
+                    <span> ❯ </span>
+                </a>
+
+            </div>
+
         </article>
 
-        <div class="">
-            <section class="">
-                <img src="#" alt="">
-                <h3>  هوش مصنوعی و ماشین لرنینگ</h3>
-                <p>معرفی هوش مصنوعی  برای تحلیل داده ها و تصمیم گیری هوشمند</p>
-                <a href="#">بیشتر بدانید</a>
-            </section>
 
-            <section class="">
-                <img src="#" alt="">
-                <h3>زیر ساخت شبکه و دیتا</h3>
-                <p>طراحی و پیاده سازی زیر ساخت های شبکه و دیتا با بالاترین استانداردهای امنیتی و عملکردی</p>
-                <a href="#">بیشتر بدانید</a>
-            </section>
+        <!-- Article 2 -->
 
-            <section class="">
-                <img src="#" alt="">
-                <h3>نظارت تصویری هوشمند</h3>
-                <p> راهکارهای نظارت تصویری پیشرفته با هوش مصنوعی بری امنیت بیشتر و مدیریت هوشمند</p>
-                <a href="#">بیشتر بدانید</a>
-            </section>
+        <article class="article-card">
 
-            <section class="">
-                <img src="#" alt="">
-                <h3>هاستینگ ابری و اخصاصی</h3>
-                <p>ارائه خدمات هاستینگ پرسرعت . پایدار و امن بازیرساخت قدرتمند در دیتا های داخلی و بین المللی</p>
-                <a href="#">بیشتر بدانیم</a>
-            </section>
+            <div class="article-image">
 
-            <section class="">
-                <img src="#" alt="">
-                <h3>آرشیو الکترونیک</h3>
-                <p>بایگانی امن و قانونمند داده ها</p>
-                <a href="#">بیشتر بدانیم</a>
-            </section>
+                <img
+                    src="./img/Active.png"
+                    alt="اکتیو شبکه"
+                >
+
+            </div>
+
+            <div class="article-content">
+
+                <span class="article-category">
+                   اکتیو شبکه
+                </span>
+
+                <h3>
+                   اکتیو به معنی فعال است و در حوزه شبکه به معنی تاثیر گذار بودن روی جریان الکتریکی است. تجهیزات اکتیو
+                </h3>
+
+                <div class="article-meta">
+
+                    <span>
+                        ۱۴۰3/12/1
+                    </span>
+
+                    <span>
+                        ◷
+                    </span>
+
+                </div>
+
+                <a href="./Links/articles/active.html" class="read-more">
+                    بیشتر بخوانید
+                    <span> ❯ </span>
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- Article 3 -->
+
+        <article class="article-card">
+
+            <div class="article-image">
+
+                <img
+                    src="./img/NetWOrk.png"
+                    alt="شبکه کامپیوتری"
+                >
+
+            </div>
+
+            <div class="article-content">
+
+                <span class="article-category" >
+                   شبکه کامپیوتری
+                </span>
+
+                <h3>
+                   بهتر است در قدم اول به این سوال پاسخ دهیم که شبکه کامپیوتری چیست؟ امروزه به دلیل گسترش ارتباطات و شبکه های
+                </h3>
+
+                <div class="article-meta">
+
+                    <span>
+                         ۱۴۰3/12/1
+                    </span>
+
+                    <span>
+                        ◷
+                    </span>
+
+                </div>
+
+                <a href="./Links/articles/network.html" class="read-more">
+                    بیشتر بخوانید
+                    <span> ❯ </span>
+                </a>
+
+            </div>
+            
+            
+        </article>
+
+        
+
+    </div>
+
+
+    <!-- All Articles Button -->
+
+    <div class="articles-button">
+
+        <a href="#">
+            مشاهده همه مقالات
+            <span> ❯ </span>
+        </a>
+
+    </div>
+
+</section>
+       
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+
+        <!-- ================= CONTACT ================= -->
+
+        <div class="footer-column contact-column">
+
+            <h3>
+                اطلاعات تماس
+            </h3>
+
+            <div class="footer-contact">
+
+                <div class="contact-item">
+
+                    <span class="contact-icon">⌖</span>
+
+                    <p>
+                       تهران . پاسداران . نگارستان چهارم . پلاک 4
+                    </p>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <span class="contact-icon">⌕</span>
+
+                    <a href="tel:+982112345678">
+                       021-22891940
+                    </a>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <span class="contact-icon">✉</span>
+
+                    <a href="mailto:info@dpf.co.ir">
+                       info@datapd.ir
+                    </a>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <span class="contact-icon">◎</span>
+
+                    <a href="#">
+                     ساعت کاری 8 صبح تا 4 بعدازظهر
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
 
-    </main>
 
-    <footer>
 
-        
-    </footer>
+        <!-- ================= SERVICES ================= -->
 
-    <script src="./script/script.js" ></script>
+        <div class="footer-column">
+
+            <h3>
+                خدمات
+            </h3>
+
+            <ul class="footer-links">
+
+                <li>
+                    <a href="#">
+                        خدمات ابری
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        دیتاسنتر
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        نظارت تصویری
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        شبکه و امنیت
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        هوش مصنوعی
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+
+        <!-- ================= USEFUL LINKS ================= -->
+
+        <div class="footer-column">
+
+            <h3>
+                لینک‌های مفید
+            </h3>
+
+            <ul class="footer-links">
+
+                <li>
+                    <a href="#">
+                        مقالات منتخب
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        شرایط و قوانین
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./Links/Form.html">
+                       درخواست همکاری
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        گواهینامه‌ها
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        مستندات
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+
+        <!-- ================= NEWSLETTER ================= -->
+
+        <div class="footer-column newsletter-column">
+
+            <h3>
+                خبرنامه
+            </h3>
+
+            <p class="newsletter-text">
+                برای دریافت آخرین اخبار و پیشنهادات
+                در خبرنامه ما عضو شوید.
+            </p>
+
+
+           <form
+    class="newsletter-form"
+    id="newsletterForm"
+>
+
+    <input
+        type="email"
+        name="email"
+        placeholder="ایمیل خود را وارد کنید"
+        required
+    >
+
+    <input
+        type="hidden"
+        name="access_key"
+        value="ddf7c832-cbb5-4c27-a8e8-369ced48acd7"
+    >
+
+    <input
+        type="hidden"
+        name="subject"
+        value="عضویت جدید در خبرنامه دیتاپردازش"
+    >
+
+    <input
+        type="hidden"
+        name="from_name"
+        value="خبرنامه دیتاپردازش خلیج فارس"
+    >
+
+    <button type="submit">
+        ➤
+    </button>
+
+</form>
+
+
+            <!-- Social Media -->
+
+            <div class="social-links">
+
+                <a href="#" aria-label="Telegram">
+                  <img src="./img/Telegram2.svg" alt="Telegram">
+                </a>
+
+            <!-- Instagram -->
+                <a href="#" aria-label="Instagram">
+                  <img src="./img/instagram2.svg" alt="Instagram">
+                </a>
+
+             <!-- Bale -->
+                 <a href="#" aria-label="Bale">
+                  <img src="./img/Bale2.svg" alt="Bale">
+                 </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= FOOTER BOTTOM ================= -->
+
+   <div class="footer-bottom">
+
+    <div class="enamad">
+        <a
+            referrerpolicy="origin"
+            target="_blank"
+            href="https://trustseal.enamad.ir/?id=555631&Code=kEvrBgSLrXg0vWcIHHWeeHKx1DwsOr5d"
+        >
+            <img
+                referrerpolicy="origin"
+                src="https://trustseal.enamad.ir/logo.aspx?id=555631&Code=kEvrBgSLrXg0vWcIHHWeeHKx1DwsOr5d"
+                alt="نماد اعتماد الکترونیکی"
+                code="kEvrBgSLrXg0vWcIHHWeeHKx1DwsOr5d"
+            >
+        </a>
+    </div>
+
+</div>
+</footer>
+
+    <script src="./script.js" ></script>
 </body>
 </html>

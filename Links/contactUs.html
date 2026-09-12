@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تماس با ما </title>
+<style>
+  @import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+  :root{
+    --bg-1:#011324;
+    --bg-2:#0c1c33;
+    --navy-900:#0c1c33;
+    --navy-800:#16324c;
+    --navy-700:#1c3a58;
+    --glass:rgba(255,255,255,.055);
+    --glass-strong:rgba(255,255,255,.09);
+    --glass-border:rgba(255,255,255,.14);
+    --glass-border-soft:rgba(255,255,255,.07);
+    --text:#f5f8fa;
+    --text-dim:#b7c6d4;
+    --text-dimmer:#7c8ba0;
+    --teal:#2fb8c9;
+    --teal-soft:rgba(47,184,201,.35);
+    --teal-600:#16788f;
+    --teal-800:#0a3c5c;
+    --radius-lg:28px;
+    --radius-md:18px;
+    --radius-sm:12px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:'Vazirmatn', sans-serif;
+    background:
+      radial-gradient(1100px 700px at 82% -8%, rgba(47,184,201,.14), transparent 60%),
+      radial-gradient(900px 650px at -8% 108%, rgba(22,50,76,.5), transparent 60%),
+      linear-gradient(160deg, var(--bg-1), var(--bg-2) 60%, var(--bg-1));
+    color:var(--text);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* --- decorative architectural grid, evokes glass paneling --- */
+  .blueprint{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(1200px 800px at 50% 20%, black, transparent 75%);
+    mask-image:radial-gradient(1200px 800px at 50% 20%, black, transparent 75%);
+    z-index:0;
+  }
+
+  .orb{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(90px);
+    pointer-events:none;
+    z-index:0;
+    transition:transform .6s ease-out;
+  }
+  .orb-amber{width:420px;height:420px;background:rgba(47,184,201,.22);top:-120px;left:62%;}
+  .orb-teal{width:380px;height:380px;background:rgba(0,224,208,.16);bottom:-140px;left:4%;}
+
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px 60px;
+  }
+
+  /* ---------- header: کپسول شیشه‌ای شناور (هماهنگ با صفحه‌ی درباره ما) ---------- */
+  header{
+    position:relative;
+    z-index:20;
+    padding:28px 0 78px;
+  }
+  .nav-capsule{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    padding:8px 10px;
+    border-radius:999px;
+    background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
+    border:1px solid var(--glass-border-soft);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+    box-shadow:0 24px 55px -22px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
+    overflow:hidden;
+  }
+  .nav-capsule::before{
+    content:"";
+    position:absolute;inset:0;
+    border-radius:inherit;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%), rgba(255,255,255,.14), transparent 65%);
+    opacity:0;
+    transition:opacity .4s ease;
+    pointer-events:none;
+  }
+  .nav-capsule:hover::before{opacity:1;}
+
+  .brand{
+    display:flex;align-items:center;gap:12px;
+    text-decoration:none;
+    color:var(--text);
+    font-weight:800;
+    font-size:15.5px;
+    letter-spacing:.2px;
+    padding-left:8px;
+    white-space:nowrap;
+  }
+  .brand-badge{
+    width:46px;height:46px;
+    border-radius:50%;
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, var(--teal-600), var(--teal-800));
+    border:1px solid rgba(255,255,255,.2);
+    box-shadow:0 0 0 5px rgba(47,184,201,.08), 0 8px 18px rgba(0,0,0,.4);
+    overflow:hidden;
+  }
+  .brand-badge img{width:58%;height:58%;object-fit:contain;}
+
+  .nav-links{
+    position:relative;
+    display:flex;align-items:center;gap:2px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:999px;
+    padding:5px;
+  }
+  .nav-links a{
+    position:relative;z-index:2;
+    display:inline-block;
+    padding:9px 20px;
+    border-radius:999px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--text-dim);
+    text-decoration:none;
+    white-space:nowrap;
+    transition:color .3s ease;
+  }
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"]{color:var(--text);}
+  .nav-indicator{
+    position:absolute;
+    top:5px;bottom:5px;
+    left:0;
+    width:0;
+    border-radius:999px;
+    background:linear-gradient(135deg, rgba(47,184,201,.4), rgba(0,124,240,.28));
+    border:1px solid rgba(47,184,201,.45);
+    box-shadow:0 0 18px rgba(47,184,201,.4);
+    transition:transform .4s cubic-bezier(.4,0,.2,1), width .4s cubic-bezier(.4,0,.2,1), opacity .25s ease;
+    z-index:1;
+    pointer-events:none;
+    opacity:0;
+  }
+  .nav-links.ready .nav-indicator{opacity:1;}
+
+  .nav-cta{
+    display:flex;align-items:center;gap:8px;
+    padding:11px 22px;
+    border-radius:999px;
+    background:linear-gradient(135deg,#00e0c6,#007cf0);
+    color:#fff;
+    font-size:13.5px;
+    font-weight:600;
+    text-decoration:none;
+    white-space:nowrap;
+    box-shadow:0 0 20px rgba(0,224,255,.45);
+    transition:transform .25s ease, box-shadow .25s ease;
+    flex-shrink:0;
+  }
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(0,224,255,.6);}
+  .nav-cta svg{width:13px;height:13px;transition:transform .3s ease;}
+  .nav-cta:hover svg{transform:translateX(-3px);}
+
+  @media (max-width:860px){
+      .nav-links{display:none;}
+  }
+  @media (max-width:520px){
+      header{padding:22px 0 60px;}
+      .nav-capsule{border-radius:26px;padding:14px;flex-wrap:wrap;justify-content:center;gap:14px;}
+      .brand{padding-left:0;}
+      .nav-cta{width:100%;justify-content:center;}
+  }
+
+  /* ---------- hero / main grid ---------- */
+  main{
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:13px;
+    color:var(--teal);
+    letter-spacing:.5px;
+    font-weight:600;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 12px 2px var(--teal-soft);
+  }
+
+  h1{
+    font-size:clamp(34px, 4.4vw, 52px);
+    font-weight:800;
+    line-height:1.28;
+    letter-spacing:-.5px;
+    margin-bottom:22px;
+  }
+  h1 span{
+    color:#00e0d0;
+    text-shadow:0 0 40px rgba(5,226,200,.8);
+  }
+
+  .lead{
+    font-size:16.5px;
+    line-height:2;
+    color:var(--text-dim);
+    max-width:46ch;
+    margin-bottom:44px;
+  }
+
+  /* ---------- glass info cards: ردیف‌های مدرن با بج دایره‌ای گلاسی ---------- */
+  .info-cards{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-bottom:40px;
+  }
+  .info-card{
+    --mx:50%; --my:50%;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:20px 22px;
+    border-radius:22px;
+    background:linear-gradient(120deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
+    border:1px solid var(--glass-border-soft);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    position:relative;
+    overflow:hidden;
+    transition:border-color .3s ease, transform .3s ease, background .3s ease;
+  }
+  .info-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(260px circle at var(--mx) var(--my), rgba(255,255,255,.14), transparent 62%);
+    opacity:0;
+    transition:opacity .35s ease;
+    pointer-events:none;
+  }
+  .info-card:hover{border-color:var(--glass-border);transform:translateX(-6px);background:linear-gradient(120deg, rgba(255,255,255,.08), rgba(255,255,255,.02));}
+  .info-card:hover::before{opacity:1;}
+  .info-icon{
+    width:54px;height:54px;
+    border-radius:50%;
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, var(--teal-600), var(--teal-800));
+    border:1px solid rgba(255,255,255,.2);
+    box-shadow:0 0 0 6px rgba(47,184,201,.08), 0 8px 20px rgba(0,0,0,.35);
+  }
+  .info-icon svg{width:20px;height:20px;stroke:#fff;position:relative;z-index:2;}
+  .info-text{position:relative;z-index:2;}
+  .info-text .label{font-size:12.5px;color:var(--text-dimmer);margin-bottom:3px;}
+  .info-text .value{font-size:14.5px;color:var(--text);font-weight:500;}
+
+  .socials{
+    display:flex;
+    gap:10px;
+  }
+  .socials a{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:var(--glass);
+    border:1px solid var(--glass-border-soft);
+    display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    transition:transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
+  }
+  .socials a svg{width:16px;height:16px;stroke:var(--text-dim);transition:stroke .25s ease;}
+  .socials a:hover{transform:translateY(-3px);border-color:rgba(47,184,201,.4);background:var(--glass-strong);box-shadow:0 8px 20px rgba(47,184,201,.25);}
+  .socials a:hover svg{stroke:var(--teal);}
+
+  /* ---------- glass form panel (signature element) ---------- */
+  .form-panel{
+    --mx:50%; --my:20%;
+    position:relative;
+    border-radius:var(--radius-lg);
+    padding:38px 34px 34px;
+    background:linear-gradient(180deg, rgba(22,50,76,.55), rgba(12,30,51,.25));
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(26px);
+    -webkit-backdrop-filter:blur(26px);
+    box-shadow:
+      0 30px 60px -20px rgba(0,0,0,.55),
+      inset 0 1px 0 rgba(255,255,255,.16);
+    overflow:hidden;
+  }
+  /* moving light refraction that tracks the cursor */
+  .form-panel::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(360px circle at var(--mx) var(--my), rgba(255,255,255,.16), transparent 55%);
+    opacity:0;
+    transition:opacity .4s ease;
+    pointer-events:none;
+  }
+  .form-panel:hover::before{opacity:1;}
+  /* top glass edge highlight */
+  .form-panel::after{
+    content:"";
+    position:absolute;
+    top:0;left:10%;right:10%;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+  }
+
+  .form-badge{
+    position:relative;z-index:2;
+    width:52px;height:52px;
+    margin-bottom:18px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#00e0c6,#007cf0);
+    box-shadow:0 0 0 7px rgba(47,184,201,.08), 0 10px 26px rgba(0,124,240,.4);
+  }
+  .form-badge svg{width:22px;height:22px;stroke:#fff;}
+
+  .form-title{
+    position:relative;z-index:2;
+    font-size:21px;
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .form-sub{
+    position:relative;z-index:2;
+    font-size:13.5px;
+    color:var(--text-dimmer);
+    margin-bottom:28px;
+  }
+
+  .field{
+    margin-bottom:18px;
+    position:relative;
+    z-index:2;
+  }
+  .field label{
+    display:block;
+    font-size:13px;
+    color:var(--text-dim);
+    margin-bottom:8px;
+    font-weight:500;
+  }
+  .field input,
+  .field textarea{
+    width:100%;
+    padding:13px 16px;
+    border-radius:var(--radius-sm);
+    background:rgba(255,255,255,.045);
+    border:1px solid var(--glass-border-soft);
+    color:var(--text);
+    font-family:inherit;
+    font-size:14.5px;
+    outline:none;
+    transition:border-color .25s ease, background .25s ease, box-shadow .25s ease;
+    resize:none;
+  }
+  .field textarea{min-height:104px;line-height:1.8;}
+  .field input::placeholder,
+  .field textarea::placeholder{color:var(--text-dimmer);}
+  .field input:hover, .field textarea:hover{background:rgba(255,255,255,.065);}
+  .field input:focus, .field textarea:focus,
+  .field input:focus-visible, .field textarea:focus-visible{
+    border-color:var(--teal);
+    background:rgba(255,255,255,.07);
+    box-shadow:0 0 0 4px rgba(47,184,201,.18);
+  }
+
+  .row-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+
+  .submit-btn{
+    position:relative;z-index:2;
+    width:100%;
+    margin-top:6px;
+    height:52px;
+    padding:0 20px;
+    border:none;
+    border-radius:999px;
+    background:linear-gradient(135deg, #00e0c6, #007cf0);
+    color:#fff;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:500;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:transform .25s ease, filter .2s ease;
+    box-shadow:0 0 20px rgba(0,224,255,.6);
+  }
+  .submit-btn:hover{transform:translateY(-3px);filter:brightness(1.05);}
+  .submit-btn:active{transform:translateY(0);}
+  .submit-btn:focus-visible{outline:2px solid var(--text);outline-offset:3px;}
+  .submit-btn svg{width:17px;height:17px;transition:transform .3s ease;}
+  .submit-btn:hover svg{transform:translateX(-4px);}
+
+  .form-note{
+    position:relative;z-index:2;
+    font-size:12px;
+    color:var(--text-dimmer);
+    margin-top:14px;
+    text-align:center;
+  }
+
+  /* success toast */
+  .toast{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    background:linear-gradient(180deg, rgba(14,20,40,.92), rgba(8,11,22,.96));
+    backdrop-filter:blur(10px);
+    opacity:0;
+    pointer-events:none;
+    transform:scale(.97);
+    transition:opacity .4s ease, transform .4s ease;
+    border-radius:var(--radius-lg);
+    text-align:center;
+    padding:20px;
+    z-index:5;
+  }
+  .toast.show{opacity:1;pointer-events:auto;transform:scale(1);}
+  .toast-icon{
+    width:58px;height:58px;
+    border-radius:50%;
+    background:linear-gradient(135deg, #00e0c6, #007cf0);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 20px rgba(0,224,255,.5);
+  }
+  .toast-icon svg{width:26px;height:26px;stroke:#fff;}
+  .toast h3{font-size:18px;font-weight:700;}
+  .toast p{font-size:13.5px;color:var(--text-dim);max-width:28ch;line-height:1.8;}
+  .toast button{
+    margin-top:6px;
+    background:none;
+    border:1px solid var(--glass-border);
+    color:var(--text-dim);
+    padding:9px 20px;
+    border-radius:999px;
+    font-family:inherit;
+    font-size:13px;
+    cursor:pointer;
+    transition:all .25s ease;
+  }
+  .toast button:hover{color:var(--text);border-color:var(--glass-border);background:var(--glass);}
+
+  .footer {
+    margin-top: 70px;
+    width: 100%;
+    background: none;
+    border-top: 1px solid rgba(255,255,255,.08);
+    color: #fff;
+}
+
+
+/* =========================================================
+   FOOTER CONTAINER
+========================================================= */
+
+.footer-container {
+    width: 90%;
+    max-width: 1300px;
+    margin: auto;
+    padding: 38px 30px 28px;
+    display: grid;
+    grid-template-columns:
+        1.25fr
+        1fr
+        1fr
+        1.35fr;
+    gap: 50px;
+    direction: rtl;
+    border: 1px solid rgba(255,255,255,.10);
+    border-bottom: none;
+    border-radius: 18px 18px 0 0;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.025),
+            rgba(255,255,255,.01)
+        );
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.footer-column {
+    min-width: 0;
+}
+
+.footer-column h3 {
+    margin: 0 0 18px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    position: relative;
+}
+
+.footer-column h3::after {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 2px;
+    margin-top: 8px;
+    border-radius: 10px;
+    background: #00dcd0;
+    box-shadow:
+        0 0 8px rgba(0,224,208,.5);
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 11px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: rgba(255,255,255,.58);
+    font-size: 12px;
+    transition:
+        color .25s ease,
+        padding-right .25s ease;
+}
+
+.footer-links a:hover {
+    color: #00dcd0;
+    padding-right: 5px;
+}
+
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+}
+
+.contact-icon {
+    flex-shrink: 0;
+    width: 20px;
+    color: #00dcd0;
+    font-size: 17px;
+    text-align: center;
+}
+
+.contact-item p,
+.contact-item a {
+    margin: 0;
+    color: rgba(255,255,255,.58);
+    text-decoration: none;
+    font-size: 11px;
+    line-height: 1.9;
+    transition: color .25s ease;
+}
+
+.contact-item a:hover {
+    color: #00dcd0;
+}
+
+.newsletter-text {
+    margin: 0 0 15px;
+    color: rgba(255,255,255,.55);
+    font-size: 11px;
+    line-height: 2;
+}
+
+.newsletter-form {
+    width: 100%;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.10);
+    background:
+        rgba(255,255,255,.04);
+}
+
+.newsletter-form input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #fff;
+    padding: 0 13px;
+    font-family: "Vazirmatn", sans-serif;
+    font-size: 11px;
+    direction: rtl;
+}
+
+.newsletter-form input::placeholder {
+    color: rgba(255,255,255,.35);
+}
+
+.newsletter-form button {
+    width: 48px;
+    height: 100%;
+    border: none;
+    cursor: pointer;
+    background:
+        linear-gradient(
+            135deg,
+            #00aeb0,
+            #087e99
+        );
+    color: #fff;
+    font-size: 17px;
+    transition:
+        filter .25s ease;
+}
+
+.newsletter-form button:hover {
+    filter: brightness(1.2);
+}
+
+.social-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.social-links a {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    text-decoration: none;
+    color: rgba(255,255,255,.85);
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,.08);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.025)
+        );
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.15);
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        color .25s ease;
+}
+
+.social-links a:hover {
+    transform: translateY(-4px);
+    color: #00dcd0;
+    background:
+        rgba(0,224,208,.10);
+}
+
+.social-links a img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    transition:
+        transform .25s ease,
+        filter .25s ease;
+}
+
+.social-links a:hover img {
+    transform: scale(1.15);
+    filter:
+        brightness(0)
+        saturate(100%)
+        invert(72%)
+        sepia(30%)
+        saturate(1000%)
+        hue-rotate(135deg)
+        brightness(95%);
+}
+
+.footer-bottom {
+    width: 90%;
+    max-width: 1300px;
+    margin: auto;
+    min-height: 70px;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,.08);
+    direction: rtl;
+}
+
+.footer-bottom p {
+    margin: 0;
+    color: rgba(255,255,255,.45);
+    font-size: 10px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+}
+
+.footer-logo img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+}
+
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 600px){
+    main{grid-template-columns:1fr;gap:44px;}
+     .footer {
+        margin-top: 50px;
+    }
+    .footer-container {
+        width: 94%;
+        padding: 30px 22px;
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+  }
+  @media (max-width: 980px){
+    .wrap{padding:0 18px 40px;}
+    .row-2{grid-template-columns:1fr;}
+    .footer-container {
+        grid-template-columns:
+            repeat(2, 1fr);
+        gap: 35px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+    .orb{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="blueprint"></div>
+<div class="orb orb-amber" id="orbAmber"></div>
+<div class="orb orb-teal" id="orbTeal"></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="nav-capsule" id="navCapsule">
+
+        <a href="../index.html" class="brand">
+            <span class="brand-badge"><img src="../img/Logo.png" alt="Logo"></span>
+            دیتاپردازش خلیج فارس
+        </a>
+
+        <nav class="nav-links" id="navLinks">
+            <span class="nav-indicator" id="navIndicator"></span>
+            <a href="../index.html">صفحه اصلی</a>
+            <a href="./aboutUs.html">درباره ما</a>
+            <a href="#">خدمات</a>
+            <a href="./contactUs.html" aria-current="page">تماس با ما</a>
+        </nav>
+
+        <a href="#formPanel" class="nav-cta">
+            شروع گفتگو
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+
+    </div>
+  </header>
+
+  <main>
+    <!-- ستون اطلاعات -->
+    <section>
+      <div class="eyebrow">در دسترس برای پروژه‌های جدید</div>
+      <h1>بیایید ایده‌ی شما را <span>شفاف و روشن</span> بسازیم</h1>
+      <p class="lead">
+        از طراحی مفهومی تا اجرای نهایی؛ تیم ما در دیتاپردازش آماده‌ی شنیدن ایده‌ی شماست.
+        فرم را پر کنید یا مستقیم از راه‌های زیر با ما در تماس باشید.
+      </p>
+
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6.5 12 13 2 6.5"/><path d="M2 6.5A2 2 0 0 1 4 4.5h16a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z"/></svg>
+          </div>
+          <div class="info-text">
+            <div class="label">ایمیل</div>
+            <div class="value">info@datapd.ir</div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>
+          </div>
+          <div class="info-text">
+            <div class="label">تلفن</div>
+            <div class="value">021-22891940</div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="info-text">
+            <div class="label">آدرس</div>
+            <div class="value">تهران . پاسداران . نگارستان چهارم . پلاک 4</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="socials">
+        <a href="#" aria-label="اینستاگرام"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
+        <a href="#" aria-label="لینکدین"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V8h4v1.5A6 6 0 0 1 16 8Z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="#" aria-label="تلگرام"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></a>
+      </div>
+    </section>
+
+    <!-- فرم شیشه‌ای -->
+    <section class="form-panel" id="formPanel">
+      <div class="form-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="form-title"> پیام خود را با ما به اشتراک  بگذارید</div>
+      <div class="form-sub">معمولاً کمتر از یک روز کاری پاسخ می‌دهیم.</div>
+
+      <form id="contactForm" novalidate>
+        <input type="hidden" name="access_key" value="ddf7c832-cbb5-4c27-a8e8-369ced48acd7">
+        <div class="row-2">
+          <div class="field">
+            <label for="name">نام و نام خانوادگی</label>
+            <input id="name" name="name" type="text" placeholder="مثلا محمدرضا حق پرست" required>
+          </div>
+          <div class="field">
+            <label for="email">ایمیل</label>
+            <input id="email" name="email" type="email" placeholder="examole@email.com" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="subject">موضوع</label>
+          <input id="subject" name="subject" type="text" placeholder="در چه مورد میتونیم به شما کمک کنیم ؟">
+        </div>
+
+        <div class="field">
+          <label for="message">پیام</label>
+          <textarea id="message" name="message" placeholder="کمی درباره‌ی موضوع مورد نظرتون بنویسید..." required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          ارسال پیام
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </button>
+        <div class="form-note">با ارسال فرم، با شرایط استفاده و حریم خصوصی موافقت می‌کنید.</div>
+      </form>
+
+      <div class="toast" id="toast">
+        <div class="toast-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h3>پیام شما ارسال شد</h3>
+        <p>ممنون از پیام شما! تیم ما به‌زودی به شما پاسخ خواهد داد.</p>
+        <button id="toastClose">ارسال پیام دیگر</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+
+    <div class="footer-container">
+
+
+        <!-- ================= CONTACT ================= -->
+
+        <div class="footer-column contact-column">
+
+            <h3>
+                اطلاعات تماس
+            </h3>
+
+            <div class="footer-contact">
+
+                <div class="contact-item">
+                    <span class="contact-icon">⌖</span>
+                    <p>
+                       تهران . پاسداران . نگارستان چهارم . پلاک 4
+                    </p>
+                </div>
+
+                <div class="contact-item">
+                    <span class="contact-icon">⌕</span>
+                    <a href="tel:+982112345678">
+                       021-22891940
+                    </a>
+                </div>
+
+                <div class="contact-item">
+                    <span class="contact-icon">✉</span>
+                    <a href="mailto:info@dpf.co.ir">
+                       info@datapd.ir
+                    </a>
+                </div>
+
+                <div class="contact-item">
+                    <span class="contact-icon">◎</span>
+                    <a href="#">
+                     ساعت کاری 8 صبح تا 4 بعدازظهر
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= SERVICES ================= -->
+
+        <div class="footer-column">
+
+            <h3>
+                خدمات
+            </h3>
+
+            <ul class="footer-links">
+                <li><a href="#">خدمات ابری</a></li>
+                <li><a href="#">دیتاسنتر</a></li>
+                <li><a href="#">نظارت تصویری</a></li>
+                <li><a href="#">شبکه و امنیت</a></li>
+                <li><a href="#">هوش مصنوعی</a></li>
+            </ul>
+
+        </div>
+
+
+
+        <!-- ================= USEFUL LINKS ================= -->
+
+        <div class="footer-column">
+
+            <h3>
+                لینک‌های مفید
+            </h3>
+
+            <ul class="footer-links">
+                <li><a href="#">مقالات منتخب</a></li>
+                <li><a href="#">شرایط و قوانین</a></li>
+                <li><a href="#">حریم خصوصی</a></li>
+                <li><a href="#">گواهینامه‌ها</a></li>
+                <li><a href="#">مستندات</a></li>
+            </ul>
+
+        </div>
+
+
+
+        <!-- ================= NEWSLETTER ================= -->
+
+        <div class="footer-column newsletter-column">
+
+            <h3>
+                خبرنامه
+            </h3>
+
+            <p class="newsletter-text">
+                برای دریافت آخرین اخبار و پیشنهادات
+                در خبرنامه ما عضو شوید.
+            </p>
+
+            <form class="newsletter-form">
+                <input type="email" placeholder="ایمیل خود را وارد کنید">
+                <button type="submit">➤</button>
+            </form>
+
+            <!-- Social Media -->
+            <div class="social-links">
+                <a href="#" aria-label="Telegram">
+                  <img src="../img/telegram2.svg" alt="Telegram">
+                </a>
+                <a href="#" aria-label="Instagram">
+                  <img src="../img/instagram2.svg" alt="Instagram">
+                </a>
+                 <a href="#" aria-label="Bale">
+                  <img src="../img/bale2.svg" alt="Bale">
+                 </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= FOOTER BOTTOM ================= -->
+
+    <div class="footer-bottom">
+        <div class="footer-logo">
+            <img src="../img/Logo.png" alt="دیتاپردازش خلیج فارس">
+        </div>
+    </div>
+
+</footer>
+
+</div>
+
+<script>
+  // --- sliding glass pill indicator on the navbar ---
+  const navLinks = document.getElementById('navLinks');
+  const indicator = document.getElementById('navIndicator');
+
+  function moveIndicator(el){
+    if(!el || !indicator) return;
+    indicator.style.width = el.offsetWidth + 'px';
+    indicator.style.transform = `translateX(${el.offsetLeft}px)`;
+  }
+
+  if(navLinks && indicator){
+    const navA = navLinks.querySelectorAll('a');
+    const activeLink = navLinks.querySelector('a[aria-current="page"]') || navA[0];
+
+    requestAnimationFrame(() => {
+      moveIndicator(activeLink);
+      navLinks.classList.add('ready');
+    });
+
+    navA.forEach(link => {
+      link.addEventListener('mouseenter', () => moveIndicator(link));
+    });
+    navLinks.addEventListener('mouseleave', () => moveIndicator(activeLink));
+
+    window.addEventListener('resize', () => moveIndicator(navLinks.querySelector('a:hover') || activeLink));
+  }
+
+  // --- cursor light sweep on the glass navbar ---
+  const capsule = document.getElementById('navCapsule');
+  if(capsule){
+    capsule.addEventListener('mousemove', (e) => {
+      const rect = capsule.getBoundingClientRect();
+      capsule.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      capsule.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  }
+
+  // --- چراغ‌قوه: افکت نور تعقیب‌کننده‌ی موس روی کارت‌های اطلاعات و فرم ---
+  const glassEls = document.querySelectorAll('.form-panel, .info-card');
+  glassEls.forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      el.style.setProperty('--mx', x + '%');
+      el.style.setProperty('--my', y + '%');
+    });
+  });
+
+  // --- ambient orb parallax, subtle ---
+  const orbAmber = document.getElementById('orbAmber');
+  const orbTeal = document.getElementById('orbTeal');
+  let rafId = null;
+  document.addEventListener('mousemove', (e) => {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      const px = (e.clientX / window.innerWidth - 0.5);
+      const py = (e.clientY / window.innerHeight - 0.5);
+      orbAmber.style.transform = `translate(${px * -30}px, ${py * -20}px)`;
+      orbTeal.style.transform = `translate(${px * 24}px, ${py * 18}px)`;
+      rafId = null;
+    });
+  });
+
+  /// ================= CONTACT FORM - WEB3FORMS =================
+
+const form = document.getElementById('contactForm');
+const toast = document.getElementById('toast');
+const toastClose = document.getElementById('toastClose');
+const submitBtn = form.querySelector('.submit-btn');
+
+form.addEventListener('submit', async (e) => {
+
+    e.preventDefault();
+
+    // بررسی کامل بودن فرم
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    // جلوگیری از چند بار کلیک
+    submitBtn.disabled = true;
+
+    const originalButtonText = submitBtn.innerHTML;
+
+    submitBtn.innerHTML = 'در حال ارسال...';
+
+    try {
+
+        const formData = new FormData(form);
+
+        const response = await fetch(
+            'https://api.web3forms.com/submit',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(
+                    Object.fromEntries(formData)
+                )
+            }
+        );
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+
+            // ارسال موفق
+            toast.classList.add('show');
+
+            form.reset();
+
+        } else {
+
+            throw new Error(
+                result.message || 'ارسال پیام ناموفق بود.'
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error('Web3Forms Error:', error);
+
+        alert(
+            'متأسفانه ارسال پیام انجام نشد. لطفاً دوباره تلاش کنید.'
+        );
+
+    } finally {
+
+        submitBtn.disabled = false;
+
+        submitBtn.innerHTML = originalButtonText;
+
+    }
+
+});
+
+
+// بستن پیام موفقیت
+toastClose.addEventListener('click', () => {
+
+    toast.classList.remove('show');
+
+});
+
+  
+</script>
+
+</body>
+</html>

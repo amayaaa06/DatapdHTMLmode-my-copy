@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="شبکه کامپیوتری چیست؟ راهنمای جامع انواع شبکه‌های PAN، LAN، MAN و WAN، کاربردها، مزایا و نحوه انتخاب زیرساخت مناسب.">
+<title>شبکه کامپیوتری چیست؟ | دیتا پردازش خلیج فارس</title>
+
+<style>
+@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+
+:root{
+    --navy-950:#06111f;
+    --navy-900:#0c1c33;
+    --navy-800:#16324c;
+    --navy-700:#1c3a58;
+    --teal-400:#2fb8c9;
+    --teal:#00e0d0;
+    --blue:#007cf0;
+    --white:#f5f8fa;
+    --muted:#b7c6d4;
+    --border:rgba(255,255,255,.12);
+    --glass:rgba(255,255,255,.045);
+    --shadow:0 25px 70px -30px rgba(0,0,0,.7);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    direction:rtl;
+    font-family:"Vazirmatn",sans-serif;
+    background:#011324;
+    color:#fff;
+    line-height:1.9;
+}
+a{color:inherit}
+button,input{font-family:inherit}
+.container{width:90%;max-width:1300px;margin:auto}
+
+/* ================= BACKGROUND ================= */
+.page{
+    position:relative;
+    overflow:hidden;
+    min-height:100vh;
+}
+.page::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    background:
+        radial-gradient(900px 600px at 85% -5%,rgba(47,184,201,.13),transparent 65%),
+        radial-gradient(800px 600px at -10% 75%,rgba(0,124,240,.10),transparent 65%);
+}
+.grid-bg{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    opacity:.18;
+    background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:52px 52px;
+    mask-image:linear-gradient(to bottom,black,transparent 80%);
+}
+
+/* ================= NAVBAR ================= */
+header{
+    position:relative;
+    z-index:30;
+    padding:28px 0 48px;
+}
+.nav-capsule{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    padding:8px 10px;
+    border-radius:999px;
+    background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.02));
+    border:1px solid var(--border);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+    box-shadow:0 24px 55px -22px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.14);
+    overflow:hidden;
+}
+.nav-capsule::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.14),transparent 65%);
+    opacity:0;
+    transition:opacity .35s;
+    pointer-events:none;
+}
+.nav-capsule:hover::before{opacity:1}
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:var(--white);
+    font-weight:800;
+    font-size:15.5px;
+    padding-left:8px;
+    white-space:nowrap;
+}
+.brand-badge{
+    width:46px;height:46px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:linear-gradient(135deg,#16788f,#0a3c5c);
+    border:1px solid rgba(255,255,255,.2);
+    box-shadow:0 0 0 5px rgba(47,184,201,.08),0 8px 18px rgba(0,0,0,.4);
+    overflow:hidden;
+}
+.brand-badge img{width:58%;height:58%;object-fit:contain}
+.nav-links{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:2px;
+    padding:5px;
+    border-radius:999px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.06);
+}
+.nav-links a{
+    position:relative;
+    z-index:2;
+    padding:9px 20px;
+    border-radius:999px;
+    color:var(--muted);
+    text-decoration:none;
+    font-size:13.5px;
+    white-space:nowrap;
+    transition:color .25s;
+}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:#fff}
+.nav-indicator{
+    position:absolute;
+    top:5px;
+    bottom:5px;
+    right:0;
+    width:0;
+    border-radius:999px;
+    background:linear-gradient(135deg,rgba(47,184,201,.4),rgba(0,124,240,.28));
+    border:1px solid rgba(47,184,201,.45);
+    box-shadow:0 0 18px rgba(47,184,201,.4);
+    transition:right .4s cubic-bezier(.4,0,.2,1),width .4s cubic-bezier(.4,0,.2,1),opacity .25s;
+    opacity:0;
+}
+.nav-links.ready .nav-indicator{opacity:1}
+.nav-cta{
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:11px 22px;
+    border-radius:999px;
+    background:linear-gradient(135deg,#00e0c6,#007cf0);
+    color:#fff;
+    font-size:13.5px;
+    font-weight:600;
+    text-decoration:none;
+    box-shadow:0 0 20px rgba(0,224,255,.4);
+    transition:.25s;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 28px rgba(0,224,255,.6)}
+.nav-cta svg{width:14px;transition:.3s}
+.nav-cta:hover svg{transform:translateX(-3px)}
+
+/* ================= ARTICLE HERO ================= */
+.article-hero{
+    position:relative;
+    z-index:2;
+    padding:20px 0 70px;
+}
+.breadcrumb{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:rgba(255,255,255,.43);
+    font-size:12px;
+    margin-bottom:28px;
+}
+.breadcrumb a{text-decoration:none;color:rgba(255,255,255,.43)}
+.breadcrumb a:hover{color:var(--teal)}
+.breadcrumb .current{color:var(--teal)}
+
+.hero-layout{
+    display:grid;
+    grid-template-columns:1.08fr .92fr;
+    gap:55px;
+    align-items:center;
+}
+.hero-copy{position:relative}
+.eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    color:var(--teal);
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:18px;
+}
+.eyebrow::before{
+    content:"";
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 14px rgba(0,224,208,.8);
+}
+.hero-copy h1{
+    font-size:clamp(34px,5vw,62px);
+    line-height:1.3;
+    letter-spacing:-1.4px;
+    margin-bottom:20px;
+}
+.hero-copy h1 span{
+    color:var(--teal);
+    text-shadow:0 0 40px rgba(0,224,208,.45);
+}
+.hero-lead{
+    color:rgba(255,255,255,.67);
+    font-size:15.5px;
+    line-height:2.15;
+    max-width:720px;
+}
+.article-meta{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-top:25px;
+}
+.meta-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 13px;
+    border-radius:999px;
+    color:rgba(255,255,255,.65);
+    font-size:11px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.09);
+}
+.meta-pill strong{color:#fff;font-weight:500}
+
+/* ================= NETWORK VISUAL ================= */
+.network-visual{
+    position:relative;
+    min-height:410px;
+    border-radius:32px;
+    background:
+        radial-gradient(circle at 50% 50%,rgba(0,224,208,.09),transparent 45%),
+        linear-gradient(145deg,rgba(22,50,76,.55),rgba(6,17,31,.72));
+    border:1px solid var(--border);
+    box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.12);
+    overflow:hidden;
+}
+.network-visual::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:34px 34px;
+    mask-image:radial-gradient(circle at center,black,transparent 78%);
+}
+.network-lines{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+}
+.network-lines line{
+    stroke:rgba(47,184,201,.35);
+    stroke-width:1.4;
+    stroke-dasharray:7 9;
+    animation:flow 4s linear infinite;
+}
+@keyframes flow{to{stroke-dashoffset:-100}}
+.node{
+    position:absolute;
+    width:62px;height:62px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(145deg,rgba(47,184,201,.28),rgba(8,38,61,.85));
+    border:1px solid rgba(47,184,201,.55);
+    box-shadow:0 0 0 7px rgba(47,184,201,.055),0 0 28px rgba(0,224,208,.18);
+    z-index:2;
+}
+.node svg{width:27px;height:27px;stroke:#bdfbff}
+.node-center{
+    width:94px;height:94px;
+    left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    background:linear-gradient(135deg,#00bfae,#007cf0);
+    border-color:rgba(255,255,255,.4);
+    box-shadow:0 0 0 12px rgba(0,224,208,.07),0 0 55px rgba(0,224,208,.35);
+    animation:pulseNode 3s ease-in-out infinite;
+}
+@keyframes pulseNode{
+    50%{box-shadow:0 0 0 20px rgba(0,224,208,.025),0 0 70px rgba(0,224,208,.48)}
+}
+.node-center svg{width:40px;height:40px}
+.n1{top:13%;right:16%}.n2{top:15%;left:16%}
+.n3{bottom:15%;right:15%}.n4{bottom:15%;left:15%}
+.n5{top:46%;right:7%}.n6{top:46%;left:7%}
+.visual-label{
+    position:absolute;
+    bottom:20px;
+    right:24px;
+    color:rgba(255,255,255,.42);
+    font-size:10px;
+    letter-spacing:1px;
+}
+
+/* ================= PROGRESS ================= */
+.read-progress{
+    position:fixed;
+    top:0;
+    right:0;
+    height:3px;
+    width:0;
+    z-index:100;
+    background:linear-gradient(90deg,#007cf0,#00e0d0);
+    box-shadow:0 0 12px rgba(0,224,208,.65);
+}
+
+/* ================= ARTICLE AREA ================= */
+.article-area{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:260px minmax(0,780px);
+    gap:55px;
+    align-items:start;
+    direction:ltr;
+}
+.article-main{direction:rtl;min-width:0}
+.article-sidebar{
+    direction:rtl;
+    position:sticky;
+    top:25px;
+}
+.toc{
+    padding:22px;
+    border-radius:22px;
+    background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.018));
+    border:1px solid var(--border);
+    backdrop-filter:blur(16px);
+    box-shadow:var(--shadow);
+}
+.toc-title{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+.toc-title span{
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 10px var(--teal);
+}
+.toc a{
+    display:block;
+    padding:8px 10px;
+    color:rgba(255,255,255,.48);
+    text-decoration:none;
+    font-size:11.5px;
+    border-right:2px solid transparent;
+    transition:.25s;
+}
+.toc a:hover,.toc a.active{
+    color:#fff;
+    border-right-color:var(--teal);
+    background:rgba(0,224,208,.055);
+}
+.share-box{
+    margin-top:15px;
+    padding:18px;
+    border-radius:22px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.09);
+}
+.share-box p{font-size:11px;color:rgba(255,255,255,.45);margin-bottom:11px}
+.share-buttons{display:flex;gap:7px}
+.share-buttons button{
+    width:35px;height:35px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.04);
+    color:#fff;
+    cursor:pointer;
+    transition:.25s;
+}
+.share-buttons button:hover{
+    transform:translateY(-3px);
+    border-color:rgba(0,224,208,.4);
+    color:var(--teal);
+}
+
+/* ================= ARTICLE CONTENT ================= */
+.article-card{
+    padding:48px 52px;
+    border-radius:30px;
+    background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.07);
+}
+.article-card h2{
+    position:relative;
+    font-size:26px;
+    line-height:1.5;
+    margin:46px 0 18px;
+    padding-right:17px;
+}
+.article-card h2:first-child{margin-top:0}
+.article-card h2::before{
+    content:"";
+    position:absolute;
+    right:0;
+    top:8px;
+    width:4px;
+    height:28px;
+    border-radius:10px;
+    background:linear-gradient(#00e0d0,#007cf0);
+    box-shadow:0 0 12px rgba(0,224,208,.45);
+}
+.article-card h3{
+    font-size:19px;
+    margin:30px 0 12px;
+    color:#fff;
+}
+.article-card p{
+    color:rgba(255,255,255,.70);
+    font-size:14.5px;
+    line-height:2.25;
+    margin-bottom:18px;
+}
+.article-card strong{color:#fff}
+.article-card ul{
+    list-style:none;
+    margin:12px 0 25px;
+}
+.article-card li{
+    position:relative;
+    color:rgba(255,255,255,.68);
+    font-size:14px;
+    line-height:2;
+    padding:7px 24px 7px 0;
+}
+.article-card li::before{
+    content:"";
+    position:absolute;
+    right:0;
+    top:18px;
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 8px rgba(0,224,208,.65);
+}
+
+/* info callout */
+.callout{
+    position:relative;
+    overflow:hidden;
+    margin:30px 0;
+    padding:23px 25px;
+    border-radius:20px;
+    background:linear-gradient(120deg,rgba(0,224,208,.09),rgba(0,124,240,.055));
+    border:1px solid rgba(47,184,201,.2);
+}
+.callout::after{
+    content:"";
+    position:absolute;
+    width:180px;height:180px;
+    left:-80px;top:-90px;
+    border-radius:50%;
+    background:rgba(0,224,208,.08);
+    filter:blur(10px);
+}
+.callout-title{
+    position:relative;
+    z-index:1;
+    color:var(--teal);
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+.callout p{position:relative;z-index:1;margin:0;font-size:13.5px}
+
+/* feature cards */
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:13px;
+    margin:22px 0 28px;
+}
+.feature-card{
+    position:relative;
+    padding:21px;
+    border-radius:20px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.09);
+    overflow:hidden;
+    transition:.3s;
+}
+.feature-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(0,224,208,.35);
+    background:rgba(255,255,255,.055);
+}
+.feature-icon{
+    width:42px;height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    background:linear-gradient(135deg,rgba(47,184,201,.22),rgba(0,124,240,.12));
+    border:1px solid rgba(255,255,255,.08);
+    margin-bottom:13px;
+}
+.feature-icon svg{width:21px;height:21px;stroke:var(--teal)}
+.feature-card h4{font-size:14px;margin-bottom:6px}
+.feature-card p{font-size:11.5px;line-height:1.9;margin:0;color:rgba(255,255,255,.55)}
+
+/* network types */
+.network-types{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin:25px 0 35px;
+}
+.type-card{
+    position:relative;
+    padding:22px 12px;
+    text-align:center;
+    border-radius:20px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.09);
+    overflow:hidden;
+    transition:.3s;
+}
+.type-card:hover{transform:translateY(-6px);border-color:rgba(0,224,208,.4)}
+.type-code{
+    display:block;
+    font-size:25px;
+    font-weight:900;
+    color:var(--teal);
+    text-shadow:0 0 22px rgba(0,224,208,.3);
+}
+.type-name{font-size:11px;color:rgba(255,255,255,.55);display:block;margin-top:3px}
+.type-range{
+    display:block;
+    margin-top:14px;
+    font-size:10px;
+    color:rgba(255,255,255,.38);
+}
+
+/* comparison table */
+.table-wrap{
+    overflow-x:auto;
+    margin:25px 0 35px;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:20px;
+}
+.compare-table{
+    width:100%;
+    min-width:620px;
+    border-collapse:collapse;
+}
+.compare-table th,.compare-table td{
+    padding:14px 15px;
+    text-align:right;
+    border-bottom:1px solid rgba(255,255,255,.07);
+    font-size:12px;
+}
+.compare-table th{
+    background:rgba(0,224,208,.06);
+    color:var(--teal);
+    font-weight:700;
+}
+.compare-table td{color:rgba(255,255,255,.62)}
+.compare-table tr:last-child td{border-bottom:0}
+.compare-table tr:hover td{background:rgba(255,255,255,.025)}
+
+/* numbered sections */
+.number-heading{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.number-heading .num{
+    width:34px;height:34px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:linear-gradient(135deg,#00e0c6,#007cf0);
+    font-size:12px;
+    box-shadow:0 0 18px rgba(0,224,208,.2);
+}
+
+/* ================= RELATED ================= */
+.related{
+    position:relative;
+    z-index:2;
+    margin-top:90px;
+    padding-bottom:20px;
+}
+.section-head{
+    text-align:center;
+    max-width:650px;
+    margin:0 auto 32px;
+}
+.section-head .eyebrow{margin-bottom:10px}
+.section-head h2{font-size:28px;margin-bottom:8px}
+.section-head p{font-size:13px;color:rgba(255,255,255,.5)}
+.related-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:17px;
+}
+.related-card{
+    display:block;
+    text-decoration:none;
+    padding:24px;
+    border-radius:23px;
+    background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+    border:1px solid rgba(255,255,255,.10);
+    transition:.35s;
+}
+.related-card:hover{
+    transform:translateY(-7px);
+    border-color:rgba(0,224,208,.35);
+    box-shadow:0 25px 50px -30px #000;
+}
+.related-image{
+    height:135px;
+    margin-bottom:18px;
+    border-radius:17px;
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 30% 40%,rgba(0,224,208,.35),transparent 25%),
+        radial-gradient(circle at 70% 60%,rgba(0,124,240,.35),transparent 28%),
+        #09233a;
+}
+.related-image::before,.related-image::after{
+    content:"";
+    position:absolute;
+    inset:25px;
+    border:1px solid rgba(47,184,201,.35);
+    transform:rotate(25deg);
+}
+.related-image::after{transform:rotate(-25deg)}
+.related-card h3{font-size:15px;margin-bottom:7px}
+.related-card p{font-size:11.5px;color:rgba(255,255,255,.48);line-height:1.9}
+
+/* ================= CTA ================= */
+.cta{
+    position:relative;
+    z-index:2;
+    margin:80px 0 0;
+    padding:60px 30px;
+    text-align:center;
+    border-radius:30px;
+    overflow:hidden;
+    background:linear-gradient(145deg,rgba(22,50,76,.62),rgba(8,17,31,.65));
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+}
+.cta::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at 50% 10%,rgba(0,224,208,.14),transparent 45%),
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:auto,40px 40px,40px 40px;
+    mask-image:radial-gradient(circle at center,black,transparent 75%);
+}
+.cta>*{position:relative;z-index:1}
+.cta-badge{
+    width:58px;height:58px;
+    margin:0 auto 19px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#00e0c6,#007cf0);
+    box-shadow:0 0 0 8px rgba(47,184,201,.08),0 0 35px rgba(0,124,240,.35);
+}
+.cta h2{font-size:27px;margin-bottom:10px}
+.cta p{font-size:13.5px;color:rgba(255,255,255,.58);margin-bottom:25px}
+.btn{
+    min-width:175px;
+    height:50px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:0 25px;
+    border-radius:999px;
+    text-decoration:none;
+    font-size:13px;
+    transition:.25s;
+}
+.btn-primary{
+    background:linear-gradient(135deg,#00e0c6,#007cf0);
+    box-shadow:0 0 20px rgba(0,224,255,.4);
+}
+.btn-secondary{border:1px solid rgba(255,255,255,.22)}
+.btn:hover{transform:translateY(-3px)}
+
+/* ================= FOOTER ================= */
+.footer{
+    position:relative;
+    z-index:2;
+    margin-top:70px;
+    background:#011324;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+.footer-container{
+    width:90%;
+    max-width:1300px;
+    margin:auto;
+    padding:38px 30px 28px;
+    display:grid;
+    grid-template-columns:1.25fr 1fr 1fr 1.35fr;
+    gap:50px;
+    border:1px solid rgba(255,255,255,.10);
+    border-bottom:none;
+    border-radius:18px 18px 0 0;
+    background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.01));
+}
+.footer-column h3{
+    margin-bottom:18px;
+    font-size:15px;
+}
+.footer-column h3::after{
+    content:"";
+    display:block;
+    width:28px;height:2px;
+    margin-top:8px;
+    border-radius:10px;
+    background:#00dcd0;
+    box-shadow:0 0 8px rgba(0,224,208,.5);
+}
+.footer-links{list-style:none}
+.footer-links li{margin-bottom:10px}
+.footer-links a{
+    color:rgba(255,255,255,.55);
+    font-size:12px;
+    text-decoration:none;
+    transition:.25s;
+}
+.footer-links a:hover{color:#00dcd0;padding-right:5px}
+.footer-contact{display:flex;flex-direction:column;gap:11px}
+.contact-item{display:flex;gap:9px}
+.contact-icon{color:#00dcd0;width:20px}
+.contact-item p,.contact-item a{
+    color:rgba(255,255,255,.55);
+    font-size:11px;
+    line-height:1.9;
+    text-decoration:none;
+}
+.social-links{display:flex;gap:9px;margin-top:16px}
+.social-links a{
+    width:37px;height:37px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.035);
+    color:#fff;
+    text-decoration:none;
+    font-size:13px;
+    transition:.25s;
+}
+.social-links a:hover{transform:translateY(-4px);color:#00dcd0}
+.footer-bottom{
+    width:90%;
+    max-width:1300px;
+    min-height:70px;
+    margin:auto;
+    padding:15px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+.footer-bottom p{font-size:10px;color:rgba(255,255,255,.4)}
+.footer-logo img{height:48px;width:auto}
+
+/* ================= SPOTLIGHT ================= */
+.spot{position:relative;overflow:hidden}
+.spot::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.13),transparent 62%);
+    opacity:0;
+    transition:opacity .3s;
+    pointer-events:none;
+}
+.spot:hover::before{opacity:1}
+.spot>*{position:relative;z-index:1}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:1050px){
+    .hero-layout{grid-template-columns:1fr}
+    .network-visual{max-width:700px;width:100%;margin:auto}
+    .article-area{grid-template-columns:210px minmax(0,1fr);gap:30px}
+    .footer-container{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:820px){
+    .nav-links{display:none}
+    .article-area{display:block}
+    .article-sidebar{position:relative;top:auto;margin-bottom:25px}
+    .toc{display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
+    .toc-title{grid-column:1/-1}
+    .share-box{display:none}
+    .network-types{grid-template-columns:repeat(2,1fr)}
+    .related-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+    .container{width:94%}
+    header{padding:20px 0 30px}
+    .nav-capsule{border-radius:25px;padding:12px;flex-wrap:wrap;justify-content:center}
+    .brand{padding:0}
+    .nav-cta{width:100%;justify-content:center}
+    .article-hero{padding-top:20px}
+    .hero-copy h1{font-size:34px}
+    .hero-lead{font-size:14px}
+    .network-visual{min-height:330px}
+    .node{width:48px;height:48px}
+    .node svg{width:21px;height:21px}
+    .node-center{width:72px;height:72px}
+    .node-center svg{width:30px;height:30px}
+    .article-card{padding:30px 21px}
+    .article-card h2{font-size:22px}
+    .article-card p,.article-card li{font-size:13.5px}
+    .feature-grid{grid-template-columns:1fr}
+    .toc{grid-template-columns:1fr}
+    .network-types{grid-template-columns:repeat(2,1fr)}
+    .footer-container{width:94%;grid-template-columns:1fr;padding:30px 22px}
+    .footer-bottom{width:94%;flex-direction:column;gap:12px;text-align:center}
+    .cta{padding:45px 20px}
+    .cta h2{font-size:23px}
+}
+
+/* ================= REDUCED MOTION ================= */
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        scroll-behavior:auto!important;
+        transition-duration:.01ms!important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+<div class="grid-bg"></div>
+<div class="read-progress" id="readProgress"></div>
+
+<div class="container">
+
+<header>
+    <div class="nav-capsule" id="navCapsule">
+
+        <a href="../index.html" class="brand">
+            <span class="brand-badge">
+                <img src="../img/Logo.png" alt="لوگوی دیتا پردازش">
+            </span>
+            دیتاپردازش خلیج فارس
+        </a>
+
+        <nav class="nav-links" id="navLinks">
+            <span class="nav-indicator" id="navIndicator"></span>
+            <a href="../../index.html">صفحه اصلی</a>
+            <a href="../aboutUs.html">درباره ما</a>
+            <a href="#" aria-current="page">مقالات</a>
+            <a href="#">خدمات</a>
+        </nav>
+
+        <a href="../contactUs.html" class="nav-cta">
+            تماس با ما
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14"/>
+                <path d="m13 6 6 6-6 6"/>
+            </svg>
+        </a>
+
+    </div>
+</header>
+
+<main>
+
+<!-- ================= HERO ================= -->
+<section class="article-hero">
+
+    <div class="breadcrumb">
+        <a href="../../index.html">صفحه اصلی</a>
+        <span>›</span>
+        <a href="#">مقالات</a>
+        <span>›</span>
+        <span class="current">شبکه</span>
+    </div>
+
+    <div class="hero-layout">
+
+        <div class="hero-copy">
+            <div class="eyebrow">دانشنامه شبکه و زیرساخت</div>
+
+            <h1>
+                شبکه کامپیوتری <span>چیست؟</span>
+            </h1>
+
+            <p class="hero-lead">
+                از یک اتصال ساده بین دو کامپیوتر تا زیرساخت عظیم اینترنت؛
+                در این مقاله با مفهوم شبکه، کاربردها، مزایا، اهداف و انواع
+                شبکه‌های PAN، LAN، MAN و WAN آشنا می‌شویم.
+            </p>
+
+            <div class="article-meta">
+                <span class="meta-pill">◉ دسته‌بندی: <strong>شبکه</strong></span>
+                <span class="meta-pill">◷ زمان مطالعه: <strong>۸ دقیقه</strong></span>
+                <span class="meta-pill">✦ سطح: <strong>مقدماتی</strong></span>
+            </div>
+        </div>
+
+        <div class="network-visual" aria-label="تصویر مفهومی شبکه کامپیوتری">
+
+            <svg class="network-lines" viewBox="0 0 600 410" preserveAspectRatio="none">
+                <line x1="300" y1="205" x2="105" y2="95"/>
+                <line x1="300" y1="205" x2="495" y2="95"/>
+                <line x1="300" y1="205" x2="105" y2="315"/>
+                <line x1="300" y1="205" x2="495" y2="315"/>
+                <line x1="300" y1="205" x2="55" y2="205"/>
+                <line x1="300" y1="205" x2="545" y2="205"/>
+            </svg>
+
+            <div class="node node-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <rect x="4" y="4" width="16" height="16" rx="3"/>
+                    <path d="M8 9h8M8 12h5M8 15h8"/>
+                </svg>
+            </div>
+
+            <div class="node n1">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <rect x="3" y="4" width="18" height="12" rx="2"/>
+                    <path d="M8 20h8M12 16v4"/>
+                </svg>
+            </div>
+
+            <div class="node n2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <rect x="6" y="2" width="12" height="20" rx="2"/>
+                    <path d="M10 18h4"/>
+                </svg>
+            </div>
+
+            <div class="node n3">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <circle cx="12" cy="12" r="8"/>
+                    <path d="M8 12h8M12 8v8"/>
+                </svg>
+            </div>
+
+            <div class="node n4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path d="M4 8h16M4 12h16M4 16h16"/>
+                    <rect x="3" y="5" width="18" height="14" rx="2"/>
+                </svg>
+            </div>
+
+            <div class="node n5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>
+                </svg>
+            </div>
+
+            <div class="node n6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <path d="M5 18V9M12 18V5M19 18v-7"/>
+                    <path d="M3 18h18"/>
+                </svg>
+            </div>
+
+            <span class="visual-label">NETWORK TOPOLOGY / DATA FLOW</span>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ================= ARTICLE ================= -->
+<div class="article-area">
+
+    <aside class="article-sidebar">
+
+        <div class="toc">
+            <div class="toc-title">
+                <span></span>
+                فهرست مطالب
+            </div>
+
+            <a href="#what-is" class="toc-link">شبکه کامپیوتری چیست؟</a>
+            <a href="#where" class="toc-link">شبکه کجا استفاده می‌شود؟</a>
+            <a href="#importance" class="toc-link">چرا شبکه اهمیت دارد؟</a>
+            <a href="#how" class="toc-link">چگونه از شبکه استفاده کنیم؟</a>
+            <a href="#applications" class="toc-link">کاربردهای شبکه</a>
+            <a href="#goals" class="toc-link">اهداف تشکیل شبکه</a>
+            <a href="#types" class="toc-link">انواع شبکه کامپیوتری</a>
+            <a href="#comparison" class="toc-link">مقایسه انواع شبکه</a>
+        </div>
+
+        <div class="share-box">
+            <p>اشتراک‌گذاری مقاله</p>
+            <div class="share-buttons">
+                <button type="button" id="copyLink" title="کپی لینک">↗</button>
+                <button type="button" id="shareNative" title="اشتراک‌گذاری">⌯</button>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <article class="article-main">
+
+        <div class="article-card spot">
+
+            <section id="what-is">
+                <h2>شبکه کامپیوتری چیست؟</h2>
+
+                <p>
+                    بهتر است در قدم اول به این سؤال پاسخ دهیم که شبکه کامپیوتری چیست.
+                    شبکه کامپیوتری مجموعه‌ای از دو یا چند دستگاه است که با استفاده از
+                    یک بستر ارتباطی به یکدیگر متصل می‌شوند تا بتوانند اطلاعات، منابع و
+                    سرویس‌ها را با یکدیگر به اشتراک بگذارند.
+                </p>
+
+                <p>
+                    این ارتباط می‌تواند از طریق کابل یا به صورت بی‌سیم برقرار شود.
+                    در یک شبکه، تجهیزاتی مانند <strong>سوئیچ، روتر و اکسس‌پوینت</strong>
+                    نقش مهمی در برقراری ارتباط میان دستگاه‌ها دارند.
+                </p>
+
+                <div class="callout">
+                    <div class="callout-title">تعریف ساده</div>
+                    <p>
+                        اگر چند دستگاه بتوانند از طریق یک بستر ارتباطی با یکدیگر
+                        ارتباط برقرار کنند و اطلاعات یا منابعی را به اشتراک بگذارند،
+                        یک شبکه کامپیوتری شکل گرفته است.
+                    </p>
+                </div>
+
+                <p>
+                    امروزه تنها کامپیوترها عضو شبکه نیستند. تلفن‌های هوشمند،
+                    دوربین‌های مداربسته، چاپگرها، سرورها، تلویزیون‌های هوشمند،
+                    کنسول‌های بازی و بسیاری از تجهیزات اینترنت اشیا نیز می‌توانند
+                    در یک شبکه قرار بگیرند.
+                </p>
+            </section>
+
+
+            <section id="where">
+                <h2>شبکه کامپیوتری کجا استفاده می‌شود؟</h2>
+
+                <p>
+                    هدف اصلی شبکه، ساده‌تر و سریع‌تر کردن ارتباط و تبادل اطلاعات است.
+                    تصور کنید برای انتقال یک فایل میان دو کامپیوتر مجبور باشید هر بار
+                    از فلش مموری یا هارد اکسترنال استفاده کنید. شبکه این فرآیند را
+                    بسیار ساده‌تر می‌کند.
+                </p>
+
+                <p>
+                    در یک شبکه، دستگاه‌ها می‌توانند بدون نیاز به جابه‌جایی فیزیکی
+                    فایل‌ها، اطلاعات را از طریق بستر ارتباطی برای یکدیگر ارسال کنند.
+                </p>
+
+                <div class="feature-grid">
+
+                    <div class="feature-card spot">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <rect x="3" y="4" width="18" height="15" rx="2"/>
+                                <path d="M7 8h10M7 12h6"/>
+                            </svg>
+                        </div>
+                        <h4>شرکت‌ها و سازمان‌ها</h4>
+                        <p>اتصال کاربران، سرورها، چاپگرها و سرویس‌های سازمانی</p>
+                    </div>
+
+                    <div class="feature-card spot">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M4 12a8 8 0 0 1 16 0"/>
+                                <path d="M7 12a5 5 0 0 1 10 0"/>
+                                <circle cx="12" cy="17" r="1"/>
+                            </svg>
+                        </div>
+                        <h4>خانه‌های هوشمند</h4>
+                        <p>ارتباط تلفن، تلویزیون، دوربین و تجهیزات هوشمند</p>
+                    </div>
+
+                    <div class="feature-card spot">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <rect x="3" y="6" width="18" height="12" rx="2"/>
+                                <path d="M8 10h8M8 14h5"/>
+                            </svg>
+                        </div>
+                        <h4>بانک‌ها و مراکز داده</h4>
+                        <p>انتقال امن اطلاعات و دسترسی به سرویس‌های حیاتی</p>
+                    </div>
+
+                    <div class="feature-card spot">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M3 12h18M12 3a14 14 0 0 1 0 18"/>
+                            </svg>
+                        </div>
+                        <h4>اینترنت</h4>
+                        <p>بزرگ‌ترین نمونه از ارتباط شبکه‌ای در مقیاس جهانی</p>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <section id="importance">
+                <h2>چرا شبکه‌های کامپیوتری اهمیت دارند؟</h2>
+
+                <p>
+                    شبکه‌های کامپیوتری فقط برای انتقال فایل ایجاد نشده‌اند.
+                    یک زیرساخت شبکه مناسب می‌تواند باعث کاهش هزینه، افزایش بهره‌وری،
+                    دسترسی سریع‌تر به منابع و ایجاد ارتباط بهتر میان کاربران شود.
+                </p>
+
+                <h3>استفاده مشترک از منابع</h3>
+
+                <p>
+                    یکی از مهم‌ترین مزایای شبکه، امکان استفاده مشترک از منابع است.
+                    برای مثال در یک سازمان می‌توان چاپگر، فضای ذخیره‌سازی،
+                    سرور یا برخی سرویس‌های نرم‌افزاری را در اختیار چندین کاربر قرار داد.
+                </p>
+
+                <h3>کاهش هزینه‌ها</h3>
+
+                <p>
+                    اشتراک منابع به این معناست که لازم نیست برای هر کاربر
+                    تمام تجهیزات موردنیاز را به صورت جداگانه تهیه کنیم.
+                    طراحی درست شبکه می‌تواند استفاده از تجهیزات و منابع را بهینه کند.
+                </p>
+
+                <h3>ارتباط سریع‌تر</h3>
+
+                <p>
+                    شبکه امکان تبادل اطلاعات و برقراری ارتباط میان کاربران را
+                    بدون نیاز به جابه‌جایی فیزیکی داده فراهم می‌کند.
+                </p>
+
+                <h3>دسترسی متمرکز به اطلاعات</h3>
+
+                <p>
+                    در بسیاری از سازمان‌ها، سرورها و سامانه‌های ذخیره‌سازی مرکزی
+                    امکان مدیریت متمرکز داده‌ها و کنترل دسترسی کاربران را فراهم می‌کنند.
+                </p>
+            </section>
+
+
+            <section id="how">
+                <h2>چگونه از شبکه کامپیوتری استفاده کنیم؟</h2>
+
+                <p>
+                    قبل از راه‌اندازی یک شبکه، مهم‌ترین سؤال این است که
+                    <strong>شبکه را برای چه کاری نیاز داریم؟</strong>
+                    نیاز یک کاربر خانگی با یک شرکت چندصدنفره یا یک سازمان چندشعبه‌ای
+                    یکسان نیست.
+                </p>
+
+                <div class="callout">
+                    <div class="callout-title">اول نیاز، بعد تجهیزات</div>
+                    <p>
+                        انتخاب سوئیچ، روتر، کابل، اکسس‌پوینت، سرور و تجهیزات امنیتی
+                        باید بر اساس تعداد کاربران، نوع سرویس‌ها، میزان ترافیک،
+                        مساحت، سطح امنیت و نیازهای آینده انجام شود.
+                    </p>
+                </div>
+
+                <p>
+                    به همین دلیل در پروژه‌های حرفه‌ای، طراحی شبکه قبل از خرید تجهیزات
+                    انجام می‌شود. مشاوره با متخصص شبکه می‌تواند از انتخاب نادرست
+                    تجهیزات و هزینه‌های اضافی جلوگیری کند.
+                </p>
+            </section>
+
+
+            <section id="applications">
+                <h2>کاربردهای شبکه کامپیوتری چیست؟</h2>
+
+                <h3>اشتراک‌گذاری اطلاعات</h3>
+                <p>
+                    یکی از اصلی‌ترین کاربردهای شبکه، اشتراک‌گذاری فایل‌ها،
+                    پوشه‌ها، داده‌ها و سرویس‌های نرم‌افزاری میان کاربران است.
+                    این قابلیت در محیط‌های کاری و تیم‌های دورکار اهمیت زیادی دارد.
+                </p>
+
+                <h3>اشتراک‌گذاری سخت‌افزارها</h3>
+                <p>
+                    کاربران یک شبکه می‌توانند از تجهیزاتی مانند چاپگر یا
+                    فضای ذخیره‌سازی مشترک استفاده کنند. این کار می‌تواند
+                    هزینه تهیه و نگهداری تجهیزات را کاهش دهد.
+                </p>
+
+                <h3>ارتباطات VoIP</h3>
+                <p>
+                    شبکه‌های IP امکان انتقال صوت از طریق زیرساخت شبکه را فراهم
+                    می‌کنند. سیستم‌های VoIP در بسیاری از سازمان‌ها برای تماس‌های
+                    داخلی و ارتباطات تلفنی استفاده می‌شوند.
+                </p>
+
+                <h3>ارتباطات ویدیویی و متنی</h3>
+                <p>
+                    سرویس‌های پیام‌رسانی، جلسات آنلاین و ارتباطات ویدیویی نیز
+                    بر بستر شبکه و اینترنت انجام می‌شوند.
+                </p>
+            </section>
+
+
+            <section id="goals">
+                <h2>اهداف تشکیل شبکه کامپیوتری</h2>
+
+                <ul>
+                    <li><strong>کاهش فاصله:</strong> برقراری ارتباط میان کاربران در مکان‌های مختلف.</li>
+                    <li><strong>کاهش هزینه:</strong> استفاده مشترک از منابع سخت‌افزاری و نرم‌افزاری.</li>
+                    <li><strong>مدیریت بهتر اطلاعات:</strong> ذخیره‌سازی و مدیریت متمرکز داده‌ها در صورت نیاز.</li>
+                    <li><strong>افزایش بهره‌وری:</strong> دسترسی سریع‌تر کاربران به منابع و سرویس‌ها.</li>
+                    <li><strong>کنترل دسترسی:</strong> امکان تعریف سطح دسترسی برای کاربران و منابع شبکه.</li>
+                    <li><strong>ارتباط آسان:</strong> انتقال سریع داده، صوت و تصویر در بستر شبکه.</li>
+                </ul>
+            </section>
+
+
+            <section id="types">
+                <h2>انواع شبکه کامپیوتری چیست؟</h2>
+
+                <p>
+                    شبکه‌ها را می‌توان بر اساس محدوده جغرافیایی و اندازه آن‌ها
+                    دسته‌بندی کرد. چهار دسته شناخته‌شده عبارت‌اند از:
+                    <strong>PAN، LAN، MAN و WAN</strong>.
+                </p>
+
+                <div class="network-types">
+
+                    <div class="type-card spot">
+                        <span class="type-code">PAN</span>
+                        <span class="type-name">Personal Area Network</span>
+                        <span class="type-range">شخصی / بسیار کوچک</span>
+                    </div>
+
+                    <div class="type-card spot">
+                        <span class="type-code">LAN</span>
+                        <span class="type-name">Local Area Network</span>
+                        <span class="type-range">خانه، شرکت، ساختمان</span>
+                    </div>
+
+                    <div class="type-card spot">
+                        <span class="type-code">MAN</span>
+                        <span class="type-name">Metropolitan Area Network</span>
+                        <span class="type-range">محدوده شهری</span>
+                    </div>
+
+                    <div class="type-card spot">
+                        <span class="type-code">WAN</span>
+                        <span class="type-name">Wide Area Network</span>
+                        <span class="type-range">کشور، قاره، جهان</span>
+                    </div>
+
+                </div>
+
+
+                <div class="number-heading">
+                    <h3><span class="num">01</span> شبکه شخصی PAN</h3>
+                </div>
+
+                <p>
+                    PAN یا Personal Area Network شبکه‌ای بسیار کوچک برای ارتباط
+                    دستگاه‌های شخصی است. برای مثال اتصال تلفن همراه به لپ‌تاپ،
+                    هدفون یا برخی تجهیزات شخصی می‌تواند نمونه‌ای از ارتباط در
+                    محدوده شبکه شخصی باشد.
+                </p>
+
+
+                <div class="number-heading">
+                    <h3><span class="num">02</span> شبکه محلی LAN</h3>
+                </div>
+
+                <p>
+                    LAN یا Local Area Network یکی از رایج‌ترین انواع شبکه است
+                    و معمولاً در محیط‌هایی مانند خانه، دفتر، شرکت، مدرسه یا
+                    یک ساختمان استفاده می‌شود.
+                </p>
+
+                <p>
+                    شبکه‌های LAN می‌توانند از ارتباطات کابلی مانند Ethernet
+                    یا فناوری‌های بی‌سیم مانند Wi-Fi استفاده کنند. مدیریت،
+                    توسعه و عیب‌یابی یک LAN معمولاً نسبت به شبکه‌های بسیار
+                    گسترده ساده‌تر است.
+                </p>
+
+
+                <div class="number-heading">
+                    <h3><span class="num">03</span> شبکه شهری MAN</h3>
+                </div>
+
+                <p>
+                    MAN یا Metropolitan Area Network محدوده‌ای بزرگ‌تر از یک
+                    شبکه محلی را پوشش می‌دهد و می‌تواند برای اتصال چند شبکه
+                    در سطح یک شهر یا محدوده شهری مورد استفاده قرار گیرد.
+                </p>
+
+                <p>
+                    در پروژه‌های سازمانی بزرگ، ارتباط میان چند شعبه در یک
+                    محدوده شهری می‌تواند به زیرساخت‌هایی در این مقیاس نیاز داشته باشد.
+                </p>
+
+
+                <div class="number-heading">
+                    <h3><span class="num">04</span> شبکه گسترده WAN</h3>
+                </div>
+
+                <p>
+                    WAN یا Wide Area Network برای ارتباط در محدوده‌های جغرافیایی
+                    بسیار بزرگ طراحی می‌شود و می‌تواند چندین شبکه محلی را
+                    در شهرها، کشورها یا مناطق مختلف به یکدیگر متصل کند.
+                </p>
+
+                <p>
+                    اینترنت شناخته‌شده‌ترین نمونه از یک شبکه در مقیاس جهانی است.
+                    شبکه‌های WAN معمولاً پیچیدگی، هزینه و نیازمندی‌های مدیریتی
+                    بیشتری نسبت به شبکه‌های کوچک‌تر دارند.
+                </p>
+            </section>
+
+
+            <section id="comparison">
+                <h2>مقایسه انواع شبکه‌های کامپیوتری</h2>
+
+                <div class="table-wrap">
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th>نوع</th>
+                                <th>محدوده</th>
+                                <th>نمونه کاربرد</th>
+                                <th>مقیاس تقریبی</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>PAN</strong></td>
+                                <td>شخصی</td>
+                                <td>گوشی و تجهیزات شخصی</td>
+                                <td>بسیار کوچک</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LAN</strong></td>
+                                <td>خانه / ساختمان</td>
+                                <td>دفتر، شرکت، مدرسه</td>
+                                <td>کوچک</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MAN</strong></td>
+                                <td>شهر</td>
+                                <td>اتصال چند شبکه شهری</td>
+                                <td>متوسط</td>
+                            </tr>
+                            <tr>
+                                <td><strong>WAN</strong></td>
+                                <td>کشور / جهان</td>
+                                <td>اتصال شبکه‌های دوردست</td>
+                                <td>بسیار گسترده</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout">
+                    <div class="callout-title">جمع‌بندی</div>
+                    <p>
+                        انتخاب نوع شبکه به اندازه محیط، تعداد کاربران، فاصله،
+                        سرویس‌های موردنیاز، بودجه و سطح امنیت بستگی دارد.
+                        یک شبکه خوب فقط مجموعه‌ای از تجهیزات نیست؛ بلکه یک
+                        زیرساخت طراحی‌شده برای نیاز واقعی کسب‌وکار است.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+
+    </article>
+
+</div>
+
+
+<!-- ================= RELATED ================= -->
+<section class="related">
+
+    <div class="section-head">
+        <div class="eyebrow">ادامه مسیر یادگیری</div>
+        <h2>مقالات مرتبط</h2>
+        <p>اگر می‌خواهید دانش شبکه خود را کامل‌تر کنید، این مطالب را هم بخوانید.</p>
+    </div>
+
+    <div class="related-grid">
+
+        <a href="./passive.html" class="related-card spot">
+            <div class="related-image"></div>
+            <h3>پسیو شبکه چیست؟</h3>
+            <p>آشنایی با کابل‌کشی، رک، پچ‌پنل، کیستون و سایر اجزای زیرساخت پسیو.</p>
+        </a>
+
+        <a href="./active.html" class="related-card spot">
+            <div class="related-image"></div>
+            <h3>اکتیو شبکه چیست؟</h3>
+            <p>بررسی سوئیچ، روتر، اکسس‌پوینت و تجهیزات فعال شبکه.</p>
+        </a>
+
+        <a href="#" class="related-card spot">
+            <div class="related-image"></div>
+            <h3>تفاوت LAN و WAN</h3>
+            <p>بررسی تفاوت شبکه‌های محلی و گسترده و موارد استفاده هرکدام.</p>
+        </a>
+
+    </div>
+</section>
+
+
+<!-- ================= CTA ================= -->
+<section class="cta spot">
+
+    <div class="cta-badge">
+        <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8">
+            <path d="M12 2v20M2 12h20"/>
+            <circle cx="12" cy="12" r="9"/>
+        </svg>
+    </div>
+
+    <h2>برای زیرساخت شبکه خود نیاز به مشاوره دارید؟</h2>
+
+    <p>
+        تیم دیتا پردازش خلیج فارس آماده است تا متناسب با نیاز سازمان شما
+        راهکار مناسب شبکه و زیرساخت را بررسی و طراحی کند.
+    </p>
+
+    <a href="../contactUs.html" class="btn btn-primary">
+        مشاوره با متخصصان
+        <span> ❯ </span>
+    </a>
+
+</section>
+
+</main>
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+            <h3>دیتا پردازش خلیج فارس</h3>
+
+            <p style="font-size:12px;line-height:2;color:rgba(255,255,255,.58);margin-bottom:16px;">
+                ارائه‌دهنده خدمات شبکه، نظارت تصویری، آرشیو الکترونیک و زیرساخت‌های فناوری اطلاعات از سال ۱۳۸۷.
+            </p>
+
+            <div class="social-links">
+                <a href="#" aria-label="اینستاگرام">◎</a>
+                <a href="#" aria-label="لینکدین">in</a>
+                <a href="#" aria-label="تلگرام">➤</a>
+            </div>
+        </div>
+
+        <div class="footer-column">
+            <h3>دسترسی سریع</h3>
+            <ul class="footer-links">
+                <li><a href="../index.html">صفحه اصلی</a></li>
+                <li><a href="#">خدمات ما</a></li>
+                <li><a href="#">محصولات</a></li>
+                <li><a href="#">پروژه‌ها</a></li>
+                <li><a href="./contactUs.html">تماس با ما</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>خدمات</h3>
+            <ul class="footer-links">
+                <li><a href="#">خدمات شبکه</a></li>
+                <li><a href="#">نظارت تصویری</a></li>
+                <li><a href="#">آرشیو الکترونیک</a></li>
+                <li><a href="#">هاستینگ و دیتاسنتر</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>تماس با ما</h3>
+
+            <div class="footer-contact">
+                <div class="contact-item">
+                    <span class="contact-icon">☏</span>
+                    <a href="tel:+982122891940">021-22891940</a>
+                </div>
+
+                <div class="contact-item">
+                    <span class="contact-icon">✉</span>
+                    <a href="mailto:info@datapd.ir">info@datapd.ir</a>
+                </div>
+
+                <div class="contact-item">
+                    <span class="contact-icon">⚑</span>
+                    <p>تهران . پاسداران . نگارستان چهارم . پلاک 4</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© ۱۴۰۴ دیتا پردازش خلیج فارس. تمامی حقوق محفوظ است.</p>
+
+        <div class="footer-logo">
+            <img src="../img/Logo.png" alt="Datapd">
+        </div>
+    </div>
+
+</footer>
+
+
+<script>
+/* ================= NAV INDICATOR ================= */
+const navLinks = document.getElementById("navLinks");
+const indicator = document.getElementById("navIndicator");
+
+function moveIndicator(el){
+    if(!el || !indicator || !navLinks) return;
+
+    const navRect = navLinks.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+
+    indicator.style.width = elRect.width + "px";
+    indicator.style.right = (navRect.right - elRect.right) + "px";
+}
+
+if(navLinks && indicator){
+    const links = navLinks.querySelectorAll("a");
+    const active = navLinks.querySelector('a[aria-current="page"]') || links[0];
+
+    requestAnimationFrame(() => {
+        moveIndicator(active);
+        navLinks.classList.add("ready");
+    });
+
+    links.forEach(link => {
+        link.addEventListener("mouseenter", () => moveIndicator(link));
+    });
+
+    navLinks.addEventListener("mouseleave", () => moveIndicator(active));
+
+    window.addEventListener("resize", () => {
+        moveIndicator(navLinks.querySelector("a:hover") || active);
+    });
+}
+
+
+/* ================= NAV CURSOR LIGHT ================= */
+const capsule = document.getElementById("navCapsule");
+
+if(capsule){
+    capsule.addEventListener("mousemove", e => {
+        const rect = capsule.getBoundingClientRect();
+
+        capsule.style.setProperty(
+            "--mx",
+            ((e.clientX - rect.left) / rect.width) * 100 + "%"
+        );
+
+        capsule.style.setProperty(
+            "--my",
+            ((e.clientY - rect.top) / rect.height) * 100 + "%"
+        );
+    });
+}
+
+
+/* ================= CARD SPOTLIGHT ================= */
+document.querySelectorAll(".spot").forEach(card => {
+
+    card.addEventListener("mousemove", e => {
+
+        const rect = card.getBoundingClientRect();
+
+        card.style.setProperty(
+            "--mx",
+            ((e.clientX - rect.left) / rect.width) * 100 + "%"
+        );
+
+        card.style.setProperty(
+            "--my",
+            ((e.clientY - rect.top) / rect.height) * 100 + "%"
+        );
+
+    });
+
+});
+
+
+/* ================= READING PROGRESS ================= */
+const progress = document.getElementById("readProgress");
+
+window.addEventListener("scroll", () => {
+
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+    const percent = docHeight > 0
+        ? (scrollTop / docHeight) * 100
+        : 0;
+
+    progress.style.width = Math.min(percent,100) + "%";
+
+});
+
+
+/* ================= ACTIVE TOC ================= */
+const sections = document.querySelectorAll(
+    "#what-is,#where,#importance,#how,#applications,#goals,#types,#comparison"
+);
+
+const tocLinks = document.querySelectorAll(".toc-link");
+
+const observer = new IntersectionObserver(entries => {
+
+    entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+
+            tocLinks.forEach(link => {
+                link.classList.remove("active");
+            });
+
+            const active = document.querySelector(
+                '.toc-link[href="#' + entry.target.id + '"]'
+            );
+
+            if(active) active.classList.add("active");
+        }
+
+    });
+
+},{
+    rootMargin:"-15% 0px -70% 0px",
+    threshold:0
+});
+
+sections.forEach(section => observer.observe(section));
+
+
+/* ================= COPY LINK ================= */
+const copyButton = document.getElementById("copyLink");
+
+if(copyButton){
+    copyButton.addEventListener("click", async () => {
+
+        try{
+            await navigator.clipboard.writeText(window.location.href);
+
+            const oldText = copyButton.textContent;
+            copyButton.textContent = "✓";
+
+            setTimeout(() => {
+                copyButton.textContent = oldText;
+            },1800);
+
+        }catch(error){
+            alert("کپی لینک در این مرورگر در دسترس نیست.");
+        }
+
+    });
+}
+
+
+/* ================= NATIVE SHARE ================= */
+const shareButton = document.getElementById("shareNative");
+
+if(shareButton){
+    shareButton.addEventListener("click", async () => {
+
+        const data = {
+            title:"شبکه کامپیوتری چیست؟",
+            text:"راهنمای جامع شبکه‌های کامپیوتری",
+            url:window.location.href
+        };
+
+        if(navigator.share){
+
+            try{
+                await navigator.share(data);
+            }catch(error){
+                /* کاربر اشتراک‌گذاری را لغو کرده است */
+            }
+
+        }else{
+
+            try{
+                await navigator.clipboard.writeText(window.location.href);
+                const oldText = shareButton.textContent;
+                shareButton.textContent = "✓";
+
+                setTimeout(() => {
+                    shareButton.textContent = oldText;
+                },1800);
+
+            }catch(error){
+                alert("اشتراک‌گذاری در این مرورگر پشتیبانی نمی‌شود.");
+            }
+
+        }
+
+    });
+}
+
+
+/* ================= SCROLL REVEAL ================= */
+const revealItems = document.querySelectorAll(
+    ".feature-card,.type-card,.related-card,.callout"
+);
+
+const revealObserver = new IntersectionObserver(entries => {
+
+    entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+            revealObserver.unobserve(entry.target);
+
+        }
+
+    });
+
+},{
+    threshold:.08
+});
+
+revealItems.forEach(item => {
+
+    item.style.opacity = "0";
+    item.style.transform = "translateY(16px)";
+    item.style.transition =
+        "opacity .65s ease, transform .65s ease, border-color .3s, background .3s";
+
+    revealObserver.observe(item);
+
+});
+</script>
+
+</body>
+</html>

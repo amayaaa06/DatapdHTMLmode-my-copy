@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اجرای پروژه‌های آرشیو الکترونیک | دیتاپردازش خلیج فارس</title>
+<style>
+@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+
+:root{
+    --navy-900: #0c1c33;
+    --navy-800: #16324c;
+    --navy-700: #1c3a58;
+    --teal-400: #2fb8c9;
+    --teal-600: #16788f;
+    --teal-800: #0a3c5c;
+    --violet-400: #9b8cff;
+    --violet-600: #5d3dff;
+    --text-white: #f5f8fa;
+    --text-muted: #b7c6d4;
+    --border-soft: rgba(255, 255, 255, 0.14);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+    direction: rtl;
+    font-family: "Vazirmatn", sans-serif;
+    background: #011324;
+    color: #fff;
+}
+.container{width:90%;max-width:1300px;margin:auto;}
+
+/* ---------- header (identical across all pages) ---------- */
+header{position:relative;z-index:20;padding:28px 0 70px;}
+.nav-capsule{
+    position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:8px 10px;border-radius:999px;
+    background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    box-shadow:0 24px 55px -22px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
+    overflow:hidden;
+}
+.nav-capsule::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%), rgba(255,255,255,.14), transparent 65%);
+    opacity:0;transition:opacity .4s ease;pointer-events:none;
+}
+.nav-capsule:hover::before{opacity:1;}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text-white);font-weight:800;font-size:15.5px;letter-spacing:.2px;padding-left:8px;white-space:nowrap;}
+.brand-badge{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 5px rgba(47,184,201,.08), 0 8px 18px rgba(0,0,0,.4);overflow:hidden;}
+.brand-badge svg{width:52%;height:52%;stroke:#fff;}
+.nav-links{position:relative;display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:999px;padding:5px;}
+.nav-links a{position:relative;z-index:2;display:inline-block;padding:9px 20px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--text-muted);text-decoration:none;white-space:nowrap;transition:color .3s ease;}
+.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--text-white);}
+.nav-indicator{position:absolute;top:5px;bottom:5px;left:0;width:0;border-radius:999px;background:linear-gradient(135deg, rgba(47,184,201,.4), rgba(0,124,240,.28));border:1px solid rgba(47,184,201,.45);box-shadow:0 0 18px rgba(47,184,201,.4);transition:transform .4s cubic-bezier(.4,0,.2,1), width .4s cubic-bezier(.4,0,.2,1), opacity .25s ease;z-index:1;pointer-events:none;opacity:0;}
+.nav-links.ready .nav-indicator{opacity:1;}
+.nav-cta{display:flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 0 20px rgba(0,224,255,.45);transition:transform .25s ease, box-shadow .25s ease;flex-shrink:0;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(0,224,255,.6);}
+.nav-cta svg{width:13px;height:13px;transition:transform .3s ease;}
+.nav-cta:hover svg{transform:translateX(-3px);}
+@media (max-width:860px){.nav-links{display:none;}}
+@media (max-width:520px){header{padding:22px 0 50px;}.nav-capsule{border-radius:26px;padding:14px;flex-wrap:wrap;justify-content:center;gap:14px;}.brand{padding-left:0;}.nav-cta{width:100%;justify-content:center;}}
+
+/* ---------- buttons ---------- */
+.btn{min-width:180px;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:999px;text-decoration:none;font-size:15px;font-weight:500;transition:transform .25s ease;border:none;cursor:pointer;font-family:inherit;}
+.btn-primary{background:linear-gradient(135deg,#00e0c6,#007cf0);color:#fff;box-shadow:0 0 20px rgba(0,224,255,.6);}
+.btn-secondary{border:1px solid rgba(255,255,255,.3);color:#fff;background:transparent;}
+.btn:hover{transform:translateY(-3px);}
+
+/* ---------- footer ---------- */
+.footer{margin-top:70px;width:100%;background:#011324;border-top:1px solid rgba(255,255,255,.08);color:#fff;}
+.footer-container{width:90%;max-width:1300px;margin:auto;padding:38px 30px 28px;display:grid;grid-template-columns:1.25fr 1fr 1fr 1.35fr;gap:50px;direction:rtl;border:1px solid rgba(255,255,255,.10);border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);}
+.footer-column h3{margin:0 0 18px;font-size:15px;font-weight:600;color:#fff;position:relative;}
+.footer-column h3::after{content:"";display:block;width:28px;height:2px;margin-top:8px;border-radius:10px;background:#00dcd0;box-shadow:0 0 8px rgba(0,224,208,.5);}
+.footer-links{list-style:none;padding:0;margin:0;}
+.footer-links li{margin-bottom:11px;}
+.footer-links a{text-decoration:none;color:rgba(255,255,255,.58);font-size:12px;transition:color .25s ease, padding-right .25s ease;}
+.footer-links a:hover{color:#00dcd0;padding-right:5px;}
+.footer-contact{display:flex;flex-direction:column;gap:12px;}
+.contact-item{display:flex;align-items:flex-start;gap:9px;}
+.contact-icon{flex-shrink:0;width:20px;color:#00dcd0;font-size:17px;text-align:center;}
+.contact-item p,.contact-item a{margin:0;color:rgba(255,255,255,.58);text-decoration:none;font-size:11px;line-height:1.9;transition:color .25s ease;}
+.contact-item a:hover{color:#00dcd0;}
+.social-links{display:flex;align-items:center;gap:10px;margin-top:16px;}
+.social-links a{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;color:rgba(255,255,255,.85);font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));box-shadow:0 5px 15px rgba(0,0,0,.15);transition:transform .25s ease, background .25s ease, color .25s ease;}
+.social-links a:hover{transform:translateY(-4px);color:#00dcd0;background:rgba(0,224,208,.10);}
+.social-links a svg{width:16px;height:16px;stroke:currentColor;}
+.footer-bottom{width:90%;max-width:1300px;margin:auto;min-height:70px;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);direction:rtl;}
+.footer-bottom p{margin:0;color:rgba(255,255,255,.45);font-size:10px;}
+.footer-logo{display:flex;align-items:center;font-weight:800;font-size:13px;color:rgba(255,255,255,.7);}
+@media (max-width:960px){.footer-container{grid-template-columns:repeat(2,1fr);gap:35px;}}
+@media (max-width:600px){.footer{margin-top:50px;}.footer-container{width:94%;padding:30px 22px;grid-template-columns:1fr;gap:30px;}.footer-bottom{width:94%;padding:15px 10px;flex-direction:column;gap:12px;text-align:center;}.footer-logo{order:-1;}}
+
+/* =========================================================
+   صفحه اجرای پروژه‌های آرشیو الکترونیک
+========================================================= */
+.page-wrap{position:relative;overflow:hidden;}
+.page-wrap::before{
+    content:"";position:fixed;inset:0;
+    background:
+        radial-gradient(1000px 650px at 90% -10%, rgba(255,181,71,.10), transparent 60%),
+        radial-gradient(850px 600px at -10% 25%, rgba(22,50,76,.55), transparent 60%),
+        radial-gradient(750px 550px at 55% 100%, rgba(47,184,201,.13), transparent 60%);
+    pointer-events:none;z-index:0;
+}
+
+.breadcrumb{position:relative;z-index:1;display:flex;align-items:center;gap:8px;margin-bottom:22px;font-size:12.5px;color:rgba(255,255,255,.45);}
+.breadcrumb a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s ease;}
+.breadcrumb a:hover{color:var(--teal-400);}
+.breadcrumb span.current{color:var(--teal-400);}
+
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--teal-400);font-weight:600;letter-spacing:.4px;margin-bottom:18px;}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal-400);box-shadow:0 0 10px 2px rgba(47,184,201,.6);}
+
+/* ---------- HERO ---------- */
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;margin-bottom:80px;}
+.hero-grid h1{font-size:clamp(26px,3.3vw,39px);line-height:1.55;font-weight:700;margin-bottom:20px;}
+.hero-grid h1 span{color:#00e0d0;text-shadow:0 0 40px rgba(5,226,200,.8);}
+.hero-grid > div:first-child p{color:rgba(255,255,255,.68);font-size:15px;line-height:2.05;margin-bottom:28px;max-width:540px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px;}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}
+.hero-stat{display:flex;flex-direction:column;gap:3px;}
+.hero-stat .num{font-size:22px;font-weight:800;color:#fff;}
+.hero-stat .num span{color:var(--teal-400);}
+.hero-stat .lbl{font-size:11.5px;color:rgba(255,255,255,.5);}
+
+/* ---------- پنل بصری: شمارنده‌ی زنده‌ی اسناد ---------- */
+.impact-panel{
+    position:relative;
+    border-radius:26px;overflow:hidden;
+    aspect-ratio:1/1;
+    border:1px solid var(--border-soft);
+    background:radial-gradient(circle at 50% 30%, rgba(22,50,76,.9), rgba(2,10,20,.98));
+    box-shadow:0 30px 70px -25px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.08);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:34px 30px;
+}
+.impact-badge{
+    position:absolute;top:18px;right:18px;z-index:4;
+    display:inline-flex;align-items:center;gap:7px;
+    padding:8px 15px;border-radius:999px;
+    font-size:11.5px;font-weight:700;color:#fff;
+    background:linear-gradient(135deg,#00e0c6,#007cf0);
+    box-shadow:0 0 16px rgba(0,200,255,.5);
+}
+.impact-badge .dot{width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 6px 1px #fff;animation:pulse-dot 1.6s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+.impact-count{font-size:clamp(38px,5vw,56px);font-weight:800;color:#fff;line-height:1;margin-top:26px;}
+.impact-count span{color:var(--teal-400);}
+.impact-sub{font-size:12.5px;color:rgba(255,255,255,.5);margin-top:10px;margin-bottom:28px;}
+
+.impact-mini-row{display:flex;gap:10px;width:100%;margin-bottom:26px;}
+.impact-mini{flex:1;text-align:center;padding:12px 8px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);}
+.impact-mini .v{font-size:16px;font-weight:800;color:#fff;}
+.impact-mini .l{font-size:9.5px;color:rgba(255,255,255,.42);margin-top:3px;}
+
+.impact-bars{display:flex;align-items:flex-end;gap:7px;width:100%;height:56px;}
+.impact-bars .bar{flex:1;border-radius:5px 5px 0 0;background:linear-gradient(180deg, var(--teal-400), rgba(0,124,240,.5));opacity:.85;}
+
+@media (max-width:960px){
+    .hero-grid{grid-template-columns:1fr;}
+    .impact-panel{order:-1;aspect-ratio:16/9;padding:24px;}
+    .impact-count{margin-top:10px;}
+}
+
+/* ---------- section head ---------- */
+.section-head{position:relative;z-index:1;text-align:center;max-width:660px;margin:0 auto 44px;}
+.a-kicker{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.5px;color:var(--teal-400);margin-bottom:12px;justify-content:center;}
+.a-kicker::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--teal-400);box-shadow:0 0 8px rgba(47,184,201,.6);}
+.section-head h2{font-size:clamp(22px,2.8vw,30px);font-weight:700;margin-bottom:14px;}
+.section-head p{color:rgba(255,255,255,.6);font-size:14px;line-height:1.95;}
+
+section.block{position:relative;z-index:1;margin-bottom:90px;}
+
+/* ---------- چرا ضروری + چرا ما: دو ردیف آیکونی ---------- */
+.icon-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+.icon-item{
+    position:relative;overflow:hidden;
+    padding:24px 18px;border-radius:18px;text-align:center;
+    background:linear-gradient(120deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    transition:transform .3s ease, border-color .3s ease;
+}
+.icon-item:hover{transform:translateY(-4px);}
+.icon-item::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(0,224,208,.14), transparent 65%);
+    opacity:0;transition:opacity .35s ease;
+}
+.icon-item.spot-on::before{opacity:1;border-color:rgba(47,184,201,.4);}
+.icon-item.spot-on{border-color:rgba(47,184,201,.35);}
+.icon-item > *{position:relative;z-index:2;}
+.icon-item .ii{width:42px;height:42px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, var(--teal-600), var(--teal-800));border:1px solid rgba(255,255,255,.18);}
+.icon-item .ii svg{width:18px;height:18px;stroke:#fff;}
+.icon-item h3{font-size:12.8px;font-weight:700;margin-bottom:8px;line-height:1.6;}
+.icon-item p{font-size:11px;line-height:1.8;color:rgba(255,255,255,.55);}
+
+@media (max-width:1080px){.icon-strip{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:640px){.icon-strip{grid-template-columns:1fr 1fr;}}
+@media (max-width:420px){.icon-strip{grid-template-columns:1fr;}}
+
+/* دومین ردیف (چرا ما) با رنگ بنفش برای تمایز */
+.icon-item.alt .ii{background:linear-gradient(135deg,#9b8cff,#5d3dff);}
+.icon-item.alt::before{background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(155,140,255,.16), transparent 65%);}
+.icon-item.alt.spot-on{border-color:rgba(155,140,255,.4);}
+
+/* ---------- تایم‌لاین پروژه‌ها ---------- */
+.timeline{position:relative;padding-right:6px;}
+.timeline::before{
+    content:"";position:absolute;top:6px;bottom:6px;right:24px;width:2px;
+    background:linear-gradient(180deg, rgba(0,224,208,.55), rgba(255,181,71,.35), rgba(0,224,208,.1));
+}
+.tl-item{position:relative;display:flex;gap:22px;padding-bottom:26px;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-dot{
+    flex-shrink:0;position:relative;z-index:2;
+    width:50px;height:50px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, var(--teal-600), var(--teal-800));
+    border:1px solid rgba(255,255,255,.2);
+    box-shadow:0 0 0 6px rgba(47,184,201,.08);
+}
+.tl-dot svg{width:20px;height:20px;stroke:#fff;}
+.tl-body{
+    position:relative;overflow:hidden;flex:1;
+    padding:18px 22px;border-radius:17px;
+    background:linear-gradient(120deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.tl-body::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.08), transparent 62%);
+    opacity:0;transition:opacity .35s ease;
+}
+.tl-body.spot-on::after{opacity:1;}
+.tl-body > *{position:relative;z-index:2;}
+.tl-body h3{font-size:13.5px;font-weight:600;line-height:1.85;color:rgba(255,255,255,.88);flex:1;min-width:220px;}
+.tl-tags{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.tl-vol{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:10.5px;font-weight:700;color:#ffb547;background:rgba(255,181,71,.1);border:1px solid rgba(255,181,71,.3);white-space:nowrap;}
+.tl-year{display:inline-flex;align-items:center;padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;color:var(--teal-400);background:rgba(47,184,201,.1);border:1px solid rgba(47,184,201,.3);white-space:nowrap;}
+
+@media (max-width:600px){
+    .timeline::before{right:20px;}
+    .tl-dot{width:42px;height:42px;}
+    .tl-dot svg{width:17px;height:17px;}
+    .tl-body{padding:15px 17px;flex-direction:column;align-items:flex-start;}
+}
+
+/* ---------- کارت گروه‌بندی‌شده بیمارستان‌ها ---------- */
+.registry-card{
+    position:relative;overflow:hidden;
+    margin-top:26px;
+    padding:32px 34px;
+    border-radius:24px;
+    background:linear-gradient(135deg, rgba(255,181,71,.09), rgba(0,224,208,.05));
+    border:1px solid rgba(255,181,71,.25);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+.registry-card::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.10), transparent 62%);
+    opacity:0;transition:opacity .35s ease;
+}
+.registry-card.spot-on::before{opacity:1;}
+.registry-card > *{position:relative;z-index:2;}
+.registry-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;}
+.registry-icon{flex-shrink:0;width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ffb547,#ff7a3d);box-shadow:0 0 0 6px rgba(255,181,71,.1);}
+.registry-icon svg{width:22px;height:22px;stroke:#fff;}
+.registry-head h3{font-size:17.5px;font-weight:700;margin-bottom:8px;}
+.registry-head p{font-size:13px;line-height:1.95;color:rgba(255,255,255,.62);}
+
+.hospital-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;}
+.hospital-chip{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:12px 15px;border-radius:14px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);
+}
+.hospital-chip .h-name{font-size:12px;color:rgba(255,255,255,.82);display:flex;align-items:center;gap:8px;}
+.hospital-chip .h-name::before{content:"";width:6px;height:6px;border-radius:50%;background:#ffb547;box-shadow:0 0 6px rgba(255,181,71,.7);flex-shrink:0;}
+.hospital-chip .h-vol{font-size:10px;font-weight:700;color:#ffb547;white-space:nowrap;}
+.hospital-chip .h-year{font-size:9.5px;color:rgba(255,255,255,.4);white-space:nowrap;}
+
+@media (max-width:860px){.hospital-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:520px){.hospital-grid{grid-template-columns:1fr;}}
+
+/* ---------- call CTA ---------- */
+.call-banner{
+    position:relative;text-align:center;
+    padding:60px 30px;border-radius:28px;
+    background:linear-gradient(160deg, rgba(22,50,76,.65), rgba(10,15,30,.55));
+    border:1px solid var(--border-soft);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    overflow:hidden;
+}
+.call-banner::after{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(520px 280px at 50% 20%, black, transparent 75%);
+    mask-image:radial-gradient(520px 280px at 50% 20%, black, transparent 75%);
+    pointer-events:none;
+}
+.call-badge{width:58px;height:58px;margin:0 auto 20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#00e0c6,#007cf0);box-shadow:0 0 0 8px rgba(47,184,201,.08), 0 12px 30px rgba(0,124,240,.4);position:relative;z-index:2;}
+.call-badge svg{width:24px;height:24px;stroke:#fff;}
+.call-banner .a-kicker{justify-content:center;}
+.call-banner h2{position:relative;z-index:2;font-size:clamp(20px,2.6vw,28px);font-weight:700;margin-bottom:12px;}
+.call-banner p{position:relative;z-index:2;color:rgba(255,255,255,.65);font-size:14px;margin-bottom:32px;max-width:580px;margin-left:auto;margin-right:auto;}
+.phone-row{position:relative;z-index:2;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.phone-chip{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 24px;border-radius:16px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.14);
+    color:#fff;text-decoration:none;
+    font-size:15px;font-weight:700;letter-spacing:.3px;
+    direction:ltr;
+    transition:all .3s ease;
+}
+.phone-chip svg{width:17px;height:17px;stroke:var(--teal-400);flex-shrink:0;}
+.phone-chip:hover{border-color:rgba(47,184,201,.5);background:rgba(47,184,201,.1);transform:translateY(-3px);}
+
+@media (max-width:600px){
+    .phone-row{flex-direction:column;align-items:center;}
+    .phone-chip{width:100%;max-width:280px;justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+<div class="container">
+
+<header>
+    <div class="nav-capsule" id="navCapsule">
+        <a href="../../../index.html" class="brand">
+            <span class="brand-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>
+            </span>
+            دیتاپردازش خلیج فارس
+        </a>
+        <nav class="nav-links" id="navLinks">
+            <span class="nav-indicator" id="navIndicator"></span>
+            <a href="../../../index.html">صفحه اصلی</a>
+            <a href="../../aboutUs.html">درباره ما</a>
+            <a href="./archive-project.html" aria-current="page">پروژه‌های آرشیو</a>
+        </nav>
+        <a href="../../contactUs.html" class="nav-cta">
+            تماس با ما
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+    </div>
+</header>
+
+<main>
+
+    <div class="breadcrumb">
+        <a href="../../../index.html">خانه</a>
+        <span> ❯ </span>
+        <a href="#">خدمات</a>
+        <span> ❯ </span>
+        <span class="current">اجرای پروژه‌های آرشیو الکترونیک</span>
+    </div>
+
+    <!-- ================= HERO ================= -->
+    <section class="hero-grid">
+        <div>
+            <div class="eyebrow">سوابق اجرایی آرشیو الکترونیک</div>
+            <h1>آرشیو الکترونیک؛ <span>تحولی</span> در مدیریت اسناد سازمانی</h1>
+            <p>
+                انباشت اسناد فیزیکی، دسترسی دشوار به اطلاعات و خطر از‌بین‌رفتن مدارک مهم، بهره‌وری سازمان را
+                کاهش می‌دهد. دیتا پردازش با ارائه راهکارهای حرفه‌ای آرشیو الکترونیک، به سازمان‌ها کمک می‌کند
+                اسناد خود را امن، ساختاریافته و همیشه قابل جست‌وجو مدیریت کنند.
+            </p>
+            <div class="hero-actions">
+                <a href="../../contactUs.html" class="btn btn-primary">مشاوره رایگان <span>❯</span></a>
+                <a href="#projects" class="btn btn-secondary">مشاهده سوابق پروژه‌ها</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="num">+<span>20</span></span><span class="lbl">پروژه اجراشده</span></div>
+                <div class="hero-stat"><span class="num">+<span>25M</span></span><span class="lbl">سند اسکن و آرشیوشده</span></div>
+                <div class="hero-stat"><span class="num"><span>۱۳۸۷</span></span><span class="lbl">آغاز فعالیت در این حوزه</span></div>
+                <div class="hero-stat"><span class="num"><span>OCR</span></span><span class="lbl">+ هوش مصنوعی</span></div>
+            </div>
+        </div>
+
+        <div class="impact-panel">
+            <span class="impact-badge"><span class="dot"></span> آمار زنده پروژه‌ها</span>
+            <div class="impact-count" id="impactCounter">۰</div>
+            <div class="impact-sub">سند دیجیتالی‌شده در پروژه‌های اجراشده</div>
+            <div class="impact-mini-row">
+                <div class="impact-mini"><div class="v">+۲۰</div><div class="l">پروژه</div></div>
+                <div class="impact-mini"><div class="v">۹</div><div class="l">بیمارستان</div></div>
+                <div class="impact-mini"><div class="v">۱۶</div><div class="l">سال سابقه</div></div>
+            </div>
+            <div class="impact-bars">
+                <div class="bar" style="height:22%"></div>
+                <div class="bar" style="height:34%"></div>
+                <div class="bar" style="height:28%"></div>
+                <div class="bar" style="height:52%"></div>
+                <div class="bar" style="height:46%"></div>
+                <div class="bar" style="height:70%"></div>
+                <div class="bar" style="height:60%"></div>
+                <div class="bar" style="height:88%"></div>
+                <div class="bar" style="height:100%"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= چرا آرشیو الکترونیک ضروری است ================= -->
+    <section class="block">
+        <div class="section-head">
+            <div class="a-kicker">ضرورت دیجیتال‌سازی</div>
+            <h2>چرا آرشیو الکترونیک ضروری است؟</h2>
+        </div>
+        <div class="icon-strip">
+            <div class="icon-item spot-el">
+                <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+                <h3>افزایش سرعت دسترسی</h3>
+                <p>اسناد دیجیتال‌شده در چند ثانیه قابل جست‌وجو و بازیابی هستند.</p>
+            </div>
+            <div class="icon-item spot-el">
+                <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9.5a2.5 2.5 0 0 0-2.5-2.5h-1a2.5 2.5 0 0 0 0 5h1a2.5 2.5 0 0 1 0 5h-1a2.5 2.5 0 0 1-2.5-2.5M12 6v1.2M12 16.8V18"/></svg></div>
+                <h3>کاهش هزینه‌های بایگانی</h3>
+                <p>حذف هزینه فضای فیزیکی و نیروی انسانی برای مدیریت اسناد.</p>
+            </div>
+            <div class="icon-item spot-el">
+                <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11Z"/></svg></div>
+                <h3>امنیت و جلوگیری از تخریب</h3>
+                <p>فایل‌های دیجیتال در برابر آتش‌سوزی، سیل و سرقت ایمن هستند.</p>
+            </div>
+            <div class="icon-item spot-el">
+                <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg></div>
+                <h3>مدیریت بهتر اطلاعات</h3>
+                <p>دسته‌بندی، طبقه‌بندی و بازیابی سریع مدارک سازمانی.</p>
+            </div>
+            <div class="icon-item spot-el">
+                <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/></svg></div>
+                <h3>هماهنگی با تحول دیجیتال</h3>
+                <p>حرکت به‌سمت سازمان‌های هوشمند و کاغذزدایی کامل.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= چرا دیتا پردازش ================= -->
+    <section class="block">
+        <div class="section-head">
+            <div class="a-kicker">مزیت رقابتی</div>
+            <h2>چرا شرکت دیتا پردازش بهترین انتخاب است؟</h2>
+        </div>
+        <div class="icon-strip">
+            <div class="icon-item alt spot-el">
+                <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                <h3>تجربه و تخصص</h3>
+                <p>تیم حرفه‌ای با سال‌ها تجربه در اجرای پروژه‌های آرشیو الکترونیک.</p>
+            </div>
+            <div class="icon-item alt spot-el">
+                <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="16" r="1.6"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/></svg></div>
+                <h3>فناوری پیشرفته</h3>
+                <p>استفاده از نرم‌افزارهای هوش مصنوعی و OCR برای پردازش دقیق اسناد.</p>
+            </div>
+            <div class="icon-item alt spot-el">
+                <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+                <h3>امنیت بالا</h3>
+                <p>ذخیره‌سازی در سرورهای ایمن با رمزگذاری و کنترل دسترسی.</p>
+            </div>
+            <div class="icon-item alt spot-el">
+                <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></div>
+                <h3>سفارشی‌سازی</h3>
+                <p>طراحی سیستم بایگانی دیجیتال متناسب با ساختار سازمان شما.</p>
+            </div>
+            <div class="icon-item alt spot-el">
+                <div class="ii"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+                <h3>پشتیبانی و آموزش</h3>
+                <p>خدمات پس‌از‌فروش و آموزش پرسنل برای استفاده بهینه از سیستم.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PROJECTS ================= -->
+    <section class="block" id="projects" style="margin-bottom:0;">
+        <div class="section-head">
+            <div class="a-kicker">سوابق اجرایی</div>
+            <h2>گوشه‌ای از سوابق و پتانسیل‌های اجرایی</h2>
+            <p>نمونه‌ای از پروژه‌های اسکن و آرشیو الکترونیک که تیم دیتا پردازش از سال ۱۳۸۷ تاکنون اجرا کرده است</p>
+        </div>
+
+        <div class="timeline">
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای آرشیو الکترونیک مشترکین همراه اول مخابرات استان بوشهر</h3>
+                    <div class="tl-tags"><span class="tl-vol">۱٬۰۰۰٬۰۰۰ برگ</span><span class="tl-year">۱۳۸۷</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای مکانیزاسیون اسناد مشترکین تلفن ثابت بوشهر</h3>
+                    <div class="tl-tags"><span class="tl-vol">۱٬۵۰۰٬۰۰۰ سند</span><span class="tl-year">۱۳۸۹</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای نرم‌افزار EDMS/EAM تحت‌وب بایگانی اسناد در مخابرات استان بوشهر</h3>
+                    <div class="tl-tags"><span class="tl-year">۱۳۹۰</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای آرشیو اسناد بایگانی سازمان تنظیم مقررات رادیویی</h3>
+                    <div class="tl-tags"><span class="tl-vol">۱٬۸۰۰٬۰۰۰ برگ</span><span class="tl-year">۱۳۹۳</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای آرشیو الکترونیکی اسناد مشترکین تلفن همراه مخابرات استان فارس</h3>
+                    <div class="tl-tags"><span class="tl-year">بهار ۹۵</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8M12 22v-4M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h4M18 12h4"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای آرشیو الکترونیکی اسناد امور اراضی اداره جهاد کشاورزی استان مرکزی</h3>
+                    <div class="tl-tags"><span class="tl-year">۱۳۹۵</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7C7 8 4 12 4 15a8 8 0 0 0 16 0c0-3-3-7-8-12.3Z"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای آرشیو الکترونیکی اداره آب استان کرمانشاه</h3>
+                    <div class="tl-tags"><span class="tl-vol">+۲٬۰۰۰٬۰۰۰ سند</span><span class="tl-year">۱۳۹۷</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16M4 9h5"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای آرشیو الکترونیکی اسناد ستاد سامانه دولت (دو فاز)</h3>
+                    <div class="tl-tags"><span class="tl-vol">+۵٬۰۰۰٬۰۰۰ سند</span><span class="tl-year">پاییز ۱۳۹۸</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای آرشیو الکترونیکی دانشگاه علوم پزشکی استان مرکزی</h3>
+                    <div class="tl-tags"><span class="tl-vol">+۲٬۵۰۰٬۰۰۰ سند</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای آرشیو الکترونیکی شرکت مادر تخصصی توسعه راه‌های کشور</h3>
+                    <div class="tl-tags"><span class="tl-year">۱۳۹۹</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 21h18Z"/><path d="M12 10v5"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اجرای آرشیو الکترونیکی اداره راه و شهرسازی استان سیستان و بلوچستان</h3>
+                    <div class="tl-tags"><span class="tl-vol">+۴٬۰۰۰٬۰۰۰ سند</span><span class="tl-year">۱۳۹۸</span></div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg></div>
+                <div class="tl-body spot-el">
+                    <h3>اسکن و آرشیو الکترونیکی اسناد مالی شرکت پایانه‌های نفتی ایران</h3>
+                    <div class="tl-tags"><span class="tl-year">۱۴۰۳</span></div>
+                </div>
+            </div>
+
+            <!-- کارت ویژه‌ی گروه‌بندی‌شده بیمارستان‌ها -->
+            <div class="tl-item">
+                <div class="tl-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14V4a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10M2 14h20l-1.5 7h-17Z"/><path d="M12 8v4M10 10h4"/></svg></div>
+                <div class="tl-body" style="padding:0;background:none;border:none;backdrop-filter:none;">
+                    <div class="registry-card spot-el">
+                        <div class="registry-head">
+                            <div class="registry-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14V4a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10M2 14h20l-1.5 7h-17Z"/><path d="M12 8v4M10 10h4"/></svg>
+                            </div>
+                            <div>
+                                <h3>اسکن و آرشیو الکترونیکی اسناد پزشکی بیمارستان‌های کشور</h3>
+                                <p>پروژه‌ای گسترده و پیوسته در ۹ بیمارستان و مرکز درمانی سراسر کشور، شامل اسکن، نمایه‌سازی و آرشیو دیجیتال پرونده‌های پزشکی.</p>
+                            </div>
+                        </div>
+
+                        <div class="hospital-grid">
+                            <div class="hospital-chip"><span class="h-name">ولی عصر ابرکوه</span><span class="h-year">۹۹</span></div>
+                            <div class="hospital-chip"><span class="h-name">خاتم‌الانبیا یزد</span><span class="h-year">۹۹</span></div>
+                            <div class="hospital-chip"><span class="h-name">طالقانی اراک</span><span class="h-year">۹۹</span></div>
+                            <div class="hospital-chip"><span class="h-name">ولی عصر (عج) اراک</span><span class="h-year">۹۹</span></div>
+                            <div class="hospital-chip"><span class="h-name">ولی عصر (عج) بافق</span><span class="h-year">۱۳۹۸</span></div>
+                            <div class="hospital-chip"><span class="h-name">ضیاییان تهران</span><span class="h-vol">+۱M</span></div>
+                            <div class="hospital-chip"><span class="h-name">هاشمی‌نژاد مشهد</span><span class="h-vol">+۲M</span></div>
+                            <div class="hospital-chip"><span class="h-name">شهدا قم</span><span class="h-vol">+۱M</span></div>
+                            <div class="hospital-chip"><span class="h-name">کودکان بندرعباس</span><span class="h-vol">+۵M</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+</div>
+
+<!-- ================= CTA ================= -->
+<div class="container">
+    <section class="block" style="margin-top:90px;margin-bottom:0;">
+        <div class="call-banner spot-el">
+            <div class="call-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/></svg>
+            </div>
+            <div class="a-kicker">تحول دیجیتال</div>
+            <h2>شروع تحول دیجیتال سازمان شما، از همین امروز!</h2>
+            <p>
+                با دیتا پردازش، دیگر نگران گم‌شدن اسناد، هزینه‌های اضافی بایگانی و دسترسی دشوار به اطلاعات نباشید.
+                برای دریافت مشاوره و کسب اطلاعات بیشتر با ما در تماس باشید.
+            </p>
+            <div class="phone-row">
+                <a href="tel:02122841589" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-22841589
+                </a>
+                <a href="tel:02122891940" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-22891940
+                </a>
+                <a href="tel:02122896293" class="phone-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
+                    021-22896293
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>دیتا پردازش خلیج فارس</h3>
+            <p style="font-size:12px;line-height:2;color:rgba(255,255,255,.58);margin-bottom:16px;">
+                ارائه‌دهنده خدمات شبکه، نظارت تصویری، آرشیو الکترونیک و زیرساخت‌های فناوری اطلاعات از سال ۱۳۸۷.
+            </p>
+            <div class="social-links">
+                <a href="#" aria-label="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <rect x="3.5" y="3.5" width="17" height="17"
+          rx="4.8"
+          stroke="#FFFFFF"
+          stroke-width="1"/>
+
+    <circle cx="12" cy="12" r="4"
+            stroke="#FFFFFF"
+            stroke-width="1"/>
+
+    <circle cx="17.3" cy="6.8" r="0.7"
+            fill="#FFFFFF"/>
+            
+                   </svg>
+                </a>
+
+                <a href="#" aria-label="Telegram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <path d="M21 4.5L3.8 11.15C3.1 11.42 3.1 12.38 3.8 12.65L8.1 14.2L9.75 19.35C9.97 20.03 10.82 20.25 11.37 19.78L13.8 17.7L17.95 20.75C18.55 21.19 19.42 20.86 19.57 20.13L21.95 5.35C22.1 4.5 21.8 4.2 21 4.5Z"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <path d="M8.1 14.2L18.35 7.55L11.8 15.9"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+                   </svg>
+                </a>
+                
+                <a href="#" aria-label="Bale"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+    
+    <path d="M12 3.2C7.05 3.2 3.2 6.55 3.2 11.05C3.2 13.85 4.65 16.15 7 17.65L6.35 20.45L9.35 18.85C10.2 19.1 11.1 19.2 12 19.2C16.95 19.2 20.8 15.55 20.8 11.05C20.8 6.55 16.95 3.2 12 3.2Z"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <path d="M8.2 11.35L10.35 13.05L15.8 8.95"
+          stroke="#FFFFFF"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+                   </svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h3>دسترسی سریع</h3>
+            <ul class="footer-links">
+                <li><a href="../../../index.html">صفحه اصلی</a></li>
+                <li><a href="#">خدمات ما</a></li>
+                <li><a href="#">محصولات</a></li>
+                <li><a href="#projects">پروژه‌ها</a></li>
+                <li><a href="../../contactUs.html">تماس با ما</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>خدمات</h3>
+            <ul class="footer-links">
+                <li><a href="#">آرشیو الکترونیک</a></li>
+                <li><a href="#">مدیریت اسناد EDMS</a></li>
+                <li><a href="#">نصب و راه‌اندازی شبکه</a></li>
+                <li><a href="#">پشتیبانی شبکه</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>تماس با ما</h3>
+            <div class="footer-contact">
+                <div class="contact-item"><span class="contact-icon">☏</span><a href="tel:02122841589">021-22841589</a></div>
+                <div class="contact-item"><span class="contact-icon">☏</span><a href="tel:02122891940">021-22891940</a></div>
+                <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:info@datapd.ir">info@datapd.ir</a></div>
+                <div class="contact-item"><span class="contact-icon">⚑</span><p>تهران . پاسداران . نگارستان چهارم . پلاک 4</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© ۱۴۰۴ دیتا پردازش خلیج فارس. تمامی حقوق محفوظ است.</p>
+        <div class="footer-logo">دیتا پردازش</div>
+    </div>
+</footer>
+
+</div>
+
+<script>
+  const navLinks = document.getElementById('navLinks');
+  const indicator = document.getElementById('navIndicator');
+  function moveIndicator(el){ if(!el || !indicator) return; indicator.style.width = el.offsetWidth + 'px'; indicator.style.transform = `translateX(${el.offsetLeft}px)`; }
+  if(navLinks && indicator){
+    const links = navLinks.querySelectorAll('a');
+    const active = navLinks.querySelector('a[aria-current="page"]') || links[0];
+    requestAnimationFrame(() => { moveIndicator(active); navLinks.classList.add('ready'); });
+    links.forEach(link => link.addEventListener('mouseenter', () => moveIndicator(link)));
+    navLinks.addEventListener('mouseleave', () => moveIndicator(active));
+    window.addEventListener('resize', () => moveIndicator(navLinks.querySelector('a:hover') || active));
+  }
+
+  const capsule = document.getElementById('navCapsule');
+  if(capsule){
+    capsule.addEventListener('mousemove', (e) => {
+      const rect = capsule.getBoundingClientRect();
+      capsule.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      capsule.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  }
+
+  document.querySelectorAll('.spot-el').forEach(card => {
+    card.addEventListener('mouseenter', () => card.classList.add('spot-on'));
+    card.addEventListener('mouseleave', () => card.classList.remove('spot-on'));
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  });
+
+  // --- شمارنده‌ی زنده‌ی تعداد اسناد آرشیوشده ---
+  const counterEl = document.getElementById('impactCounter');
+  if(counterEl){
+    const target = 25000000;
+    const duration = 2200;
+    const start = performance.now();
+    function formatFa(n){
+      return new Intl.NumberFormat('fa-IR').format(Math.floor(n));
+    }
+    function tick(now){
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      counterEl.textContent = formatFa(target * eased) + (p >= 1 ? '+' : '');
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+</script>
+</body>
+</html>
