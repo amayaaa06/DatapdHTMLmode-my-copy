@@ -247,7 +247,7 @@
         </a>
 
 
-        <a href="/index.html" id="article">
+        <a href="/index.html#articles" id="article">
             مقالات
         </a>
 
@@ -1376,6 +1376,10 @@ mainNavLinks.forEach(function (link) {
         link.getAttribute('href');
 
     // Ignore # links such as محصولات and مقالات
+    if(link.id === 'article'){
+        return;
+    }
+
     if (!href || href.startsWith('#')) {
         return;
     }
