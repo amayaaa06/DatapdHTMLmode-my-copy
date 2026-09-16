@@ -331,6 +331,7 @@ body{
     width: 100px;
     height: 100px;
     object-fit: contain;
+
     
 }
 .customer{
@@ -360,20 +361,40 @@ body{
 
 .customer-logos {
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-
-    gap: 30px;
-
+    overflow: hidden;
     opacity: 0.6;
 }
+
+
+
+.customer-track {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    width: max-content;
+    animation: customer-scroll 20s linear infinite reverse;
+    will-change: transform;
+}
+
+
+
+@keyframes customer-scroll {
+    from {
+        transform: translateX(0);
+    }
+    
+    to {    
+        transform: translateX(var(--customer-scroll-distance));
+    }
+}
+
 
 .customer-logo {
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 
 .customer-header {
     display: flex;
@@ -383,10 +404,29 @@ body{
 }
 
 .customer-logo img {
-    height: 40px;
+    height: 70px;
     width: auto;
     object-fit: contain;
 }
+
+.customer-logo img[src*="BimeIran"],
+.customer-logo img[src*="TehranUni"],
+.customer-logo img[src*="sherkatNaft"],
+.customer-logo img[src*="atom"] {
+    height: 70px;
+}
+
+.customer-logo img[src*="gaz"],
+.customer-logo img[src*="orjans"],
+.customer-logo img[src*="maskan"],
+.customer-logo img[src*="farhangian"] {
+    height: 100px;
+}
+
+.customer-logo img[src*="mokhaberat"] {
+    height: 90px;
+}
+
 
 .customers-button {
     flex-shrink: 0;

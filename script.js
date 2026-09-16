@@ -986,3 +986,40 @@ newsletterForm.addEventListener(
     }
 );
 
+// =========================================================
+// CUSTOMER LOGO CAROUSEL
+// =========================================================
+
+function setupCustomerCarousel() {
+
+    const track = 
+        document.querySelector(".customer-track")
+
+    if (!track) return;
+
+    const logos = [...track.children];
+
+    logos.forEach(function (logo){
+        const clone = logo.cloneNode(true);
+        track.appendChild(clone);
+
+    });
+
+    const firstLogo = track.children[0];
+    const duplicateFirstLogo = track.children[logos.length];
+
+    const distance =
+        firstLogo.getBoundingClientRect().left -
+        duplicateFirstLogo.getBoundingClientRect().left;
+
+
+    
+    track.style.setProperty("--customer-scroll-distance", `${distance}px`);
+
+    console.log("Carousel distance:", distance);
+
+
+    
+}
+
+setupCustomerCarousel();
