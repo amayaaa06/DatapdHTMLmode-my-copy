@@ -1,103 +1,100 @@
 // =========================================================
-// DATAPD - MAIN JAVASCRIPT
+// LOAD SHARED NAVBAR
 // =========================================================
 
+const navbarContainer =
+    document.getElementById("navbar-container");
 
-// =========================================================
-// 1. NAVBAR DROPDOWN
-// =========================================================
+if (navbarContainer) {
 
-const dropdown = document.querySelector('.nav-dropdown');
-const dropdownToggle = document.querySelector('.nav-dropdown-toggle');
+    fetch("/components/navbar.html")
 
+        .then(response => {
 
-// اگر Dropdown وجود داشت
-if (dropdown && dropdownToggle) {
+            if (!response.ok) {
+                throw new Error("Navbar could not be loaded.");
+            }
 
-    // باز و بسته کردن منوی خدمات
-    dropdownToggle.addEventListener('click', function (event) {
+            return response.text();
 
-        event.preventDefault();
-        event.stopPropagation();
+        })
 
-        dropdown.classList.toggle('open');
+        .then(html => {
 
-    });
+            const parser = new DOMParser();
 
-
-    // =====================================================
-    // SUBMENU
-    // =====================================================
-
-    const submenuItems = document.querySelectorAll(
-        '.dropdown-item.has-submenu'
-    );
+            const component =
+                parser.parseFromString(
+                    html,
+                    "text/html"
+                );
 
 
-    submenuItems.forEach(function (item) {
+            // Add navbar HTML
+            const navbar =
+                component.querySelector(".navbar");
 
-        const link = item.querySelector(':scope > a');
+            if (navbar) {
 
-        if (!link) return;
-
-
-        link.addEventListener('click', function (event) {
-
-            event.preventDefault();
-            event.stopPropagation();
-
-
-            // اگر همین زیرمنو باز است
-            if (item.classList.contains('open')) {
-
-                item.classList.remove('open');
+                navbarContainer.appendChild(navbar);
 
             }
 
-            // اگر بسته است
-            else {
 
-                // بستن سایر زیرمنوها
-                submenuItems.forEach(function (otherItem) {
+            // Add navbar CSS
+            component
+                .querySelectorAll("style")
+                .forEach(style => {
 
-                    otherItem.classList.remove('open');
+                    document.head.appendChild(
+                        style.cloneNode(true)
+                    );
 
                 });
 
 
-                // باز کردن همین زیرمنو
-                item.classList.add('open');
+            // Run navbar JavaScript
+            component
+                .querySelectorAll("script")
+                .forEach(script => {
 
-            }
+                    const newScript =
+                        document.createElement("script");
+
+                    newScript.textContent =
+                        script.textContent;
+
+                    document.body.appendChild(
+                        newScript
+                    );
+
+                });
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Navbar loading error:",
+                error
+            );
 
         });
-
-    });
-
-
-    // =====================================================
-    // CLICK OUTSIDE DROPDOWN
-    // =====================================================
-
-    document.addEventListener('click', function (event) {
-
-        if (!dropdown.contains(event.target)) {
-
-            dropdown.classList.remove('open');
-
-            submenuItems.forEach(function (item) {
-
-                item.classList.remove('open');
-
-            });
-
-        }
-
-    });
 
 }
 
 
+
+// =========================================================
+// DATAPD - MAIN JAVASCRIPT
+// =========================================================
+
+
+
+
+
+    
+    
 
 // =========================================================
 // 2. HERO MOUSE ELECTRIC SPARK

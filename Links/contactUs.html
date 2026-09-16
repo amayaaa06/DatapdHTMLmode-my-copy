@@ -23,6 +23,10 @@
     --teal-soft:rgba(47,184,201,.35);
     --teal-600:#16788f;
     --teal-800:#0a3c5c;
+    --text-white:#f5f8fa;
+    --text-muted:#b7c6d4;
+    --teal-400:#2fb8c9;
+    --border-soft:rgba(255,255,255,.07);
     --radius-lg:28px;
     --radius-md:18px;
     --radius-sm:12px;
@@ -131,71 +135,7 @@
   }
   .brand-badge img{width:58%;height:58%;object-fit:contain;}
 
-  .nav-links{
-    position:relative;
-    display:flex;align-items:center;gap:2px;
-    background:rgba(255,255,255,.035);
-    border:1px solid rgba(255,255,255,.06);
-    border-radius:999px;
-    padding:5px;
-  }
-  .nav-links a{
-    position:relative;z-index:2;
-    display:inline-block;
-    padding:9px 20px;
-    border-radius:999px;
-    font-size:13.5px;
-    font-weight:500;
-    color:var(--text-dim);
-    text-decoration:none;
-    white-space:nowrap;
-    transition:color .3s ease;
-  }
-  .nav-links a:hover,
-  .nav-links a[aria-current="page"]{color:var(--text);}
-  .nav-indicator{
-    position:absolute;
-    top:5px;bottom:5px;
-    left:0;
-    width:0;
-    border-radius:999px;
-    background:linear-gradient(135deg, rgba(47,184,201,.4), rgba(0,124,240,.28));
-    border:1px solid rgba(47,184,201,.45);
-    box-shadow:0 0 18px rgba(47,184,201,.4);
-    transition:transform .4s cubic-bezier(.4,0,.2,1), width .4s cubic-bezier(.4,0,.2,1), opacity .25s ease;
-    z-index:1;
-    pointer-events:none;
-    opacity:0;
-  }
-  .nav-links.ready .nav-indicator{opacity:1;}
-
-  .nav-cta{
-    display:flex;align-items:center;gap:8px;
-    padding:11px 22px;
-    border-radius:999px;
-    background:linear-gradient(135deg,#00e0c6,#007cf0);
-    color:#fff;
-    font-size:13.5px;
-    font-weight:600;
-    text-decoration:none;
-    white-space:nowrap;
-    box-shadow:0 0 20px rgba(0,224,255,.45);
-    transition:transform .25s ease, box-shadow .25s ease;
-    flex-shrink:0;
-  }
-  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 26px rgba(0,224,255,.6);}
-  .nav-cta svg{width:13px;height:13px;transition:transform .3s ease;}
-  .nav-cta:hover svg{transform:translateX(-3px);}
-
-  @media (max-width:860px){
-      .nav-links{display:none;}
-  }
-  @media (max-width:520px){
-      header{padding:22px 0 60px;}
-      .nav-capsule{border-radius:26px;padding:14px;flex-wrap:wrap;justify-content:center;gap:14px;}
-      .brand{padding-left:0;}
-      .nav-cta{width:100%;justify-content:center;}
-  }
+  
 
   /* ---------- hero / main grid ---------- */
   main{
@@ -259,6 +199,8 @@
     border-radius:22px;
     background:linear-gradient(120deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
     border:1px solid var(--glass-border-soft);
+    text-decoration:none;
+    color:inherit;
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
     position:relative;
@@ -310,6 +252,7 @@
 
   /* ---------- glass form panel (signature element) ---------- */
   .form-panel{
+    margin-top: 50px;
     --mx:50%; --my:20%;
     position:relative;
     border-radius:var(--radius-lg);
@@ -594,6 +537,14 @@
     text-align: center;
 }
 
+
+.contact-item a {
+    display: flex;
+    align-items: center;
+}
+
+
+
 .contact-item p,
 .contact-item a {
     margin: 0;
@@ -794,31 +745,10 @@
 <div class="orb orb-amber" id="orbAmber"></div>
 <div class="orb orb-teal" id="orbTeal"></div>
 
+<div id="navbar-container"></div>
+
 <div class="wrap">
 
-  <header>
-    <div class="nav-capsule" id="navCapsule">
-
-        <a href="../index.html" class="brand">
-            <span class="brand-badge"><img src="../img/Logo.png" alt="Logo"></span>
-            دیتاپردازش خلیج فارس
-        </a>
-
-        <nav class="nav-links" id="navLinks">
-            <span class="nav-indicator" id="navIndicator"></span>
-            <a href="../index.html">صفحه اصلی</a>
-            <a href="./aboutUs.html">درباره ما</a>
-            <a href="#">خدمات</a>
-            <a href="./contactUs.html" aria-current="page">تماس با ما</a>
-        </nav>
-
-        <a href="#formPanel" class="nav-cta">
-            شروع گفتگو
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-        </a>
-
-    </div>
-  </header>
 
   <main>
     <!-- ستون اطلاعات -->
@@ -841,7 +771,7 @@
           </div>
         </div>
 
-        <div class="info-card">
+        <a href="tel:+982122891940" class="info-card">
           <div class="info-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>
           </div>
@@ -849,7 +779,7 @@
             <div class="label">تلفن</div>
             <div class="value">021-22891940</div>
           </div>
-        </div>
+        </a>
 
         <div class="info-card">
           <div class="info-icon">
@@ -941,9 +871,10 @@
                 </div>
 
                 <div class="contact-item">
-                    <span class="contact-icon">⌕</span>
-                    <a href="tel:+982112345678">
-                       021-22891940
+                    <a href="tel:+982122891940">
+                      <span class="contact-icon">⌕</span>
+                      <span>021-22891940</span>
+                      
                     </a>
                 </div>
 
@@ -1055,42 +986,9 @@
 </div>
 
 <script>
-  // --- sliding glass pill indicator on the navbar ---
-  const navLinks = document.getElementById('navLinks');
-  const indicator = document.getElementById('navIndicator');
+  
 
-  function moveIndicator(el){
-    if(!el || !indicator) return;
-    indicator.style.width = el.offsetWidth + 'px';
-    indicator.style.transform = `translateX(${el.offsetLeft}px)`;
-  }
-
-  if(navLinks && indicator){
-    const navA = navLinks.querySelectorAll('a');
-    const activeLink = navLinks.querySelector('a[aria-current="page"]') || navA[0];
-
-    requestAnimationFrame(() => {
-      moveIndicator(activeLink);
-      navLinks.classList.add('ready');
-    });
-
-    navA.forEach(link => {
-      link.addEventListener('mouseenter', () => moveIndicator(link));
-    });
-    navLinks.addEventListener('mouseleave', () => moveIndicator(activeLink));
-
-    window.addEventListener('resize', () => moveIndicator(navLinks.querySelector('a:hover') || activeLink));
-  }
-
-  // --- cursor light sweep on the glass navbar ---
-  const capsule = document.getElementById('navCapsule');
-  if(capsule){
-    capsule.addEventListener('mousemove', (e) => {
-      const rect = capsule.getBoundingClientRect();
-      capsule.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
-      capsule.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
-    });
-  }
+ 
 
   // --- چراغ‌قوه: افکت نور تعقیب‌کننده‌ی موس روی کارت‌های اطلاعات و فرم ---
   const glassEls = document.querySelectorAll('.form-panel, .info-card');
@@ -1206,6 +1104,6 @@ toastClose.addEventListener('click', () => {
 
   
 </script>
-
+<script src="/script.js"></script>
 </body>
 </html>

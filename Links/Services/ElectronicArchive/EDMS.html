@@ -18,7 +18,7 @@
     --violet-600: #5d3dff;
     --text-white: #f5f8fa;
     --text-muted: #b7c6d4;
-    --border-soft: rgba(255, 255, 255, 0.14);
+    --border-soft: rgba(255, 255, 255, 0.7);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -371,27 +371,7 @@ section.block{position:relative;z-index:1;margin-bottom:96px;}
 
 <div class="page-wrap">
 <div class="container">
-
-<header>
-    <div class="nav-capsule" id="navCapsule">
-        <a href="../index.html" class="brand">
-            <span class="brand-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>
-            </span>
-            دیتاپردازش خلیج فارس
-        </a>
-        <nav class="nav-links" id="navLinks">
-            <span class="nav-indicator" id="navIndicator"></span>
-            <a href="../../../index.html">صفحه اصلی</a>
-            <a href="../../aboutUs.html">درباره ما</a>
-            <a href="#" aria-current="page">مدیریت اسناد EDMS</a>
-        </nav>
-        <a href="../../contactUs.html" class="nav-cta">
-            تماس با ما
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-        </a>
-    </div>
-</header>
+    <div id="navbar-container"></div>
 
 <main>
 
@@ -749,26 +729,6 @@ section.block{position:relative;z-index:1;margin-bottom:96px;}
 </div>
 
 <script>
-  const navLinks = document.getElementById('navLinks');
-  const indicator = document.getElementById('navIndicator');
-  function moveIndicator(el){ if(!el || !indicator) return; indicator.style.width = el.offsetWidth + 'px'; indicator.style.transform = `translateX(${el.offsetLeft}px)`; }
-  if(navLinks && indicator){
-    const links = navLinks.querySelectorAll('a');
-    const active = navLinks.querySelector('a[aria-current="page"]') || links[0];
-    requestAnimationFrame(() => { moveIndicator(active); navLinks.classList.add('ready'); });
-    links.forEach(link => link.addEventListener('mouseenter', () => moveIndicator(link)));
-    navLinks.addEventListener('mouseleave', () => moveIndicator(active));
-    window.addEventListener('resize', () => moveIndicator(navLinks.querySelector('a:hover') || active));
-  }
-
-  const capsule = document.getElementById('navCapsule');
-  if(capsule){
-    capsule.addEventListener('mousemove', (e) => {
-      const rect = capsule.getBoundingClientRect();
-      capsule.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
-      capsule.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
-    });
-  }
 
   document.querySelectorAll('.spot-el').forEach(card => {
     card.addEventListener('mouseenter', () => card.classList.add('spot-on'));
@@ -780,5 +740,6 @@ section.block{position:relative;z-index:1;margin-bottom:96px;}
     });
   });
 </script>
+<script src="/script.js"></script>
 </body>
 </html>

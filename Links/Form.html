@@ -2072,7 +2072,7 @@ required
 
 <input
 id="phone"
-name="phone"
+name="phone_number"
 type="tel"
 placeholder="0912..."
 required
@@ -2180,11 +2180,11 @@ required
 </option>
 
 <option>
-برنامه‌نویس Backend
+برنامه‌ نویس Backend
 </option>
 
 <option>
-برنامه‌نویس Frontend
+برنامه‌ نویس Frontend
 </option>
 
 <option>
@@ -2531,14 +2531,14 @@ JavaScript
 id="skill-ai"
 type="checkbox"
 name="skills"
-value="AI"
+value="Artificial Intelligence"
 >
 
 <label for="skill-ai">
 Artificial Intelligence
 </label>
 
-</div>
+</div>a
 
 
 <div class="skill">
@@ -2808,7 +2808,7 @@ name="start_date"
 <input
 type="radio"
 id="officeYes"
-name="office"
+name="office_attendance"
 value="بله"
 >
 
@@ -2824,7 +2824,7 @@ value="بله"
 <input
 type="radio"
 id="officeHybrid"
-name="office"
+name="office_attendance"
 value="ترکیبی"
 >
 
@@ -2840,7 +2840,7 @@ value="ترکیبی"
 <input
 type="radio"
 id="officeNo"
-name="office"
+name="office_attendance"
 value="خیر"
 >
 
@@ -2900,7 +2900,7 @@ LinkedIn
 
 <input
 id="linkedin"
-name="linkedin"
+name="linkedin_id"
 type="url"
 placeholder="https://linkedin.com/in/..."
 >
@@ -2970,7 +2970,7 @@ PDF / DOC / DOCX — حداکثر 5MB
 
 <input
     id="resume"
-    name="resume"
+    name="cv"
     type="file"
     accept=".pdf,.doc,.docx"
 >
@@ -3029,9 +3029,9 @@ placeholder="هر چیزی که دوست دارید تیم استخدام ما �
 
 <input
 id="agreement"
-name="agreement"
+name="consent"
 type="checkbox"
-value="تایید شد"
+value="True" 
 required
 >
 
@@ -3195,8 +3195,8 @@ const progressText =
    CONFIGURATION
 ========================================================= */
 
-const WEB3FORMS_URL =
-    "https://api.web3forms.com/submit";
+const API_URL =
+    "http://127.0.0.1:8000/applications";
 
 const MAX_FILE_SIZE =
     5 * 1024 * 1024;
@@ -3860,7 +3860,7 @@ if (form) {
 
                 const response =
                     await fetch(
-                        WEB3FORMS_URL,
+                        API_URL,
                         {
 
                             method:
@@ -3911,11 +3911,8 @@ if (form) {
                    SUCCESS
                 ========================================= */
 
-                if (
-                    response.ok &&
-                    result &&
-                    result.success
-                ) {
+                if (response.ok ) 
+                {
 
                     /* Reset form */
 
