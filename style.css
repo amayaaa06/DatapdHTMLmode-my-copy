@@ -419,7 +419,9 @@ body{
 .customer-logo img[src*="gaz"],
 .customer-logo img[src*="orjans"],
 .customer-logo img[src*="maskan"],
-.customer-logo img[src*="farhangian"] {
+.customer-logo img[src*="farhangian"],
+.customer-logo img[src*="ito"],
+.customer-logo img[src*="jpc"]{
     height: 100px;
 }
 
