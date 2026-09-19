@@ -83,6 +83,43 @@ if (navbarContainer) {
 
 }
 
+// =========================================================
+// LOAD SHARED FOOTER
+// =========================================================
+
+const footerContainer = 
+    document.getElementById("footer-container");
+
+if (footerContainer) {
+
+    fetch("/components/footer.html")
+
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Footer could not be loaded.");
+            }
+
+            return response.text();
+
+        })
+
+        .then(html => {
+
+            footerContainer.innerHTML = html;
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Footer loading error:",
+                error
+            );
+        });
+
+}
+
 
 
 // =========================================================
