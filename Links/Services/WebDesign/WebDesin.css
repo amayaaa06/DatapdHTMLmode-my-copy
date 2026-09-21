@@ -1,0 +1,144 @@
+@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
+
+
+:root {
+  --navy-900: #0c1c33;
+  --navy-800: #16324c;
+  --teal-400: #2fb8c9;
+  --teal-600: #16788f;
+  --text-white: #f5f8fa;
+  --text-muted: #b7c6d4;
+}
+
+      
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(1000px 650px at 85% -10%, rgba(47,184,201,.14), transparent 60%),
+    radial-gradient(850px 600px at -10% 105%, rgba(22,50,76,.55), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  direction: rtl;
+  font-family: "Vazirmatn", sans-serif;
+  background: #011324;
+  color: #fff;
+}
+
+.container {
+  width: 90%;
+  max-width: 1300px;
+  margin: auto;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  text-align: center;
+  margin-bottom: 120px;
+  padding-top: 60px;
+}
+
+/* Eyebrow label with glow */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  color: var(--teal-400);
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  margin-bottom: 18px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--teal-400);
+  box-shadow: 0 0 10px 2px rgba(47,184,201,.6);
+}
+
+/* Main headline */
+.hero h1 {
+  font-size: clamp(36px, 5.2vw, 56px);
+  line-height: 1.5;
+  font-weight: 800;
+  margin-bottom: 28px;
+  color: var(--text-white);
+}
+
+.hero h1 span {
+  color: #00e0d0;
+  text-shadow: 0 0 40px rgba(5,226,200,.8);
+}
+
+/* Description */
+.hero-description {
+  max-width: 720px;
+  margin: 0 auto 48px;
+  font-size: clamp(15px, 2vw, 17px);
+  color: rgba(255,255,255,.72);
+}
+
+
+/* Buttons Container */
+.hero-button {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Base button styles */
+
+.btn-primary, .btn-secondary {
+  min-width: 200px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+/* Primary button (Teal gradient) */
+.btn-primary {
+  background: linear-gradient(135deg, #00e0c6, #007cf0);
+  color: #fff;
+  box-shadow: 0 0 28px rgba(0,224,255,.5);
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 40px rgba(0,224,255,.7);
+}
+
+/* Secondary button (Glass effect) */
+.btn-secondary {
+  border: 2px solid rgba(255,255,255,.3);
+  color: #fff;
+  background: transparent;
+}
+
+.btn-secondary:hover {
+  border-color: var(--teal-400);
+  background: rgba(47,184,201,.1);
+  transform: translateY(-4px);
+}
