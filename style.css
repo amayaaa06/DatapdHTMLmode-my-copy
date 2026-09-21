@@ -372,9 +372,13 @@ body{
     align-items: center;
     gap: 30px;
     width: max-content;
-    animation: customer-scroll 20s linear infinite reverse;
+    animation: customer-scroll 20s linear infinite;
+    animation-play-state: running;
     will-change: transform;
+    
 }
+
+
 
 
 

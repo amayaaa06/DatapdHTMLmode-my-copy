@@ -9,6 +9,10 @@
 
 <style>
 
+#heroCanvas{
+    display:none;
+}
+
 @import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");
 
 /* =========================================================
@@ -1538,32 +1542,7 @@ header{
 }
 
 
-/* =========================================================
-   FOOTER
-========================================================= */
 
-.footer{
-
-    margin-top:65px;
-
-    padding:25px 0;
-
-    text-align:center;
-
-    border-top:
-        1px solid
-        rgba(255,255,255,.07);
-
-}
-
-.footer p{
-
-    color:
-        rgba(255,255,255,.35);
-
-    font-size:10px;
-
-}
 
 /* رنگ متن فیلدهای انتخابی فرم استخدام */
 .field select {
@@ -1759,67 +1738,17 @@ header{
 
 
 <!-- =====================================================
-     NAV
+     SHARED NAV
 ===================================================== -->
 
-<header>
 
-<nav class="nav">
-
-<a href="../index.html" class="brand">
-
-<span class="brand-logo">
-
-<img
-src="../img/Logo.png"
-alt="دیتاپردازش خلیج فارس"
->
-
-</span>
-
-دیتاپردازش خلیج فارس
-
-</a>
-
-
-<div class="nav-links">
-
-<a href="../index.html">
-صفحه اصلی
-</a>
-
-<a href="./aboutUs.html">
-درباره ما
-</a>
-
-<a href="#">
-خدمات
-</a>
-
-<a href="./contactUs.html">
-تماس با ما
-</a>
-
-</div>
-
-
-<a href="#application" class="nav-button">
-
-ارسال درخواست همکاری
-
-</a>
-
-</nav>
-
-</header>
-
-
+<div id="navbar-container"></div>
 
 <!-- =====================================================
      HERO
 ===================================================== -->
 
-<section class="hero">
+<section class="hero" data-no-canvas>
 
 <div class="hero-label">
 
@@ -2538,7 +2467,7 @@ value="Artificial Intelligence"
 Artificial Intelligence
 </label>
 
-</div>a
+</div>
 
 
 <div class="skill">
@@ -3147,17 +3076,11 @@ id="newApplication"
 
 
 
-<footer class="footer">
 
-<p>
-© تمامی حقوق این وب‌سایت متعلق به دیتاپردازش خلیج فارس است.
-</p>
 
 </footer>
-
-
 </div>
-
+<div id="footer-container"></div>
 
 
 <script>
@@ -3196,7 +3119,7 @@ const progressText =
 ========================================================= */
 
 const API_URL =
-    "http://127.0.0.1:8000/applications";
+    "https://datapd.ir/datapd-php/applications";
 
 const MAX_FILE_SIZE =
     5 * 1024 * 1024;
@@ -3825,7 +3748,12 @@ if (form) {
                 const formData =
                     new FormData(form);
 
-
+                /* PHP needs skills[] for multiple values */
+                const selectedSkills = formData.getAll("skills");
+                formData.delete("skills");
+                selectedSkills.forEach(function (s) {
+                    formData.append("skills[]", s);
+                });
                 /* =========================================
                    DEBUG
                 ========================================= */
@@ -3911,7 +3839,7 @@ if (form) {
                    SUCCESS
                 ========================================= */
 
-                if (response.ok ) 
+                if (response.ok && result && result.message === "Application received" ) 
                 {
 
                     /* Reset form */
@@ -4101,6 +4029,8 @@ document.addEventListener(
 updateProgress();
 
 </script>
+
+<script src="/script.js"></script>
 
 </body>
 </html>

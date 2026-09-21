@@ -310,13 +310,33 @@
 
 <style>
 
+.navbar {
+    --text-white: #f5f8fa;
+    --text-muted: #b7c6d4;
+    --teal-400: #2fb8c9;
+    --teal-600: #16788f;
+    --teal-800: #0a3c5c;
+    --border-soft: rgba(255,255,255,.07);
+}
+
 /* =========================================================
    NAVBAR CONTAINER
 ========================================================= */
+#navbar-container {
+    height: 100px;
+}
 
 .navbar.container {
 
-    position: relative;
+    position: fixed;
+
+    top: 10px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: calc(100% - 32px);
 
     z-index: 1000;
 

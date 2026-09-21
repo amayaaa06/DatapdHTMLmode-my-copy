@@ -12,34 +12,35 @@
             </h3>
 
             <div class="footer-contact">
-
                 <div class="contact-item">
-
-                    <span class="contact-icon">⌖</span>
-
+                    <span class="contact-icon">
+                        <svg viewBox="0 0 24 24" width="15" height="15"  fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </span>
                     <p>
-                       تهران . پاسداران . نگارستان چهارم . پلاک 4
+                         تهران . پاسداران . نگارستان چهارم . پلاک 4
                     </p>
-
                 </div>
 
-
+                
                 <div class="contact-item">
-
-                    <span class="contact-icon">⌕</span>
-
-                    <a href="tel:+982112345678">
-                       021-22891940
+                    <span class="contact-icon">
+                        <svg viewBox="0 0 24 24" width="15" height="15"  fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L7.9 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/>
+                        </svg>
+                    </span>
+                    <a href="tel:+982122891940">
+                        021-22891940
                     </a>
-
                 </div>
-
 
                 <div class="contact-item">
 
                     <span class="contact-icon">✉</span>
 
-                    <a href="mailto:info@dpf.co.ir">
+                    <a href="mailto:info@datapd.ir">
                        info@datapd.ir
                     </a>
 
@@ -126,7 +127,7 @@
 
 
                 <li>
-                    <a href="./Links/Form.html">
+                    <a href="/Links/Form.html">
                        درخواست همکاری
                     </a>
                 </li>
@@ -137,11 +138,7 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="#">
-                        مستندات
-                    </a>
-                </li>
+
 
             </ul>
 
@@ -211,17 +208,17 @@
             <div class="social-links">
 
                 <a href="#" aria-label="Telegram">
-                  <img src="./img/Telegram2.svg" alt="Telegram">
+                  <img src="/img/Telegram2.svg" alt="Telegram">
                 </a>
 
             <!-- Instagram -->
                 <a href="#" aria-label="Instagram">
-                  <img src="./img/instagram2.svg" alt="Instagram">
+                  <img src="/img/instagram2.svg" alt="Instagram">
                 </a>
 
              <!-- Bale -->
                  <a href="#" aria-label="Bale">
-                  <img src="./img/Bale2.svg" alt="Bale">
+                  <img src="/img/Bale2.svg" alt="Bale">
                  </a>
 
             </div>
@@ -252,4 +249,327 @@
     </div>
 
 </div>
+    <!-- ================= COPYRIGHT ================= -->
+
+    <div class="footer-copyright">
+        <p>
+            © تمامی حقوق این وب‌سایت متعلق به دیتاپردازش خلیج فارس است.
+        </p>
+    </div>
 </footer>
+
+
+
+<!-- =========================================================
+     FOOTER CSS
+========================================================= -->
+
+<style>
+
+    .footer {
+        margin-top: 70px;
+        width: 100%;
+        background: 
+            linear-gradient(
+                180deg,
+                rgba(8, 35, 61, 0.96),
+                rgba(5, 27, 48, 0.98)
+            );
+        border-top: 1px solid rgba(255, 255, 255, .08);
+        color: #fff;
+        
+    }
+
+
+    .footer-container {
+        width: 90%;
+        max-width: 1300px;
+        margin: auto;
+        padding: 38px 30px 28px;
+        display: grid;
+        grid-template-columns: 
+            1.25fr
+            1fr
+            1fr
+            1.35fr;
+        gap: 50px;
+        direction: rtl;
+        border: 1px solid rgba(255,255,255,.10);
+        border-bottom: none;
+        border-radius: 18px 18px 0 0;
+        background: 
+            linear-gradient(
+                180deg,
+                rgba(255,255,255,.025),
+                rgba(255,255,255,.01)
+            );
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+    }
+
+    .footer-column {
+        min-width: 0;
+    }
+
+    .footer-column h3 {
+        margin: 0 0 18px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #ffffff;
+        position: relative;
+    }
+
+    .footer-column h3::after {
+        content: "";
+        display: block;
+        width: 28px;
+        height: 2px;
+        margin-top: 8px;
+        border-radius: 10px;
+        background: #00dcd0;
+        box-shadow: 0 0 8px rgba(0, 224, 208, .5);
+        }
+
+    .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 11px;
+    }
+
+    .footer-links a {
+        text-decoration: none;
+        color:rgba(255,255,255,.58) ;
+        font-size: 12px;
+        transition: 
+            color .25s ease,
+            padding-right .25s ease ;
+    }
+
+    .footer-links a:hover {
+        color: #00dcd0;
+        padding-right: 5px;
+    }
+
+    .footer-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+    }
+
+    .contact-icon {
+        flex-shrink: 0;
+        width: 20px;
+        color: #00dcd0;
+        font-size: 17px;
+        text-align: center;
+    }
+
+    .contact-item p,
+    .contact-item a {
+        margin: 0;
+        color: rgba(255,255,255,.58);
+        text-decoration: none;
+        font-size: 11px;
+        line-height: 1.9;
+        transition: color .25s ease;
+    }
+
+    .contact-item a:hover {
+        color: #00dcd0;
+    }
+
+
+    .newsletter-text {
+        margin: 0 0 15px;
+        color: rgba(255,255,255,.55);
+        font-size: 11px;
+        line-height: 2;
+    }
+
+    .newsletter-form {
+        width: 100%;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,.10);
+        background: rgba(255,255,255,.04);
+    }
+
+    .newsletter-form input {
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: #fff;
+        padding: 0 13px;
+        font-family: "Vazirmatn", sans-serif;
+        font-size: 11px;
+        direction: rtl;
+    }
+
+    .newsletter-form button {
+        width: 48px;
+        height: 100%;
+        border: none;
+        cursor: pointer;
+        background:
+            linear-gradient(
+                135deg,
+                #00aeb0,
+                #087e99
+            );
+        color: #fff;
+        font-size: 17px;
+        transition: filter .25s ease;
+
+    }
+
+    .newsletter-form button:hover {
+        filter: brightness(1.2);
+    }
+
+
+    .social-links {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    .social-links a {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 11px;
+        text-decoration: none;
+        color: rgba(255,255,255,.85);
+        font-size: 14px;
+        font-weight: 600;
+        border: 1px solid rgba(255,255,255,.08);
+        background:
+            linear-gradient(
+                145deg,
+                rgba(255,255,255,.08),
+                rgba(255,255,255,.025)
+            );
+        box-shadow: 0 5px 15px rgba(0,0,0,.15);
+        transition:
+            transform .25s ease,
+            background .25s ease,
+            color .25s ease;
+    }
+
+    .social-links a img {
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+        transition:
+            transform .25s ease,
+            filter .25s ease;
+    }
+
+    .social-links a:hover {
+        transform: translateY(-4px);
+        color: #00dcd0;
+        background: rgba(0,224,208,.10);
+    }
+
+    .social-links a:hover img { 
+        transform: scale(1.15);
+    }
+
+    .footer-bottom {
+        width: 100%;
+        min-height: 120px;
+        padding: 25px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid rgba(255,255,255,.08);
+        margin: 0 auto;
+    
+    }
+ 
+    .enamad {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 120px;
+        min-height: 100px;
+    }
+
+    .enamad a {
+        display: block;
+    }
+
+    .footer-copyright {
+        width: 100%;
+        padding: 16px 20px;
+        text-align: center;
+        direction: rtl;
+        border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    .footer-copyright p {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.8;
+        color: rgba(255,255,255,.65);
+    }
+
+    .enamad img {
+        display: block;
+        width: 100px;
+        height: auto;
+        max-width: 100%;
+    }
+
+   /* ================= RESPONSIVE ================= */
+
+
+    @media (max-width: 960px) {
+        .footer-container {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .footer {
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            width: 94%;
+            padding: 30px 22px;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .footer-bottom {
+            width: 94%;
+            padding: 15px 10px;
+            flex-direction: column;
+            gap: 12px;
+            text-align: center;
+        }
+    }
+
+    </style>

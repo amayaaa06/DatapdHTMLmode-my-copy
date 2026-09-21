@@ -69,29 +69,7 @@ header{position:relative;z-index:20;padding:28px 0 70px;}
 .btn-secondary{border:1px solid rgba(255,255,255,.3);color:#fff;background:transparent;}
 .btn:hover{transform:translateY(-3px);}
 
-/* ---------- footer ---------- */
-.footer{margin-top:70px;width:100%;background:#011324;border-top:1px solid rgba(255,255,255,.08);color:#fff;}
-.footer-container{width:90%;max-width:1300px;margin:auto;padding:38px 30px 28px;display:grid;grid-template-columns:1.25fr 1fr 1fr 1.35fr;gap:50px;direction:rtl;border:1px solid rgba(255,255,255,.10);border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);}
-.footer-column h3{margin:0 0 18px;font-size:15px;font-weight:600;color:#fff;position:relative;}
-.footer-column h3::after{content:"";display:block;width:28px;height:2px;margin-top:8px;border-radius:10px;background:#00dcd0;box-shadow:0 0 8px rgba(0,224,208,.5);}
-.footer-links{list-style:none;padding:0;margin:0;}
-.footer-links li{margin-bottom:11px;}
-.footer-links a{text-decoration:none;color:rgba(255,255,255,.58);font-size:12px;transition:color .25s ease, padding-right .25s ease;}
-.footer-links a:hover{color:#00dcd0;padding-right:5px;}
-.footer-contact{display:flex;flex-direction:column;gap:12px;}
-.contact-item{display:flex;align-items:flex-start;gap:9px;}
-.contact-icon{flex-shrink:0;width:20px;color:#00dcd0;font-size:17px;text-align:center;}
-.contact-item p,.contact-item a{margin:0;color:rgba(255,255,255,.58);text-decoration:none;font-size:11px;line-height:1.9;transition:color .25s ease;}
-.contact-item a:hover{color:#00dcd0;}
-.social-links{display:flex;align-items:center;gap:10px;margin-top:16px;}
-.social-links a{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;color:rgba(255,255,255,.85);font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));box-shadow:0 5px 15px rgba(0,0,0,.15);transition:transform .25s ease, background .25s ease, color .25s ease;}
-.social-links a:hover{transform:translateY(-4px);color:#00dcd0;background:rgba(0,224,208,.10);}
-.social-links a svg{width:16px;height:16px;stroke:currentColor;}
-.footer-bottom{width:90%;max-width:1300px;margin:auto;min-height:70px;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);direction:rtl;}
-.footer-bottom p{margin:0;color:rgba(255,255,255,.45);font-size:10px;}
-.footer-logo{display:flex;align-items:center;font-weight:800;font-size:13px;color:rgba(255,255,255,.7);}
-@media (max-width:960px){.footer-container{grid-template-columns:repeat(2,1fr);gap:35px;}}
-@media (max-width:600px){.footer{margin-top:50px;}.footer-container{width:94%;padding:30px 22px;grid-template-columns:1fr;gap:30px;}.footer-bottom{width:94%;padding:15px 10px;flex-direction:column;gap:12px;text-align:center;}.footer-logo{order:-1;}}
+
 
 /* =========================================================
    صفحه سیستم مدیریت اسناد الکترونیک EDMS
@@ -375,13 +353,6 @@ section.block{position:relative;z-index:1;margin-bottom:96px;}
 
 <main>
 
-    <div class="breadcrumb">
-        <a href="../index.html">خانه</a>
-        <span>‹</span>
-        <a href="#">خدمات</a>
-        <span>‹</span>
-        <span class="current">سیستم مدیریت اسناد الکترونیک</span>
-    </div>
 
     <!-- ================= HERO ================= -->
     <section class="hero-grid">
@@ -630,101 +601,7 @@ section.block{position:relative;z-index:1;margin-bottom:96px;}
     </section>
 </div>
 
-<footer class="footer">
-    <div class="footer-container">
-        <div class="footer-column">
-            <h3>دیتا پردازش خلیج فارس</h3>
-            <p style="font-size:12px;line-height:2;color:rgba(255,255,255,.58);margin-bottom:16px;">
-                ارائه‌دهنده خدمات شبکه، نظارت تصویری، آرشیو الکترونیک و زیرساخت‌های فناوری اطلاعات از سال ۱۳۸۹.
-            </p>
-            <div class="social-links">
-                <a href="#" aria-label="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg">
-
-    <rect x="3.5" y="3.5" width="17" height="17"
-          rx="4.8"
-          stroke="#FFFFFF"
-          stroke-width="1"/>
-
-    <circle cx="12" cy="12" r="4"
-            stroke="#FFFFFF"
-            stroke-width="1"/>
-
-    <circle cx="17.3" cy="6.8" r="0.7"
-            fill="#FFFFFF"/>
-            
-                   </svg>
-                </a>
-
-                <a href="#" aria-label="Telegram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg">
-
-    <path d="M21 4.5L3.8 11.15C3.1 11.42 3.1 12.38 3.8 12.65L8.1 14.2L9.75 19.35C9.97 20.03 10.82 20.25 11.37 19.78L13.8 17.7L17.95 20.75C18.55 21.19 19.42 20.86 19.57 20.13L21.95 5.35C22.1 4.5 21.8 4.2 21 4.5Z"
-          stroke="#FFFFFF"
-          stroke-width="1"
-          stroke-linecap="round"
-          stroke-linejoin="round"/>
-
-    <path d="M8.1 14.2L18.35 7.55L11.8 15.9"
-          stroke="#FFFFFF"
-          stroke-width="1"
-          stroke-linecap="round"
-          stroke-linejoin="round"/>
-                   </svg>
-                </a>
-                
-                <a href="#" aria-label="Bale"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg">
-    
-    <path d="M12 3.2C7.05 3.2 3.2 6.55 3.2 11.05C3.2 13.85 4.65 16.15 7 17.65L6.35 20.45L9.35 18.85C10.2 19.1 11.1 19.2 12 19.2C16.95 19.2 20.8 15.55 20.8 11.05C20.8 6.55 16.95 3.2 12 3.2Z"
-          stroke="#FFFFFF"
-          stroke-width="1"
-          stroke-linecap="round"
-          stroke-linejoin="round"/>
-
-    <path d="M8.2 11.35L10.35 13.05L15.8 8.95"
-          stroke="#FFFFFF"
-          stroke-width="1"
-          stroke-linecap="round"
-          stroke-linejoin="round"/>
-                   </svg>
-                </a>
-            </div>
-        </div>
-        <div class="footer-column">
-            <h3>دسترسی سریع</h3>
-            <ul class="footer-links">
-                <li><a href="../../../index.html">صفحه اصلی</a></li>
-                <li><a href="#">خدمات ما</a></li>
-                <li><a href="#">محصولات</a></li>
-                <li><a href="#why-us">چرا دیتا پردازش</a></li>
-                <li><a href="../../contactUs.html">تماس با ما</a></li>
-            </ul>
-        </div>
-        <div class="footer-column">
-            <h3>خدمات</h3>
-            <ul class="footer-links">
-                <li><a href="#">مدیریت اسناد EDMS</a></li>
-                <li><a href="#">آرشیو الکترونیک</a></li>
-                <li><a href="#">نصب و راه‌اندازی شبکه</a></li>
-                <li><a href="#">پشتیبانی شبکه</a></li>
-            </ul>
-        </div>
-        <div class="footer-column">
-            <h3>تماس با ما</h3>
-            <div class="footer-contact">
-                <div class="contact-item"><span class="contact-icon">☏</span><a href="tel:02122841589">021-22841589</a></div>
-                <div class="contact-item"><span class="contact-icon">☏</span><a href="tel:02122891940">021-22891940</a></div>
-                <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:info@datapd.ir">info@datapd.ir</a></div>
-                <div class="contact-item"><span class="contact-icon">⚑</span><p>تهران . پاسداران . نگارستان چهارم . پلاک 4</p></div>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>© ۱۴۰۴ دیتا پردازش خلیج فارس. تمامی حقوق محفوظ است.</p>
-        <div class="footer-logo">دیتا پردازش</div>
-    </div>
-</footer>
+<div id="footer-container"></div>
 
 </div>
 

@@ -279,48 +279,14 @@
   .cta-phones a:hover{color:var(--text);border-color:rgba(47,184,201,.4);}
   .cta-phones a svg{width:14px;height:14px;stroke:var(--teal);}
 
-  /* ---------- footer ---------- */
-  .footer{margin-top:90px;width:100%;background:none;border-top:1px solid rgba(255,255,255,.08);color:#fff;}
-  .footer-container{width:90%;max-width:1300px;margin:auto;padding:38px 30px 28px;display:grid;grid-template-columns:1.25fr 1fr 1fr 1.35fr;gap:50px;direction:rtl;border:1px solid rgba(255,255,255,.10);border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));backdrop-filter:blur(15px);}
-  .footer-column{min-width:0;}
-  .footer-column h3{margin:0 0 18px;font-size:15px;font-weight:600;color:#fff;position:relative;}
-  .footer-column h3::after{content:"";display:block;width:28px;height:2px;margin-top:8px;border-radius:10px;background:#00dcd0;box-shadow:0 0 8px rgba(0,224,208,.5);}
-  .footer-links{list-style:none;padding:0;margin:0;}
-  .footer-links li{margin-bottom:11px;}
-  .footer-links a{text-decoration:none;color:rgba(255,255,255,.58);font-size:12px;transition:color .25s ease, padding-right .25s ease;}
-  .footer-links a:hover{color:#00dcd0;padding-right:5px;}
-  .footer-contact{display:flex;flex-direction:column;gap:12px;}
-  .contact-item{display:flex;align-items:flex-start;gap:9px;}
-  .contact-icon{flex-shrink:0;width:20px;color:#00dcd0;font-size:17px;text-align:center;}
-  .contact-item p,.contact-item a{margin:0;color:rgba(255,255,255,.58);text-decoration:none;font-size:11px;line-height:1.9;transition:color .25s ease;}
-  .contact-item a:hover{color:#00dcd0;}
-  .newsletter-text{margin:0 0 15px;color:rgba(255,255,255,.55);font-size:11px;line-height:2;}
-  .newsletter-form{width:100%;height:42px;display:flex;align-items:center;overflow:hidden;border-radius:12px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);}
-  .newsletter-form input{flex:1;min-width:0;height:100%;border:none;outline:none;background:transparent;color:#fff;padding:0 13px;font-family:"Vazirmatn",sans-serif;font-size:11px;direction:rtl;}
-  .newsletter-form input::placeholder{color:rgba(255,255,255,.35);}
-  .newsletter-form button{width:48px;height:100%;border:none;cursor:pointer;background:linear-gradient(135deg,#00aeb0,#087e99);color:#fff;font-size:17px;}
-  .social-links{display:flex;align-items:center;gap:10px;margin-top:16px;}
-  .social-links a{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));box-shadow:0 5px 15px rgba(0,0,0,.15);transition:transform .25s ease, background .25s ease;}
-  .social-links a:hover{transform:translateY(-4px);background:rgba(0,224,208,.10);}
-  .social-links a img{width:18px;height:18px;object-fit:contain;filter:brightness(0) invert(1);}
-  .footer-bottom{width:90%;max-width:1300px;margin:auto;min-height:70px;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);direction:rtl;}
-  .footer-bottom p{margin:0;color:rgba(255,255,255,.45);font-size:10px;}
-  .footer-logo img{height:48px;width:auto;object-fit:contain;}
 
-  @media (max-width:960px){.footer-container{grid-template-columns:repeat(2,1fr);gap:35px;}}
-  @media (max-width:600px){
-    .footer{margin-top:60px;}
-    .footer-container{width:94%;padding:30px 22px;grid-template-columns:1fr;gap:30px;}
-    .footer-bottom{width:94%;padding:15px 10px;flex-direction:column;gap:12px;text-align:center;}
-    .footer-logo{order:-1;}
-  }
-  @media (prefers-reduced-motion: reduce){
-    *{transition:none !important; scroll-behavior:auto !important;}
-    .orb{transition:none;}
-    .server-caret::after{animation:none;}
-    .server-bar-fill{animation:none;width:var(--fill);}
-    .pulse-dot{animation:none;}
-  }
+    .nav-options a::after {
+        background: #2fb8c9 !important;
+
+        box-shadow:
+            0 0 8px rgba(47,184,201,0.7),
+            0 0 16px rgba(47,184,201,0.35) !important;
+    }
 </style>
 </head>
 <body>
@@ -335,13 +301,7 @@
 
   <main>
 
-    <div class="breadcrumb">
-        <a href="../../../index.html">خانه</a>
-        <span>/</span>
-        <a href="#">خدمات</a>
-        <span>/</span>
-        <span class="current">سرورهای اختصاصی و مجازی</span>
-    </div>
+
 
     <!-- ================= HERO ================= -->
     <div class="hero-split">
@@ -545,57 +505,10 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="footer-container">
-        <div class="footer-column contact-column">
-            <h3>اطلاعات تماس</h3>
-            <div class="footer-contact">
-                <div class="contact-item"><span class="contact-icon">⌖</span><p>تهران . پاسداران . نگارستان چهارم . پلاک 4</p></div>
-                <div class="contact-item"><span class="contact-icon">⌕</span><a href="tel:02122891940">021-22891940</a></div>
-                <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:info@datapd.ir">info@datapd.ir</a></div>
-                <div class="contact-item"><span class="contact-icon">◎</span><a href="#">ساعت کاری 8 صبح تا 4 بعدازظهر</a></div>
-            </div>
-        </div>
-        <div class="footer-column">
-            <h3>خدمات</h3>
-            <ul class="footer-links">
-                <li><a href="../network/ActiveServices.html">اکتیو شبکه</a></li>
-                <li><a href="../cctv/cctv-support.html">نظارت تصویری</a></li>
-                <li><a href="../ElectronicArchive/archive-project.html">آرشیو الکترونیک</a></li>
-                <li><a href="./serverServices.html">ثبت و مدیریت دامنه</a></li>
-                <li><a href="./serverServices.html">سرور اختصاصی و مجازی</a></li>
-            </ul>
-        </div>
-        <div class="footer-column">
-            <h3>لینک‌های مفید</h3>
-            <ul class="footer-links">
-                <li><a href="#">مقالات منتخب</a></li>
-                <li><a href="#">شرایط و قوانین</a></li>
-                <li><a href="#">حریم خصوصی</a></li>
-                <li><a href="#">گواهینامه‌ها</a></li>
-                <li><a href="#">مستندات</a></li>
-            </ul>
-        </div>
-        <div class="footer-column newsletter-column">
-            <h3>خبرنامه</h3>
-            <p class="newsletter-text">برای دریافت آخرین اخبار و پیشنهادات در خبرنامه ما عضو شوید.</p>
-            <form class="newsletter-form">
-                <input type="email" placeholder="ایمیل خود را وارد کنید">
-                <button type="submit">➤</button>
-            </form>
-            <div class="social-links">
-                <a href="#" aria-label="Telegram"><img src="../../../img/Telegram2.svg" alt="Telegram"></a>
-                <a href="#" aria-label="Instagram"><img src="../../../img/instagram2.svg" alt="Instagram"></a>
-                <a href="#" aria-label="Bale"><img src="../../../img/Bale2.svg" alt="Bale"></a>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="footer-logo"><img src="../../../img/Logo.png" alt="دیتاپردازش خلیج فارس"></div>
-    </div>
-  </footer>
-
 </div>
+
+<div id="footer-container"></div>
+
 
 <script>
   const navLinks = document.getElementById('navLinks');

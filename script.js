@@ -925,7 +925,7 @@ const newsletterForm =
     document.getElementById("newsletterForm");
 
 
-newsletterForm.addEventListener(
+newsletterForm?.addEventListener(
     "submit",
     async function(e) {
 
@@ -1059,4 +1059,4 @@ function setupCustomerCarousel() {
     
 }
 
-setupCustomerCarousel();
+window.addEventListener("load", setupCustomerCarousel);window.addEventListener("load", setupCustomerCarousel);
